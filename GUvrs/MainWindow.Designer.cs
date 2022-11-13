@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.lblPlayerNameText = new System.Windows.Forms.Label();
             this.lblOpponentIDText = new System.Windows.Forms.Label();
             this.btnViewPlayerDeck = new System.Windows.Forms.Button();
@@ -144,7 +145,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(242, 153);
+            this.ClientSize = new System.Drawing.Size(242, 156);
             this.Controls.Add(this.lblOpponentNameValue);
             this.Controls.Add(this.lblOpponentNameText);
             this.Controls.Add(this.lblPlayerIDValue);
@@ -155,6 +156,7 @@
             this.Controls.Add(this.btnViewPlayerDeck);
             this.Controls.Add(this.lblOpponentIDText);
             this.Controls.Add(this.lblPlayerNameText);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "GU versus";
