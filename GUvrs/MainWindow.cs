@@ -45,22 +45,30 @@ namespace GUvrs
             lblOpponentIDValue.Text = string.Empty;
             lblOpponentNameValue.Text = string.Empty;
             lblStatusText.Text = "...";
+
+            playerId = string.Empty;
+            playerName = string.Empty;
+            opponentId = string.Empty;
+            opponentName = string.Empty;
         }
 
         private void _watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            ReadLog();
+            if (string.IsNullOrEmpty(playerId) || string.IsNullOrEmpty(opponentId))
+                ReadLog();
         }
-
-        private void btnViewPlayerDeck_Click(object sender, EventArgs e)
+        private void btnReset_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(playerId) || playerId == "-1")
-                return;
+            lblPlayerNameValue.Text = string.Empty;
+            lblPlayerIDValue.Text = string.Empty;
+            lblOpponentIDValue.Text = string.Empty;
+            lblOpponentNameValue.Text = string.Empty;
+            lblStatusText.Text = "...";
 
-            Process.Start(new ProcessStartInfo($"https://gudecks.com/meta/player-stats?userId={playerId}")
-            {
-                UseShellExecute = true
-            });
+            playerId = string.Empty;
+            playerName = string.Empty;
+            opponentId = string.Empty;
+            opponentName = string.Empty;
         }
 
         private void btnViewOpponentDeck_Click(object sender, EventArgs e)

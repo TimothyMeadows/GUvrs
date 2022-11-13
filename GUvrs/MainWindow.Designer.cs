@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.lblPlayerNameText = new System.Windows.Forms.Label();
             this.lblOpponentIDText = new System.Windows.Forms.Label();
-            this.btnViewPlayerDeck = new System.Windows.Forms.Button();
+            this.btnReset = new System.Windows.Forms.Button();
             this.btnViewOpponentDeck = new System.Windows.Forms.Button();
             this.lblPlayerNameValue = new System.Windows.Forms.Label();
             this.lblOpponentIDValue = new System.Windows.Forms.Label();
@@ -64,16 +64,16 @@
             this.lblOpponentIDText.TabIndex = 1;
             this.lblOpponentIDText.Text = "Opponent ID:";
             // 
-            // btnViewPlayerDeck
+            // btnReset
             // 
-            this.btnViewPlayerDeck.Location = new System.Drawing.Point(33, 49);
-            this.btnViewPlayerDeck.Name = "btnViewPlayerDeck";
-            this.btnViewPlayerDeck.Size = new System.Drawing.Size(89, 23);
-            this.btnViewPlayerDeck.TabIndex = 0;
-            this.btnViewPlayerDeck.TabStop = false;
-            this.btnViewPlayerDeck.Text = "View Profile";
-            this.btnViewPlayerDeck.UseVisualStyleBackColor = true;
-            this.btnViewPlayerDeck.Click += new System.EventHandler(this.btnViewPlayerDeck_Click);
+            this.btnReset.Location = new System.Drawing.Point(33, 49);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(89, 23);
+            this.btnReset.TabIndex = 0;
+            this.btnReset.TabStop = false;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnViewOpponentDeck
             // 
@@ -176,7 +176,7 @@
             this.Controls.Add(this.lblOpponentIDValue);
             this.Controls.Add(this.lblPlayerNameValue);
             this.Controls.Add(this.btnViewOpponentDeck);
-            this.Controls.Add(this.btnViewPlayerDeck);
+            this.Controls.Add(this.btnReset);
             this.Controls.Add(this.lblOpponentIDText);
             this.Controls.Add(this.lblPlayerNameText);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -197,7 +197,7 @@
 
         private Label lblPlayerNameText;
         private Label lblOpponentIDText;
-        private Button btnViewPlayerDeck;
+        private Button btnReset;
         private Button btnViewOpponentDeck;
         private Label lblPlayerNameValue;
         private Label lblOpponentIDValue;
