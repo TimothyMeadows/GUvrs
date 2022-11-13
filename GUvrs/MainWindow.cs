@@ -25,11 +25,23 @@ namespace GUvrs
             _watcher = new FileSystemWatcher();
             _watcher.Path = _path;
             _watcher.Filter = "*.log";
-            _watcher.NotifyFilter = NotifyFilters.Security | NotifyFilters.Size | NotifyFilters.LastWrite;
+            _watcher.NotifyFilter = NotifyFilters.Security | NotifyFilters.Size | NotifyFilters.LastWrite | NotifyFilters.LastAccess;
             _watcher.EnableRaisingEvents = true;
             _watcher.Changed += _watcher_Changed;
+            _watcher.Deleted += _watcher_Deleted;
 
-            _watcher_Changed(null, null);
+            lblPlayerNameValue.Text = string.Empty;
+            lblPlayerIDValue.Text = string.Empty;
+            lblOpponentIDValue.Text = string.Empty;
+            lblOpponentNameValue.Text = string.Empty;
+        }
+
+        private void _watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            lblPlayerNameValue.Text = string.Empty;
+            lblPlayerIDValue.Text = string.Empty;
+            lblOpponentIDValue.Text = string.Empty;
+            lblOpponentNameValue.Text = string.Empty;
         }
 
         private void _watcher_Changed(object sender, FileSystemEventArgs e)
@@ -37,6 +49,7 @@ namespace GUvrs
             var file = File.ReadAllText($"{_path}\\debug.log");
             var lines = file.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
+            // TODO: This should be A LOT more optimized, but for now should always grab the most recent game last.
             foreach (var line in lines)
             {
                 if (line.Contains("p:PlayerInfo") && line.Contains("o:PlayerInfo"))
