@@ -12,6 +12,7 @@ namespace GUvrs
         private string opponentId = string.Empty;
         private string opponentName = string.Empty;
 
+        // TODO: Move strings to language file
         public MainWindow()
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace GUvrs
             lblPlayerIDValue.Text = string.Empty;
             lblOpponentIDValue.Text = string.Empty;
             lblOpponentNameValue.Text = string.Empty;
+            lblStatusText.Text = "...";
         }
 
         private void _watcher_Deleted(object sender, FileSystemEventArgs e)
@@ -42,56 +44,19 @@ namespace GUvrs
             lblPlayerIDValue.Text = string.Empty;
             lblOpponentIDValue.Text = string.Empty;
             lblOpponentNameValue.Text = string.Empty;
+            lblStatusText.Text = "...";
         }
 
         private void _watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            var file = File.ReadAllText($"{_path}\\debug.log");
-            var lines = file.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-
-            // TODO: This should be A LOT more optimized, but for now should always grab the most recent game last.
-            foreach (var line in lines)
-            {
-                if (line.Contains("p:PlayerInfo") && line.Contains("o:PlayerInfo"))
-                {
-                    var playerInfo = line.Split(new string[] { "p:PlayerInfo(" }, StringSplitOptions.None)[1].Split(')')[0];
-                    var opponentInfo = line.Split(new string[] { "o:PlayerInfo(" }, StringSplitOptions.None)[1].Split(')')[0];
-
-                    if (string.IsNullOrEmpty(playerInfo) || string.IsNullOrEmpty(opponentInfo))
-                        continue;
-                    else
-                    {
-                        var playerProperties = playerInfo.Split(',', ' ', StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var playerProperty in playerProperties)
-                        {
-                            if (playerProperty.Contains("apolloId"))
-                                playerId = playerProperty.Split(':', StringSplitOptions.TrimEntries)[1];
-
-                            if (playerProperty.Contains("nickName"))
-                                playerName = playerProperty.Split(':', StringSplitOptions.TrimEntries)[1];
-                        }
-
-                        var opponentProperties = opponentInfo.Split(',', ' ', StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var opponentProperty in opponentProperties)
-                        {
-                            if (opponentProperty.Contains("apolloId"))
-                                opponentId = opponentProperty.Split(':', StringSplitOptions.TrimEntries)[1];
-
-                            if (opponentProperty.Contains("nickName"))
-                                opponentName = opponentProperty.Split(':', StringSplitOptions.TrimEntries)[1];
-                        }
-                    }
-                }
-            }
-
-            lblPlayerIDValue.Text = playerId;
-            lblPlayerNameValue.Text = playerName;
-            lblOpponentIDValue.Text = opponentId;
-            lblOpponentNameValue.Text = opponentName;
+            ReadLog();
         }
 
         private void btnViewPlayerDeck_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(playerId) || playerId == "-1")
+                return;
+
             Process.Start(new ProcessStartInfo($"https://gudecks.com/meta/player-stats?userId={playerId}")
             {
                 UseShellExecute = true
@@ -100,10 +65,88 @@ namespace GUvrs
 
         private void btnViewOpponentDeck_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(opponentId) || opponentId == "-1")
+                return;
+
             Process.Start(new ProcessStartInfo($"https://gudecks.com/meta/player-stats?userId={opponentId}")
             {
                 UseShellExecute = true
             });
+        }
+
+        private void ReadLog()
+        {
+            // TODO: Not ideal but HDD / SSD speed can vary this should work until a more ideal method can be created. Will auto exit loop after timeout.
+            var timeout = 0;
+            while (true)
+            {
+                var file = File.ReadAllText($"{_path}\\debug.log");
+                var lines = file.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+
+                // TODO: This should be A LOT more optimized, but for now should always grab the most recent game last.
+                foreach (var line in lines)
+                {
+                    if (line.Contains("p:PlayerInfo") && line.Contains("o:PlayerInfo"))
+                    {
+                        var playerInfo = line.Split(new string[] { "p:PlayerInfo(" }, StringSplitOptions.None)[1].Split(')')[0];
+                        var opponentInfo = line.Split(new string[] { "o:PlayerInfo(" }, StringSplitOptions.None)[1].Split(')')[0];
+
+                        if (string.IsNullOrEmpty(playerInfo) || string.IsNullOrEmpty(opponentInfo))
+                            continue;
+                        else
+                        {
+                            var playerProperties = playerInfo.Split(',', ' ', StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var playerProperty in playerProperties)
+                            {
+                                if (playerProperty.Contains("apolloId")) playerId = playerProperty.Split(':', StringSplitOptions.TrimEntries)[1];
+
+                                if (playerProperty.Contains("nickName")) playerName = playerProperty.Split(':', StringSplitOptions.TrimEntries)[1];
+                            }
+
+                            var opponentProperties = opponentInfo.Split(',', ' ', StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var opponentProperty in opponentProperties)
+                            {
+                                if (opponentProperty.Contains("apolloId")) opponentId = opponentProperty.Split(':', StringSplitOptions.TrimEntries)[1];
+
+                                if (opponentProperty.Contains("nickName")) opponentName = opponentProperty.Split(':', StringSplitOptions.TrimEntries)[1];
+                            }
+                        }
+                    }
+                }
+
+                if (string.IsNullOrEmpty(playerId) || string.IsNullOrEmpty(opponentId))
+                {
+                    Thread.Sleep(TimeSpan.FromSeconds(1));
+                    timeout++;
+
+                    if (timeout <= 320)
+                        continue;
+                }
+                else
+                {
+                    lblStatusText.Text = "Game found...";
+                    SetLabelText(lblPlayerIDValue, playerId);
+                    SetLabelText(lblPlayerNameValue, playerName);
+                    SetLabelText(lblOpponentIDValue, opponentId);
+                    SetLabelText(lblOpponentNameValue, opponentName);
+                }
+
+                break;
+            }
+        }
+
+        private void SetLabelText(Label label, string text)
+        {
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new MethodInvoker(delegate { label.Text = text; }));
+            }
+            else
+            {
+                label.Text = text;
+            }
+
+            Application.DoEvents();
         }
     }
 }

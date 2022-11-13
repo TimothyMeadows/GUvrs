@@ -39,6 +39,9 @@
             this.lblPlayerIDText = new System.Windows.Forms.Label();
             this.lblOpponentNameValue = new System.Windows.Forms.Label();
             this.lblOpponentNameText = new System.Windows.Forms.Label();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblPlayerNameText
@@ -65,9 +68,10 @@
             // 
             this.btnViewPlayerDeck.Location = new System.Drawing.Point(33, 49);
             this.btnViewPlayerDeck.Name = "btnViewPlayerDeck";
-            this.btnViewPlayerDeck.Size = new System.Drawing.Size(75, 23);
-            this.btnViewPlayerDeck.TabIndex = 2;
-            this.btnViewPlayerDeck.Text = "View Deck";
+            this.btnViewPlayerDeck.Size = new System.Drawing.Size(89, 23);
+            this.btnViewPlayerDeck.TabIndex = 0;
+            this.btnViewPlayerDeck.TabStop = false;
+            this.btnViewPlayerDeck.Text = "View Profile";
             this.btnViewPlayerDeck.UseVisualStyleBackColor = true;
             this.btnViewPlayerDeck.Click += new System.EventHandler(this.btnViewPlayerDeck_Click);
             // 
@@ -75,9 +79,10 @@
             // 
             this.btnViewOpponentDeck.Location = new System.Drawing.Point(32, 115);
             this.btnViewOpponentDeck.Name = "btnViewOpponentDeck";
-            this.btnViewOpponentDeck.Size = new System.Drawing.Size(75, 23);
-            this.btnViewOpponentDeck.TabIndex = 3;
-            this.btnViewOpponentDeck.Text = "View Deck";
+            this.btnViewOpponentDeck.Size = new System.Drawing.Size(92, 23);
+            this.btnViewOpponentDeck.TabIndex = 0;
+            this.btnViewOpponentDeck.TabStop = false;
+            this.btnViewOpponentDeck.Text = "View Profile";
             this.btnViewOpponentDeck.UseVisualStyleBackColor = true;
             this.btnViewOpponentDeck.Click += new System.EventHandler(this.btnViewOpponentDeck_Click);
             // 
@@ -141,11 +146,29 @@
             this.lblOpponentNameText.TabIndex = 8;
             this.lblOpponentNameText.Text = "Opponent Name:";
             // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblStatusText});
+            this.statusStrip.Location = new System.Drawing.Point(0, 158);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(279, 22);
+            this.statusStrip.SizingGrip = false;
+            this.statusStrip.TabIndex = 10;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // lblStatusText
+            // 
+            this.lblStatusText.Name = "lblStatusText";
+            this.lblStatusText.Size = new System.Drawing.Size(16, 17);
+            this.lblStatusText.Text = "...";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(242, 156);
+            this.ClientSize = new System.Drawing.Size(279, 180);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.lblOpponentNameValue);
             this.Controls.Add(this.lblOpponentNameText);
             this.Controls.Add(this.lblPlayerIDValue);
@@ -156,10 +179,15 @@
             this.Controls.Add(this.btnViewPlayerDeck);
             this.Controls.Add(this.lblOpponentIDText);
             this.Controls.Add(this.lblPlayerNameText);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainWindow";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GU versus";
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -177,5 +205,7 @@
         private Label lblPlayerIDText;
         private Label lblOpponentNameValue;
         private Label lblOpponentNameText;
+        private StatusStrip statusStrip;
+        private ToolStripStatusLabel lblStatusText;
     }
 }
