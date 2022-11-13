@@ -32,16 +32,13 @@
             this.lblPlayerNameText = new System.Windows.Forms.Label();
             this.lblOpponentIDText = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
-            this.btnViewOpponentDeck = new System.Windows.Forms.Button();
             this.lblPlayerNameValue = new System.Windows.Forms.Label();
             this.lblOpponentIDValue = new System.Windows.Forms.Label();
             this.lblPlayerIDValue = new System.Windows.Forms.Label();
             this.lblPlayerIDText = new System.Windows.Forms.Label();
             this.lblOpponentNameValue = new System.Windows.Forms.Label();
             this.lblOpponentNameText = new System.Windows.Forms.Label();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
-            this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
-            this.statusStrip.SuspendLayout();
+            this.lblWarning = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblPlayerNameText
@@ -75,17 +72,6 @@
             this.btnReset.UseVisualStyleBackColor = true;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // btnViewOpponentDeck
-            // 
-            this.btnViewOpponentDeck.Location = new System.Drawing.Point(32, 115);
-            this.btnViewOpponentDeck.Name = "btnViewOpponentDeck";
-            this.btnViewOpponentDeck.Size = new System.Drawing.Size(92, 23);
-            this.btnViewOpponentDeck.TabIndex = 0;
-            this.btnViewOpponentDeck.TabStop = false;
-            this.btnViewOpponentDeck.Text = "View Profile";
-            this.btnViewOpponentDeck.UseVisualStyleBackColor = true;
-            this.btnViewOpponentDeck.Click += new System.EventHandler(this.btnViewOpponentDeck_Click);
-            // 
             // lblPlayerNameValue
             // 
             this.lblPlayerNameValue.AutoSize = true;
@@ -99,22 +85,28 @@
             // lblOpponentIDValue
             // 
             this.lblOpponentIDValue.AutoSize = true;
-            this.lblOpponentIDValue.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblOpponentIDValue.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblOpponentIDValue.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point);
+            this.lblOpponentIDValue.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.lblOpponentIDValue.Location = new System.Drawing.Point(132, 98);
             this.lblOpponentIDValue.Name = "lblOpponentIDValue";
             this.lblOpponentIDValue.Size = new System.Drawing.Size(70, 14);
             this.lblOpponentIDValue.TabIndex = 5;
             this.lblOpponentIDValue.Text = "000000000";
+            this.lblOpponentIDValue.Click += new System.EventHandler(this.lblOpponentIDValue_Click);
             // 
             // lblPlayerIDValue
             // 
             this.lblPlayerIDValue.AutoSize = true;
-            this.lblPlayerIDValue.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblPlayerIDValue.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblPlayerIDValue.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point);
+            this.lblPlayerIDValue.ForeColor = System.Drawing.SystemColors.HotTrack;
             this.lblPlayerIDValue.Location = new System.Drawing.Point(134, 32);
             this.lblPlayerIDValue.Name = "lblPlayerIDValue";
             this.lblPlayerIDValue.Size = new System.Drawing.Size(70, 14);
             this.lblPlayerIDValue.TabIndex = 7;
             this.lblPlayerIDValue.Text = "000000000";
+            this.lblPlayerIDValue.Click += new System.EventHandler(this.lblPlayerIDValue_Click);
             // 
             // lblPlayerIDText
             // 
@@ -146,36 +138,30 @@
             this.lblOpponentNameText.TabIndex = 8;
             this.lblOpponentNameText.Text = "Opponent Name:";
             // 
-            // statusStrip
+            // lblWarning
             // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatusText});
-            this.statusStrip.Location = new System.Drawing.Point(0, 158);
-            this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(279, 22);
-            this.statusStrip.SizingGrip = false;
-            this.statusStrip.TabIndex = 10;
-            this.statusStrip.Text = "statusStrip1";
-            // 
-            // lblStatusText
-            // 
-            this.lblStatusText.Name = "lblStatusText";
-            this.lblStatusText.Size = new System.Drawing.Size(16, 17);
-            this.lblStatusText.Text = "...";
+            this.lblWarning.AutoSize = true;
+            this.lblWarning.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.lblWarning.Location = new System.Drawing.Point(31, 138);
+            this.lblWarning.Name = "lblWarning";
+            this.lblWarning.Size = new System.Drawing.Size(198, 45);
+            this.lblWarning.TabIndex = 11;
+            this.lblWarning.Text = "Warning: This is a BETA edition. \r\nIt may be subject to errors, or issues. \r\nPlea" +
+    "se report any you find to github.";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(279, 180);
-            this.Controls.Add(this.statusStrip);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(284, 211);
+            this.Controls.Add(this.lblWarning);
             this.Controls.Add(this.lblOpponentNameValue);
             this.Controls.Add(this.lblOpponentNameText);
             this.Controls.Add(this.lblPlayerIDValue);
             this.Controls.Add(this.lblPlayerIDText);
             this.Controls.Add(this.lblOpponentIDValue);
             this.Controls.Add(this.lblPlayerNameValue);
-            this.Controls.Add(this.btnViewOpponentDeck);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.lblOpponentIDText);
             this.Controls.Add(this.lblPlayerNameText);
@@ -183,11 +169,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "MainWindow";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "GU versus";
-            this.statusStrip.ResumeLayout(false);
-            this.statusStrip.PerformLayout();
+            this.Text = "GU versus - BETA 1";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,14 +181,12 @@
         private Label lblPlayerNameText;
         private Label lblOpponentIDText;
         private Button btnReset;
-        private Button btnViewOpponentDeck;
         private Label lblPlayerNameValue;
         private Label lblOpponentIDValue;
         private Label lblPlayerIDValue;
         private Label lblPlayerIDText;
         private Label lblOpponentNameValue;
         private Label lblOpponentNameText;
-        private StatusStrip statusStrip;
-        private ToolStripStatusLabel lblStatusText;
+        private Label lblWarning;
     }
 }

@@ -35,7 +35,6 @@ namespace GUvrs
             lblPlayerIDValue.Text = string.Empty;
             lblOpponentIDValue.Text = string.Empty;
             lblOpponentNameValue.Text = string.Empty;
-            lblStatusText.Text = "...";
         }
 
         private void _watcher_Deleted(object sender, FileSystemEventArgs e)
@@ -44,7 +43,6 @@ namespace GUvrs
             lblPlayerIDValue.Text = string.Empty;
             lblOpponentIDValue.Text = string.Empty;
             lblOpponentNameValue.Text = string.Empty;
-            lblStatusText.Text = "...";
 
             playerId = string.Empty;
             playerName = string.Empty;
@@ -63,7 +61,6 @@ namespace GUvrs
             lblPlayerIDValue.Text = string.Empty;
             lblOpponentIDValue.Text = string.Empty;
             lblOpponentNameValue.Text = string.Empty;
-            lblStatusText.Text = "...";
 
             playerId = string.Empty;
             playerName = string.Empty;
@@ -71,7 +68,18 @@ namespace GUvrs
             opponentName = string.Empty;
         }
 
-        private void btnViewOpponentDeck_Click(object sender, EventArgs e)
+        private void lblPlayerIDValue_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(playerId) || playerId == "-1")
+                return;
+
+            Process.Start(new ProcessStartInfo($"https://gudecks.com/meta/player-stats?userId={playerId}")
+            {
+                UseShellExecute = true
+            });
+        }
+
+        private void lblOpponentIDValue_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(opponentId) || opponentId == "-1")
                 return;
@@ -132,7 +140,6 @@ namespace GUvrs
                 }
                 else
                 {
-                    lblStatusText.Text = "Game found...";
                     SetLabelText(lblPlayerIDValue, playerId);
                     SetLabelText(lblPlayerNameValue, playerName);
                     SetLabelText(lblOpponentIDValue, opponentId);
