@@ -15,10 +15,6 @@ You can download the latest release from [here](https://github.com/TimothyMeadow
 
 *Note: There will be a delay before a match is found once the application is started, or reset. This delay primarly depends on both your computers disk speed, and if any actions are being taken in game.*
 
-# Known Issues
-
-- This application, at this time, does not work in Casual Mode. Casual Mode does not write the needed (or any) log entries for player ids. This may change in the future.
-
 # Screenshot
 
 ![beta screnshot](screenshot.png)
