@@ -31,10 +31,21 @@ on run
 	log extractedString
 	#End find
 	
+	# Get Rid of last char if it is not a number
+	set temp_ID to characters 1 thru 7 of extractedString
+	log temp_ID
+	set ID_opponent to ""
+	repeat with anItem in temp_ID
+		try
+			set lastChar to anItem as number
+			set ID_opponent to ID_opponent & anItem
+		end try
+	end repeat
+	# end trimming the string
 	
 	
-	set op_number to extractedString
-	tell application "Firefox"
+	set op_number to ID_opponent
+	tell application "Safari"
 		open location "https://gudecks.com/meta/player-stats?userId=" & op_number
 	end tell
 end run
