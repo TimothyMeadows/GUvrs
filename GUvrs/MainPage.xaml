@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GUvrs.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            VerticalOptions="Start"
+            HorizontalOptions="Center">
+
+            <StackLayout
+                Spacing="25"
+                Padding="30,0">
+
+                <Label
+                    Padding="25 "/>
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        Text="Player ID: "
+                        FontSize="24"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        x:Name="PlayerID"
+                        Text="0000000"
+                        FontSize="24"
+                        HorizontalOptions="Center" />
+                </StackLayout>
+
+                <Button
+                    x:Name="Reset"
+                    Text="Reset"
+                    SemanticProperties.Hint="Cause the player tracker to search the log until it finds an opponent."
+                    Clicked="OnResetClick"
+                    HorizontalOptions="Center" />
+
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        Text="Opponent ID: "
+                        FontSize="24"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        x:Name="OpponentID"
+                        Text="0000000"
+                        FontSize="24"
+                        HorizontalOptions="Center" />
+                </StackLayout>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
