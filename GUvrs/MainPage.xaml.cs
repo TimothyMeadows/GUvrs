@@ -2,33 +2,36 @@
 
 public partial class MainPage : ContentPage
 {
-	private long PlayerId = 0;
-	private long OpponentId = 0;
+	private long playerId = 0;
+	private string playerName = string.Empty;
+	private long opponentId = 0;
+	private string opponentName = string.Empty;
 
-	public MainPage()
+
+    public MainPage()
 	{
 		InitializeComponent();
 
         PlayerID.GestureRecognizers.Add(new ClickGestureRecognizer()
 		{
-			Command = new Command(() => OnIDClick(PlayerId)),
+			Command = new Command(() => OnIDClick(playerId)),
 			NumberOfClicksRequired = 1
 		});
 
         PlayerID.GestureRecognizers.Add(new TapGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(PlayerId))
+            Command = new Command(() => OnIDClick(playerId))
         });
 
         OpponentID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(OpponentId)),
+            Command = new Command(() => OnIDClick(opponentId)),
             NumberOfClicksRequired = 1
         });
 
         OpponentID.GestureRecognizers.Add(new TapGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(OpponentId))
+            Command = new Command(() => OnIDClick(opponentId))
         });
     }
 
