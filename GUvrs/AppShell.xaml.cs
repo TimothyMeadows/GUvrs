@@ -9,6 +9,6 @@ public partial class AppShell : Shell
 
     protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
     {
-        return base.MeasureOverride(150, 150);
+        return base.MeasureOverride(100, 100);
     }
 }

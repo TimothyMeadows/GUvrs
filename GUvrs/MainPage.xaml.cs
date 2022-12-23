@@ -1,22 +1,23 @@
 ﻿namespace GUvrs;
+using GUvrs.Platforms.MacCatalyst;
 
 public partial class MainPage : ContentPage
 {
-	private long playerId = 0;
-	private string playerName = string.Empty;
-	private long opponentId = 0;
-	private string opponentName = string.Empty;
+    private long playerId = 0;
+    private string playerName = string.Empty;
+    private long opponentId = 0;
+    private string opponentName = string.Empty;
 
 
     public MainPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
 
         PlayerID.GestureRecognizers.Add(new ClickGestureRecognizer()
-		{
-			Command = new Command(() => OnIDClick(playerId)),
-			NumberOfClicksRequired = 1
-		});
+        {
+            Command = new Command(() => OnIDClick(playerId)),
+            NumberOfClicksRequired = 1
+        });
 
         PlayerID.GestureRecognizers.Add(new TapGestureRecognizer()
         {
@@ -35,20 +36,30 @@ public partial class MainPage : ContentPage
         });
     }
 
-	private void OnResetClick(object sender, EventArgs e)
-	{
-		Reset.IsEnabled = false;
-		// Do Work
-		Reset.IsEnabled = true;
-	}
+    private void OnResetClick(object sender, EventArgs e)
+    {
+        Reset.IsEnabled = false;
+        // Do Work
+        Reset.IsEnabled = true;
+    }
 
-	private void OnIDClick(long id)
-	{
-		if (id == 0 || id == -1)
-			return;
+    private void OnIDClick(long id)
+    {
+        if (id == 0 || id == -1)
+            return;
 
-		//Browser.OpenAsync("https://www.gudecks.com/");
-		return;
-	}
+        //Browser.OpenAsync("https://www.gudecks.com/");
+        return;
+    }
+
+    private void OnPointerEntered(object sender, PointerEventArgs e)
+    {
+        PlayerID.HandCursor(true);
+    }
+
+    private void OnPointerExited(object sender, PointerEventArgs e)
+    {
+        PlayerID.HandCursor(false);
+    }
 }
 

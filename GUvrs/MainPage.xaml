@@ -3,50 +3,116 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GUvrs.MainPage">
 
-    <ScrollView>
+    <ScrollView BackgroundColor="White">
         <VerticalStackLayout
             VerticalOptions="Start"
             HorizontalOptions="Center">
 
             <StackLayout
-                Spacing="25"
+                Spacing="0"
                 Padding="30,0">
 
                 <Label
-                    Padding="25 "/>
+                    Padding="25"/>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        Text="Player Name: "
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        x:Name="PlayerName"
+                        Text="PlaceholderName"
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+                </StackLayout>
 
                 <StackLayout Orientation="Horizontal">
                     <Label
                         Text="Player ID: "
-                        FontSize="24"
+                        FontSize="18"
+                        TextColor="Black"
                         HorizontalOptions="Center" />
 
                     <Label
                         x:Name="PlayerID"
                         Text="0000000"
-                        FontSize="24"
-                        HorizontalOptions="Center" />
+                        FontSize="18"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                        HorizontalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnPointerEntered"
+                                        PointerExited="OnPointerExited" />
+                        </Label.GestureRecognizers>
+                    </Label>
                 </StackLayout>
+
+                <Label
+                    Padding="15" />
 
                 <Button
                     x:Name="Reset"
+                    MinimumWidthRequest="200"
                     Text="Reset"
-                    SemanticProperties.Hint="Cause the player tracker to search the log until it finds an opponent."
+                    TextColor="White"
+                    BorderColor="White"
+                    BackgroundColor="Black"
                     Clicked="OnResetClick"
                     HorizontalOptions="Center" />
+
+                <Label
+                    Padding="15"/>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        Text="Opponent Name: "
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        x:Name="OpponentName"
+                        Text="PlaceholderName"
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+                </StackLayout>
 
                 <StackLayout Orientation="Horizontal">
                     <Label
                         Text="Opponent ID: "
-                        FontSize="24"
+                        FontSize="18"
+                        TextColor="Black"
                         HorizontalOptions="Center" />
 
                     <Label
                         x:Name="OpponentID"
                         Text="0000000"
-                        FontSize="24"
+                        FontSize="18"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
                         HorizontalOptions="Center" />
                 </StackLayout>
+
+                <Label
+                    Padding="15"/>
+
+                <Label
+                    MaximumWidthRequest="310"
+                    HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Warning: This is a BETA edition. It may be subject to errors, or issues. Please report any you find to github."
+                                  TextColor="Black"
+                                  FontSize="14"
+                                  FontAttributes="Italic"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
             </StackLayout>
         </VerticalStackLayout>
     </ScrollView>

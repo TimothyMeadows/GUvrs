@@ -19,12 +19,12 @@ public partial class App : MauiWinUIApplication
 		this.InitializeComponent();
 	}
 
-	protected override MauiApp CreateMauiApp()
-	{
-		var app = MauiProgram.CreateMauiApp();
-		Startup.Windows();
+    protected override MauiApp CreateMauiApp()
+    {
+        var app = MauiProgram.CreateMauiApp();
+        Startup.Windows();
 
-		return app;
+        return app;
     }
 }
 
