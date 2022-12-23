@@ -49,8 +49,10 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\" />
+	  <None Remove="Modules\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Resources\Images\" />
+	  <Folder Include="Modules\" />
 	</ItemGroup>
 </Project>
