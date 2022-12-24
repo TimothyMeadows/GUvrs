@@ -1,6 +1,5 @@
 ﻿namespace GUvrs;
 
-
 public partial class MainPage : ContentPage
 {
     private long playerId = 0;
