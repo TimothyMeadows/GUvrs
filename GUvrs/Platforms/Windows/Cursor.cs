@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Reflection;
+using Windows.UI.Core;
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
 
-public static class Cursor
+public static partial class Cursor
 {
-    public static void WindowsHandCursor(this UIElement uiElement, bool active)
+    public static void WindowsHandCursor(this Label label, bool active)
     {
-        Type type = typeof(UIElement);
+        //Microsoft.UI.Xaml.Window.Current.CoreWindow.PointerCursor = active ? new CoreCursor(CoreCursorType.Hand, 0) : new CoreCursor(CoreCursorType.Arrow, 0);
+        return;
+    }
 
-        if (active)
-            type.InvokeMember("ProtectedCursor", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance, null, uiElement, new object[] { InputSystemCursor.Create(InputSystemCursorShape.Hand) });
-        else
-            type.InvokeMember("ProtectedCursor", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance, null, uiElement, new object[] { InputSystemCursor.Create(InputSystemCursorShape.Arrow) });
+    public static void WindowsHandCursor(this Button button, bool active)
+    {
+        //Microsoft.UI.Xaml.Window.Current.CoreWindow.PointerCursor = active ? new CoreCursor(CoreCursorType.Hand, 0) : new CoreCursor(CoreCursorType.Arrow, 0);
+        return;
     }
 }
 

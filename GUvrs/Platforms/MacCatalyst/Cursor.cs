@@ -2,7 +2,7 @@
 using System.Reflection;
 using AppKit;
 
-public static class Cursor
+public static partial class Cursor
 {
     public static void MacHandCursor(this Button button, bool active)
     {

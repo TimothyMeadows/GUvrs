@@ -1,6 +1,6 @@
 ﻿namespace GUvrs;
-using GUvrs.Models;
-using GUvrs.Modules;
+using Models;
+using Modules;
 
 public partial class MainPage : ContentPage
 {
@@ -17,24 +17,24 @@ public partial class MainPage : ContentPage
         
         PlayerID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(_player.ID)),
+            Command = new Command(() => OnIDClick(_player?.ID)),
             NumberOfClicksRequired = 1
         });
 
         PlayerID.GestureRecognizers.Add(new TapGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(_player.ID))
+            Command = new Command(() => OnIDClick(_player?.ID))
         });
 
         OpponentID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(_opponent.ID)),
+            Command = new Command(() => OnIDClick(_opponent?.ID)),
             NumberOfClicksRequired = 1
         });
 
         OpponentID.GestureRecognizers.Add(new TapGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(_opponent.ID))
+            Command = new Command(() => OnIDClick(_opponent?.ID))
         });
     }
 
@@ -56,9 +56,9 @@ public partial class MainPage : ContentPage
         _log.Reset();
     }
 
-    private void OnIDClick(long id)
+    private void OnIDClick(long? id)
     {
-        if (id == 0 && id < 0)
+        if (id is null or 0 or < 0)
             return;
 
         Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={id}");
@@ -71,7 +71,7 @@ public partial class MainPage : ContentPage
         PlayerID.MacHandCursor(true);
 #endif
 #if WINDOWS
-        PlayerID.WindowsHandCursor(true);
+        PlayerID.WindowsHandCursor(false);
 #endif
     }
 
