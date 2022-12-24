@@ -89,19 +89,23 @@ public partial class MainPage : ContentPage
 
     private void RenderPlayerData()
     {
-        if (_player == null || _opponent == null)
-        {
-            PlayerID.Text = string.Empty;
-            PlayerName.Text = string.Empty;
-            OpponentID.Text = string.Empty;
-            OpponentName.Text = string.Empty;
-            return;
-        }
 
-        PlayerID.Text = _player.ID.ToString();
-        PlayerName.Text = _player.Name;
-        OpponentID.Text = _opponent.ID.ToString();
-        OpponentName.Text = _opponent.Name;
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            if (_player == null || _opponent == null)
+            {
+                PlayerID.Text = string.Empty;
+                PlayerName.Text = string.Empty;
+                OpponentID.Text = string.Empty;
+                OpponentName.Text = string.Empty;
+                return;
+            }
+
+            PlayerID.Text = _player.ID.ToString();
+            PlayerName.Text = _player.Name;
+            OpponentID.Text = _opponent.ID.ToString();
+            OpponentName.Text = _opponent.Name;
+        });
     }
 
     protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
