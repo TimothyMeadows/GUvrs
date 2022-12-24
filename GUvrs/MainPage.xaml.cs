@@ -1,5 +1,5 @@
 ﻿namespace GUvrs;
-using GUvrs.Platforms.MacCatalyst;
+
 
 public partial class MainPage : ContentPage
 {
@@ -52,14 +52,24 @@ public partial class MainPage : ContentPage
         return;
     }
 
-    private void OnPointerEntered(object sender, PointerEventArgs e)
+    private void OnShowHandPointer(object sender, PointerEventArgs e)
     {
-        PlayerID.HandCursor(true);
+#if MACCATALYST
+        PlayerID.MacHandCursor(true);
+#endif
+#if WINDOWS
+        PlayerID.WindowsHandCursor(true);
+#endif
     }
 
-    private void OnPointerExited(object sender, PointerEventArgs e)
+    private void OnHideHandPointer(object sender, PointerEventArgs e)
     {
-        PlayerID.HandCursor(false);
+#if MACCATALYST
+        PlayerID.MacHandCursor(false);
+#endif
+#if WINDOWS
+        PlayerID.WindowsHandCursor(false);
+#endif
     }
 }
 

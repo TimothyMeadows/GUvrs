@@ -44,9 +44,10 @@
                         TextColor="Blue"
                         TextDecorations="Underline"
                         HorizontalOptions="Center">
+
                         <Label.GestureRecognizers>
-                            <PointerGestureRecognizer PointerEntered="OnPointerEntered"
-                                        PointerExited="OnPointerExited" />
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
                         </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>
@@ -62,7 +63,13 @@
                     BorderColor="White"
                     BackgroundColor="Black"
                     Clicked="OnResetClick"
-                    HorizontalOptions="Center" />
+                    HorizontalOptions="Center">
+
+                    <Button.GestureRecognizers>
+                        <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                  PointerExited="OnHideHandPointer" />
+                        </Button.GestureRecognizers>
+                </Button>
 
                 <Label
                     Padding="15"/>
@@ -95,7 +102,13 @@
                         FontSize="18"
                         TextColor="Blue"
                         TextDecorations="Underline"
-                        HorizontalOptions="Center" />
+                        HorizontalOptions="Center">
+
+                        <Label.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                        </Label.GestureRecognizers>
+                    </Label>
                 </StackLayout>
 
                 <Label

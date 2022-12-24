@@ -59,4 +59,8 @@
 	  <Folder Include="Modules\" />
 	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
+
+	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
+		<DefineConstants>WINDOWS</DefineConstants>
+	</PropertyGroup>
 </Project>
