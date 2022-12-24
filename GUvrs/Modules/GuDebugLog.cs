@@ -55,7 +55,7 @@ namespace GUvrs.Modules
             var timeout = 0;
             while(true)
             {
-                var file = File.ReadAllText($"{CrossPlatform.GuLogPath}\\debug.log");
+                var file = File.ReadAllText($"{CrossPlatform.GuLogPath}/debug.log");
                 var lines = file.Split('\n', StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (var line in lines)
