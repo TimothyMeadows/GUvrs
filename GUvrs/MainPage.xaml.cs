@@ -1,4 +1,6 @@
-﻿namespace GUvrs;
+﻿using Microsoft.Maui.Platform;
+
+namespace GUvrs;
 using Models;
 using Modules;
 
@@ -71,7 +73,7 @@ public partial class MainPage : ContentPage
         PlayerID.MacHandCursor(true);
 #endif
 #if WINDOWS
-        PlayerID.WindowsHandCursor(false);
+        PlayerID.WindowsHandCursor(true);
 #endif
     }
 
