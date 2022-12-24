@@ -32,13 +32,12 @@ namespace GUvrs.Modules
         {
             _player = null;
             _opponent = null;
-
-            Change?.Invoke(null, null);
         }
 
         private void Deleted(object sender, FileSystemEventArgs e)
         {
             Reset();
+            Change?.Invoke(null, null);
         }
 
         private void Changed(object sender, FileSystemEventArgs e)

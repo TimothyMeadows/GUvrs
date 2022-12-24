@@ -1,53 +1,67 @@
 ﻿namespace GUvrs;
+using GUvrs.Models;
+using GUvrs.Modules;
 
 public partial class MainPage : ContentPage
 {
-    private long playerId = 0;
-    private string playerName = string.Empty;
-    private long opponentId = 0;
-    private string opponentName = string.Empty;
-
+    private readonly GuDebugLog _log;
+    private PlayerModel _player;
+    private PlayerModel _opponent;
 
     public MainPage()
     {
         InitializeComponent();
 
+        _log = new GuDebugLog();
+        _log.Change += OnChange;
+        
         PlayerID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(playerId)),
+            Command = new Command(() => OnIDClick(_player.ID)),
             NumberOfClicksRequired = 1
         });
 
         PlayerID.GestureRecognizers.Add(new TapGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(playerId))
+            Command = new Command(() => OnIDClick(_player.ID))
         });
 
         OpponentID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(opponentId)),
+            Command = new Command(() => OnIDClick(_opponent.ID)),
             NumberOfClicksRequired = 1
         });
 
         OpponentID.GestureRecognizers.Add(new TapGestureRecognizer()
         {
-            Command = new Command(() => OnIDClick(opponentId))
+            Command = new Command(() => OnIDClick(_opponent.ID))
         });
+    }
+
+    private void OnChange(PlayerModel player, PlayerModel opponent)
+    {
+        _player = player;
+        _opponent = opponent;
+
+        RenderPlayerData();
+        Reset.IsEnabled = true;
     }
 
     private void OnResetClick(object sender, EventArgs e)
     {
         Reset.IsEnabled = false;
-        // Do Work
-        Reset.IsEnabled = true;
+        _player = null;
+        _opponent = null;
+
+        _log.Reset();
     }
 
     private void OnIDClick(long id)
     {
-        if (id == 0 || id == -1)
+        if (id == 0 && id < 0)
             return;
 
-        //Browser.OpenAsync("https://www.gudecks.com/");
+        Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={id}");
         return;
     }
 
@@ -69,6 +83,23 @@ public partial class MainPage : ContentPage
 #if WINDOWS
         PlayerID.WindowsHandCursor(false);
 #endif
+    }
+
+    private void RenderPlayerData()
+    {
+        if (_player == null || _opponent == null)
+        {
+            PlayerID.Text = string.Empty;
+            PlayerName.Text = string.Empty;
+            OpponentID.Text = string.Empty;
+            OpponentName.Text = string.Empty;
+            return;
+        }
+
+        PlayerID.Text = _player.ID.ToString();
+        PlayerName.Text = _player.Name;
+        OpponentID.Text = _opponent.ID.ToString();
+        OpponentName.Text = _opponent.Name;
     }
 }
 
