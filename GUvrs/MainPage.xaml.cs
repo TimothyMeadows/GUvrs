@@ -103,5 +103,10 @@ public partial class MainPage : ContentPage
         OpponentID.Text = _opponent.ID.ToString();
         OpponentName.Text = _opponent.Name;
     }
+
+    protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
+    {
+        return base.MeasureOverride(100, 100);
+    }
 }
 
