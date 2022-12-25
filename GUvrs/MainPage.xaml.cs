@@ -45,11 +45,17 @@ public partial class MainPage : ContentPage
         _player = player;
         _opponent = opponent;
 
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            Reset.IsEnabled = true;
+        });
+
         RenderPlayerData();
     }
 
     private void OnResetClick(object sender, EventArgs e)
     {
+        Reset.IsEnabled = false;
         _player = null;
         _opponent = null;
 
