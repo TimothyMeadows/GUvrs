@@ -46,15 +46,14 @@ public partial class MainPage : ContentPage
         _opponent = opponent;
 
         RenderPlayerData();
-        Reset.IsEnabled = true;
     }
 
     private void OnResetClick(object sender, EventArgs e)
     {
-        Reset.IsEnabled = false;
         _player = null;
         _opponent = null;
 
+        RenderPlayerData();
         _log.Reset();
     }
 
