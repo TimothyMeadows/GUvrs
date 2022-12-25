@@ -24,7 +24,7 @@
 
                     <Label
                         x:Name="PlayerName"
-                        Text="PlaceholderName"
+                        Text=""
                         FontSize="18"
                         TextColor="Black"
                         HorizontalOptions="Center" />
@@ -39,7 +39,7 @@
 
                     <Label
                         x:Name="PlayerID"
-                        Text="0000000"
+                        Text=""
                         FontSize="18"
                         TextColor="Blue"
                         TextDecorations="Underline"
@@ -83,7 +83,7 @@
 
                     <Label
                         x:Name="OpponentName"
-                        Text="PlaceholderName"
+                        Text=""
                         FontSize="18"
                         TextColor="Black"
                         HorizontalOptions="Center" />
@@ -98,7 +98,7 @@
 
                     <Label
                         x:Name="OpponentID"
-                        Text="0000000"
+                        Text=""
                         FontSize="18"
                         TextColor="Blue"
                         TextDecorations="Underline"
