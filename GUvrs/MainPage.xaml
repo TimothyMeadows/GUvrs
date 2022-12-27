@@ -15,7 +15,8 @@
                 <Label
                     Padding="25"/>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="5">
                     <Label
                         Text="Player Name: "
                         FontSize="18"
@@ -30,7 +31,8 @@
                         HorizontalOptions="Center" />
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="5">
                     <Label
                         Text="Player ID: "
                         FontSize="18"
@@ -74,7 +76,8 @@
                 <Label
                     Padding="15"/>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="5">
                     <Label
                         Text="Opponent Name: "
                         FontSize="18"
@@ -89,7 +92,8 @@
                         HorizontalOptions="Center" />
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="5">
                     <Label
                         Text="Opponent ID: "
                         FontSize="18"

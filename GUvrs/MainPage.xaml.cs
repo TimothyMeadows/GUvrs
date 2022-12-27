@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Platform;
+using MainThread = Microsoft.Maui.ApplicationModel.MainThread;
 
 namespace GUvrs;
 using Models;
@@ -45,17 +46,26 @@ public partial class MainPage : ContentPage
         _player = player;
         _opponent = opponent;
 
-        MainThread.BeginInvokeOnMainThread(() =>
+        if (!MainThread.IsMainThread)
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                Reset.IsEnabled = true;
+                Reset.BackgroundColor = Colors.Black;
+            });
+        else
         {
             Reset.IsEnabled = true;
-        });
+            Reset.BackgroundColor = Colors.Black;
+        }
 
-        RenderPlayerData();
+        RenderPlayerDataOnThread();
     }
 
     private void OnResetClick(object sender, EventArgs e)
     {
         Reset.IsEnabled = false;
+        Reset.BackgroundColor = Colors.Grey;
+
         _player = null;
         _opponent = null;
 
@@ -92,25 +102,30 @@ public partial class MainPage : ContentPage
 #endif
     }
 
+    private void RenderPlayerDataOnThread()
+    {
+        if (!MainThread.IsMainThread)
+            MainThread.BeginInvokeOnMainThread(RenderPlayerData);
+        else
+            RenderPlayerData();
+    }
+
     private void RenderPlayerData()
     {
 
-        MainThread.BeginInvokeOnMainThread(() =>
+        if (_player == null || _opponent == null)
         {
-            if (_player == null || _opponent == null)
-            {
-                PlayerID.Text = string.Empty;
-                PlayerName.Text = string.Empty;
-                OpponentID.Text = string.Empty;
-                OpponentName.Text = string.Empty;
-                return;
-            }
+            PlayerID.Text = string.Empty;
+            PlayerName.Text = string.Empty;
+            OpponentID.Text = string.Empty;
+            OpponentName.Text = string.Empty;
+            return;
+        }
 
-            PlayerID.Text = _player.ID.ToString();
-            PlayerName.Text = _player.Name;
-            OpponentID.Text = _opponent.ID.ToString();
-            OpponentName.Text = _opponent.Name;
-        });
+        PlayerID.Text = _player.ID.ToString();
+        PlayerName.Text = _player.Name;
+        OpponentID.Text = _opponent.ID.ToString();
+        OpponentName.Text = _opponent.Name;
     }
 
     protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
