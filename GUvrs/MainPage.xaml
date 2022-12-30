@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GUvrs.MainPage">
+
+    <ScrollView BackgroundColor="White">
+        <VerticalStackLayout
+            VerticalOptions="Start"
+            HorizontalOptions="Center">
+
+            <StackLayout
+                Spacing="0"
+                Padding="30,0">
+
+                <Label
+                    Padding="25"/>
+
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="5">
+                    <Label
+                        Text="Player Name: "
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        x:Name="PlayerName"
+                        Text=""
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="5">
+                    <Label
+                        Text="Player ID: "
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        x:Name="PlayerID"
+                        Text=""
+                        FontSize="18"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                        HorizontalOptions="Center">
+
+                        <Label.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+
+                <Label
+                    Padding="15" />
+
+                <Button
+                    x:Name="Reset"
+                    MinimumWidthRequest="200"
+                    Text="Reset"
+                    TextColor="White"
+                    BorderColor="White"
+                    BackgroundColor="Black"
+                    Clicked="OnResetClick"
+                    HorizontalOptions="Center">
+
+                    <Button.GestureRecognizers>
+                        <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                  PointerExited="OnHideHandPointer" />
+                        </Button.GestureRecognizers>
+                </Button>
+
+                <Label
+                    Padding="15"/>
+
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="5">
+                    <Label
+                        Text="Opponent Name: "
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        x:Name="OpponentName"
+                        Text=""
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" 
+                             Spacing="5">
+                    <Label
+                        Text="Opponent ID: "
+                        FontSize="18"
+                        TextColor="Black"
+                        HorizontalOptions="Center" />
+
+                    <Label
+                        x:Name="OpponentID"
+                        Text=""
+                        FontSize="18"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                        HorizontalOptions="Center">
+
+                        <Label.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+
+                <Label
+                    Padding="15"/>
+
+                <Label
+                    MaximumWidthRequest="310"
+                    HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Warning: This is a BETA edition. It may be subject to errors, or issues. Please report any you find to github."
+                                  TextColor="Black"
+                                  FontSize="14"
+                                  FontAttributes="Italic"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
