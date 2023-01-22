@@ -46,30 +46,15 @@ public partial class MainPage : ContentPage
         _player = player;
         _opponent = opponent;
 
-        if (!MainThread.IsMainThread)
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                Reset.IsEnabled = true;
-                Reset.BackgroundColor = Colors.Black;
-            });
-        else
-        {
-            Reset.IsEnabled = true;
-            Reset.BackgroundColor = Colors.Black;
-        }
-
         RenderPlayerDataOnThread();
     }
 
     private void OnResetClick(object sender, EventArgs e)
     {
-        Reset.IsEnabled = false;
-        Reset.BackgroundColor = Colors.Grey;
-
         _player = null;
         _opponent = null;
 
-        RenderPlayerData();
+        RenderPlayerDataOnThread();
         _log.Reset();
     }
 
