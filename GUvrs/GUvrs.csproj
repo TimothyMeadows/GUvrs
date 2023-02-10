@@ -64,9 +64,6 @@
 	  <None Remove="Resources\Images\" />
 	  <None Remove="Models\" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Modules\" />
-	</ItemGroup>
 
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<DefineConstants>WINDOWS</DefineConstants>

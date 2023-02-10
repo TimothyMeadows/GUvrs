@@ -1,12 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GUvrs.Modules;
+using Microsoft.Extensions.Logging;
 
 namespace GUvrs;
 
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
+    {
+        var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>

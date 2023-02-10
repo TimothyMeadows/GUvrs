@@ -16,7 +16,7 @@ public partial class MainPage : ContentPage
         InitializeComponent();
 
         _log = new GuDebugLog();
-        _log.Change += OnChange;
+        _log.OnBegin += OnBegin;
         
         PlayerID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
@@ -41,7 +41,7 @@ public partial class MainPage : ContentPage
         });
     }
 
-    private void OnChange(PlayerModel player, PlayerModel opponent)
+    private void OnBegin(PlayerModel player, PlayerModel opponent)
     {
         _player = player;
         _opponent = opponent;

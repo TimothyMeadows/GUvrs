@@ -7,12 +7,20 @@ namespace GUvrs.Modules
 	public class GuDebugLog
 	{
         private readonly FileSystemWatcher _watcher;
-        private bool _reading;
         private PlayerModel _player;
         private PlayerModel _opponent;
 
-        public delegate void ChangeHandler(PlayerModel player, PlayerModel opponent);
-        public event ChangeHandler Change;
+        public delegate void GameStartHandler(GameStartModel model);
+        public event GameStartHandler OnStart;
+
+        public delegate void GameStopHandler(GameStopHandler model);
+        public event GameStopHandler OnStop;
+
+        public delegate void GameBeginHandler(PlayerModel player, PlayerModel opponent);
+        public event GameBeginHandler OnBegin;
+
+        public delegate void GameEndHandler();
+        public event GameEndHandler OnEnd;
 
         public GuDebugLog()
 		{
@@ -24,8 +32,6 @@ namespace GUvrs.Modules
 
             _watcher.Changed += Changed;
             _watcher.Deleted += Deleted;
-
-            _reading = false;
         }
 
         public void Reset()
@@ -37,7 +43,7 @@ namespace GUvrs.Modules
         private void Deleted(object sender, FileSystemEventArgs e)
         {
             Reset();
-            Change?.Invoke(null, null);
+            OnBegin?.Invoke(null, null);
         }
 
         private void Changed(object sender, FileSystemEventArgs e)
@@ -48,10 +54,6 @@ namespace GUvrs.Modules
 
         private void ReadLog()
         {
-            if (_reading)
-                return;
-
-            _reading = true;
             var timeout = 0;
             while(true)
             {
@@ -107,8 +109,7 @@ namespace GUvrs.Modules
                 break;
             }
 
-            _reading = false;
-            Change?.Invoke(_player, _opponent);
+            OnBegin?.Invoke(_player, _opponent);
         }
     }
 }
