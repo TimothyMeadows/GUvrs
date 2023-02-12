@@ -1,9 +1,8 @@
 ﻿using System;
-namespace GUvrs.Modules
+namespace GUvrs.Modules;
+
+public static class CrossPlatform
 {
-	public static class CrossPlatform
-	{
-        public static string GuLogPath = string.Empty;
-    }
+	public static string GuLogPath = string.Empty;
 }
 

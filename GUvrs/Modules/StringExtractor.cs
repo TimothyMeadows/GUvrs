@@ -5,19 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GUvrs.Modules
+namespace GUvrs.Modules;
+
+public static class StringExtractor
 {
-    public static class StringExtractor
+    public static string Extract(this string value, string string1, string string2)
     {
-        public static string Extract(this string value, string string1, string string2)
-        {
-            if (string.IsNullOrEmpty(value))
-                return value;
+        if (string.IsNullOrEmpty(value))
+            return value;
 
-            var index = value.LastIndexOf(string1, StringComparison.Ordinal) + string1.Length + 1;
-            var length = value.IndexOf(string2, StringComparison.Ordinal) - index;
+        var index1 = value.IndexOf(string1, StringComparison.Ordinal) + string1.Length;
+        var step = value.Substring(index1);
+        var length = step.IndexOf(string2, StringComparison.Ordinal);
 
-            return value.Substring(index, length);
-        }
+        return value.Substring(index1, length);
     }
 }
