@@ -42,6 +42,7 @@ public partial class MainPage : ContentPage
     private void OnStart(GameStartModel model)
     {
         GameID.Render(() => GameID.Text = model.GameId);
+        CopyGameID.Render(() => CopyGameID.IsVisible = true);
     }
 
     private void OnBegin(GameBeginModel model)
@@ -51,8 +52,11 @@ public partial class MainPage : ContentPage
 
         PlayerID.Render(() => PlayerID.Text = _player.ID);
         PlayerName.Render(() => PlayerName.Text = _player.Name);
+        CopyPlayerID.Render(() => CopyPlayerID.IsVisible = true);
+
         OpponentID.Render(() => OpponentID.Text = _opponent.ID);
         OpponentName.Render(() => OpponentName.Text = _opponent.Name);
+        CopyOpponentID.Render(() => CopyOpponentID.IsVisible = true);
     }
 
     private void OnIDClick(string id)

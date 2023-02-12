@@ -65,6 +65,9 @@
 	  <None Remove="Models\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\copyicon.png" />
+	</ItemGroup>
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<DefineConstants>WINDOWS</DefineConstants>
 	</PropertyGroup>

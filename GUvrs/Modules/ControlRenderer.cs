@@ -1,6 +1,6 @@
 ﻿namespace GUvrs.Modules;
 
-public static class LabelRenderer
+public static class ControlRenderer
 {
     public static void Render(this Label label, Action action)
     {
@@ -8,7 +8,22 @@ public static class LabelRenderer
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                LabelRenderer.Render(label, action);
+                ControlRenderer.Render(label, action);
+            });
+
+            return;
+        }
+
+        action?.Invoke();
+    }
+
+    public static void Render(this ImageButton button, Action action)
+    {
+        if (!MainThread.IsMainThread)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                ControlRenderer.Render(button, action);
             });
 
             return;
