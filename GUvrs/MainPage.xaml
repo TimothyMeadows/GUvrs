@@ -42,7 +42,12 @@
                          MinimumWidthRequest="24"
                          MaximumHeightRequest="24"
                          MinimumHeightRequest="24"
-                         HeightRequest="24" />
+                         HeightRequest="24">
+                        <ImageButton.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                        </ImageButton.GestureRecognizers>
+                    </ImageButton>
                 </StackLayout>
 
                 <Label
@@ -97,7 +102,12 @@
                          MinimumWidthRequest="24"
                          MaximumHeightRequest="24"
                          MinimumHeightRequest="24"
-                         HeightRequest="24" />
+                         HeightRequest="24">
+                        <ImageButton.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                        </ImageButton.GestureRecognizers>
+                    </ImageButton>
                 </StackLayout>
 
                 <Label
@@ -152,7 +162,12 @@
                          MinimumWidthRequest="24"
                          MaximumHeightRequest="24"
                          MinimumHeightRequest="24"
-                         HeightRequest="24" />
+                         HeightRequest="24">
+                        <ImageButton.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                        </ImageButton.GestureRecognizers>
+                    </ImageButton>
                 </StackLayout>
             </StackLayout>
         </VerticalStackLayout>
