@@ -1,7 +1,4 @@
-﻿using Microsoft.Maui.Platform;
-using MainThread = Microsoft.Maui.ApplicationModel.MainThread;
-
-namespace GUvrs;
+﻿namespace GUvrs;
 using Models;
 using Modules;
 
@@ -16,8 +13,9 @@ public partial class MainPage : ContentPage
         InitializeComponent();
 
         _log = new GuDebugLog();
-        _log.Change += OnChange;
-        
+        _log.OnBegin += OnBegin;
+        _log.OnStart += OnStart;
+
         PlayerID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
             Command = new Command(() => OnIDClick(_player?.ID)),
@@ -41,26 +39,25 @@ public partial class MainPage : ContentPage
         });
     }
 
-    private void OnChange(PlayerModel player, PlayerModel opponent)
+    private void OnStart(GameStartModel model)
     {
-        _player = player;
-        _opponent = opponent;
-
-        RenderPlayerDataOnThread();
+        GameID.Render(() => GameID.Text = model.GameId);
     }
 
-    private void OnResetClick(object sender, EventArgs e)
+    private void OnBegin(GameBeginModel model)
     {
-        _player = null;
-        _opponent = null;
+        _player = model?.Player;
+        _opponent = model?.Opponnent;
 
-        RenderPlayerDataOnThread();
-        _log.Reset();
+        PlayerID.Render(() => PlayerID.Text = _player.ID);
+        PlayerName.Render(() => PlayerName.Text = _player.Name);
+        OpponentID.Render(() => OpponentID.Text = _opponent.ID);
+        OpponentName.Render(() => OpponentName.Text = _opponent.Name);
     }
 
-    private void OnIDClick(long? id)
+    private void OnIDClick(string id)
     {
-        if (id is null or 0 or < 0)
+        if (string.IsNullOrEmpty(id) || id == "-1")
             return;
 
         Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={id}");
@@ -85,32 +82,6 @@ public partial class MainPage : ContentPage
 #if WINDOWS
         PlayerID.WindowsHandCursor(false);
 #endif
-    }
-
-    private void RenderPlayerDataOnThread()
-    {
-        if (!MainThread.IsMainThread)
-            MainThread.BeginInvokeOnMainThread(RenderPlayerData);
-        else
-            RenderPlayerData();
-    }
-
-    private void RenderPlayerData()
-    {
-
-        if (_player == null || _opponent == null)
-        {
-            PlayerID.Text = string.Empty;
-            PlayerName.Text = string.Empty;
-            OpponentID.Text = string.Empty;
-            OpponentName.Text = string.Empty;
-            return;
-        }
-
-        PlayerID.Text = _player.ID.ToString();
-        PlayerName.Text = _player.Name;
-        OpponentID.Text = _opponent.ID.ToString();
-        OpponentName.Text = _opponent.Name;
     }
 
     protected override Size MeasureOverride(double widthConstraint, double heightConstraint)

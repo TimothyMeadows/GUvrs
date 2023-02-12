@@ -2,114 +2,121 @@
 using System.Threading;
 using GUvrs.Models;
 
-namespace GUvrs.Modules
+namespace GUvrs.Modules;
+
+public class GuDebugLog
 {
-	public class GuDebugLog
-	{
-        private readonly FileSystemWatcher _watcher;
-        private bool _reading;
-        private PlayerModel _player;
-        private PlayerModel _opponent;
+    private readonly FileSystemWatcher _watcher;
 
-        public delegate void ChangeHandler(PlayerModel player, PlayerModel opponent);
-        public event ChangeHandler Change;
+    public delegate void GameStartHandler(GameStartModel model);
+    public event GameStartHandler OnStart;
+    private bool _onStartFired = false;
 
-        public GuDebugLog()
-		{
-            _watcher = new FileSystemWatcher();
-            _watcher.Path = CrossPlatform.GuLogPath;
-            _watcher.Filter = "*.log";
-            _watcher.NotifyFilter = NotifyFilters.Security | NotifyFilters.Size | NotifyFilters.LastWrite | NotifyFilters.LastAccess;
-            _watcher.EnableRaisingEvents = true;
+    public delegate void GameStopHandler(GameStopModel model);
+    public event GameStopHandler OnStop;
+    private bool _onStopFired = false;
 
-            _watcher.Changed += Changed;
-            _watcher.Deleted += Deleted;
+    public delegate void GameBeginHandler(GameBeginModel model);
+    public event GameBeginHandler OnBegin;
+    private bool _onBeginFired = false;
 
-            _reading = false;
-        }
+    public delegate void GameEndHandler();
+    public event GameEndHandler OnEnd;
+    private bool _onEndFired = false;
 
-        public void Reset()
+    public GuDebugLog()
+    {
+        _watcher = new FileSystemWatcher();
+        _watcher.Path = CrossPlatform.GuLogPath;
+        _watcher.Filter = "*.log";
+        _watcher.NotifyFilter = NotifyFilters.Security | NotifyFilters.Size | NotifyFilters.LastWrite | NotifyFilters.LastAccess;
+        _watcher.EnableRaisingEvents = true;
+
+        _watcher.Changed += Changed;
+        _watcher.Deleted += Deleted;
+    }
+
+    private void Deleted(object sender, FileSystemEventArgs e)
+    {
+        OnEnd?.Invoke();
+    }
+
+    private void Changed(object sender, FileSystemEventArgs e)
+    {
+        var file = File.ReadAllText($"{CrossPlatform.GuLogPath}/debug.log");
+        var lines = file.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var line in lines)
         {
-            _player = null;
-            _opponent = null;
-        }
-
-        private void Deleted(object sender, FileSystemEventArgs e)
-        {
-            Reset();
-            Change?.Invoke(null, null);
-        }
-
-        private void Changed(object sender, FileSystemEventArgs e)
-        {
-            if (_player == null && _opponent == null)
-                ReadLog();
-        }
-
-        private void ReadLog()
-        {
-            if (_reading)
-                return;
-
-            _reading = true;
-            var timeout = 0;
-            while(true)
+            if (!_onStartFired && line.Contains("gameID:") && line.Contains("player 0 name:") && line.Contains("player 1 name:"))
             {
-                var file = File.ReadAllText($"{CrossPlatform.GuLogPath}/debug.log");
-                var lines = file.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (var line in lines)
+                OnStart?.Invoke(new GameStartModel()
                 {
-                    if (line.Contains("p:PlayerInfo") && line.Contains("o:PlayerInfo"))
-                    {
-                        var playerInfo = line.Split(new string[] { "p:PlayerInfo(" }, StringSplitOptions.None)[1].Split(')')[0];
-                        var opponentInfo = line.Split(new string[] { "o:PlayerInfo(" }, StringSplitOptions.None)[1].Split(')')[0];
+                    GameId = line.Extract("gameID: '", "' "),
+                    Player0 = line.Extract("player 0 name: '", "',"),
+                    Player1 = line.Extract("player 1 name: '", "')")
+                });
 
-                        if (string.IsNullOrEmpty(playerInfo) || string.IsNullOrEmpty(opponentInfo))
-                            continue;
-                        else
-                        {
-                            var playerProperties = playerInfo.Split(',', ' ', StringSplitOptions.RemoveEmptyEntries);
-                            _player = new PlayerModel();
-                            foreach (var playerProperty in playerProperties)
-                            {
-
-                                if (playerProperty.Contains("apolloId"))
-                                    _player.ID = Convert.ToInt64(playerProperty.Split(':', StringSplitOptions.TrimEntries)[1]);
-
-                                if (playerProperty.Contains("nickName"))
-                                    _player.Name = playerProperty.Split(':', StringSplitOptions.TrimEntries)[1];
-                            }
-
-                            var opponentProperties = opponentInfo.Split(',', ' ', StringSplitOptions.RemoveEmptyEntries);
-                            _opponent = new PlayerModel();
-                            foreach (var opponentProperty in opponentProperties)
-                            {
-                                if (opponentProperty.Contains("apolloId"))
-                                    _opponent.ID = Convert.ToInt64(opponentProperty.Split(':', StringSplitOptions.TrimEntries)[1]);
-
-                                if (opponentProperty.Contains("nickName"))
-                                    _opponent.Name = opponentProperty.Split(':', StringSplitOptions.TrimEntries)[1];
-                            }
-                        }
-                    }
-                }
-
-                if (_player == null || _opponent == null)
-                {
-                    Thread.Sleep(TimeSpan.FromSeconds(1));
-                    timeout++;
-
-                    if (timeout <= 320)
-                        continue;
-                }
-
-                break;
+                _onStartFired = true;
+                _onEndFired = false;
             }
 
-            _reading = false;
-            Change?.Invoke(_player, _opponent);
+            if (!_onBeginFired && line.Contains("p:PlayerInfo") && line.Contains("o:PlayerInfo"))
+            {
+                var playerInfoLine = line.Extract("p:PlayerInfo(", "),");
+                var playerInfo = GetPlayerInfo(playerInfoLine);
+                var opponentInfoLine = line.Extract("o:PlayerInfo(", "))");
+                var opponentInfo = GetPlayerInfo(opponentInfoLine);
+
+                OnBegin?.Invoke(new GameBeginModel()
+                {
+                    Player = new PlayerModel()
+                    {
+                        ID = playerInfo.GetValueOrDefault("apolloId"),
+                        Name = playerInfo.GetValueOrDefault("nickName")
+                    },
+                    Opponnent = new PlayerModel()
+                    {
+                        ID = opponentInfo.GetValueOrDefault("apolloId"),
+                        Name = opponentInfo.GetValueOrDefault("nickName")
+                    }
+                });
+
+                _onBeginFired = true;
+            }
+
+            if (!_onStopFired & line.Contains("GameNetworkManager.StopClient:"))
+            {
+                OnStop?.Invoke(new GameStopModel()
+                {
+                    Concede = line.Contains("ClientAPI.CloseClient"),
+                    Won = line.Contains("LocalPlayer won")
+                });
+
+                _onStopFired = true;
+            }
+
+            if (!_onEndFired && line.Contains("OnLeftGameLoading.Start"))
+            {
+                _onEndFired = true;
+                _onStartFired = false;
+                _onBeginFired = false;
+                _onStopFired = false;
+            }
         }
+    }
+
+    private Dictionary<string, string> GetPlayerInfo(string value)
+    {
+        var playerInfo = new Dictionary<string, string>();
+        var properties = value.Split(',', StringSplitOptions.TrimEntries);
+        foreach (var property in properties)
+        {
+            var keyValue = property.Split(':', StringSplitOptions.TrimEntries);
+            playerInfo.Add(keyValue[0], keyValue[1]);
+        }
+
+        return playerInfo;
     }
 }
 
