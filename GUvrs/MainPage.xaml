@@ -28,7 +28,26 @@
                         Text=""
                         FontSize="18"
                         TextColor="Black"
+                        MaximumWidthRequest="350"
                         HorizontalOptions="Center" />
+
+                    <ImageButton
+                         x:Name="CopyGameID"
+                         Source="copyicon.png"
+                         IsVisible="false"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Start"
+                         WidthRequest="24"
+                         MaximumWidthRequest="24"
+                         MinimumWidthRequest="24"
+                         MaximumHeightRequest="24"
+                         MinimumHeightRequest="24"
+                         HeightRequest="24">
+                        <ImageButton.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                        </ImageButton.GestureRecognizers>
+                    </ImageButton>
                 </StackLayout>
 
                 <Label
@@ -71,6 +90,24 @@
                                                       PointerExited="OnHideHandPointer" />
                         </Label.GestureRecognizers>
                     </Label>
+
+                    <ImageButton
+                         x:Name="CopyPlayerID"
+                         Source="copyicon.png"
+                         IsVisible="false"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Start"
+                         WidthRequest="24"
+                         MaximumWidthRequest="24"
+                         MinimumWidthRequest="24"
+                         MaximumHeightRequest="24"
+                         MinimumHeightRequest="24"
+                         HeightRequest="24">
+                        <ImageButton.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                        </ImageButton.GestureRecognizers>
+                    </ImageButton>
                 </StackLayout>
 
                 <Label
@@ -113,6 +150,24 @@
                                                       PointerExited="OnHideHandPointer" />
                         </Label.GestureRecognizers>
                     </Label>
+
+                    <ImageButton
+                         x:Name="CopyOpponentID"
+                         Source="copyicon.png"
+                         IsVisible="false"
+                         HorizontalOptions="Start"
+                         VerticalOptions="Start"
+                         WidthRequest="24"
+                         MaximumWidthRequest="24"
+                         MinimumWidthRequest="24"
+                         MaximumHeightRequest="24"
+                         MinimumHeightRequest="24"
+                         HeightRequest="24">
+                        <ImageButton.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                        </ImageButton.GestureRecognizers>
+                    </ImageButton>
                 </StackLayout>
             </StackLayout>
         </VerticalStackLayout>

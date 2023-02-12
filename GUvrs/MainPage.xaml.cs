@@ -5,6 +5,7 @@ using Modules;
 public partial class MainPage : ContentPage
 {
     private readonly GuDebugLog _log;
+    private string _gameId = string.Empty;
     private PlayerModel _player;
     private PlayerModel _opponent;
 
@@ -15,6 +16,17 @@ public partial class MainPage : ContentPage
         _log = new GuDebugLog();
         _log.OnBegin += OnBegin;
         _log.OnStart += OnStart;
+
+        CopyGameID.GestureRecognizers.Add(new ClickGestureRecognizer()
+        {
+            Command = new Command(() => OnCopyIDClick(_gameId)),
+            NumberOfClicksRequired = 1
+        });
+
+        CopyGameID.GestureRecognizers.Add(new TapGestureRecognizer()
+        {
+            Command = new Command(() => OnCopyIDClick(_gameId))
+        });
 
         PlayerID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
@@ -27,6 +39,17 @@ public partial class MainPage : ContentPage
             Command = new Command(() => OnIDClick(_player?.ID))
         });
 
+        CopyPlayerID.GestureRecognizers.Add(new ClickGestureRecognizer()
+        {
+            Command = new Command(() => OnCopyIDClick(_player?.ID)),
+            NumberOfClicksRequired = 1
+        });
+
+        CopyPlayerID.GestureRecognizers.Add(new TapGestureRecognizer()
+        {
+            Command = new Command(() => OnCopyIDClick(_player?.ID))
+        });
+
         OpponentID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
             Command = new Command(() => OnIDClick(_opponent?.ID)),
@@ -37,11 +60,24 @@ public partial class MainPage : ContentPage
         {
             Command = new Command(() => OnIDClick(_opponent?.ID))
         });
+
+        CopyOpponentID.GestureRecognizers.Add(new ClickGestureRecognizer()
+        {
+            Command = new Command(() => OnCopyIDClick(_opponent?.ID)),
+            NumberOfClicksRequired = 1
+        });
+
+        CopyOpponentID.GestureRecognizers.Add(new TapGestureRecognizer()
+        {
+            Command = new Command(() => OnCopyIDClick(_opponent?.ID))
+        });
     }
 
     private void OnStart(GameStartModel model)
     {
+        _gameId = model.GameId;
         GameID.Render(() => GameID.Text = model.GameId);
+        CopyGameID.Render(() => CopyGameID.IsVisible = true);
     }
 
     private void OnBegin(GameBeginModel model)
@@ -51,8 +87,11 @@ public partial class MainPage : ContentPage
 
         PlayerID.Render(() => PlayerID.Text = _player.ID);
         PlayerName.Render(() => PlayerName.Text = _player.Name);
+        CopyPlayerID.Render(() => CopyPlayerID.IsVisible = true);
+
         OpponentID.Render(() => OpponentID.Text = _opponent.ID);
         OpponentName.Render(() => OpponentName.Text = _opponent.Name);
+        CopyOpponentID.Render(() => CopyOpponentID.IsVisible = true);
     }
 
     private void OnIDClick(string id)
@@ -61,6 +100,15 @@ public partial class MainPage : ContentPage
             return;
 
         Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={id}");
+        return;
+    }
+
+    private void OnCopyIDClick(string id)
+    {
+        if (string.IsNullOrEmpty(id) || id == "-1")
+            return;
+
+        Clipboard.SetTextAsync(id);
         return;
     }
 
