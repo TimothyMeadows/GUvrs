@@ -188,12 +188,13 @@
                 <Label
                     Padding="10" />
 
-            <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal"  
+                             Spacing="3">
                 <Label
                     HorizontalOptions="Center">
                     <Label.FormattedText>
                         <FormattedString>
-                            <Span Text="Please report issues to "
+                            <Span Text="Please report issues to"
                                   TextColor="Black"
                                   FontSize="14"/>
                         </FormattedString>
@@ -203,7 +204,7 @@
                 <Label
                         x:Name="Github"
                         Text="github"
-                        FontSize="15"
+                        FontSize="14"
                         TextColor="Blue"
                         TextDecorations="Underline"
                         HorizontalOptions="Center">
