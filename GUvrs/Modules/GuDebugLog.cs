@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading;
 using GUvrs.Models;
 
@@ -33,19 +34,19 @@ public class GuDebugLog
         _watcher.EnableRaisingEvents = true;
 
         _watcher.Changed += Changed;
-        _watcher.Deleted += Deleted;
-    }
-
-    private void Deleted(object sender, FileSystemEventArgs e)
-    {
-        OnEnd?.Invoke();
     }
 
     private void Changed(object sender, FileSystemEventArgs e)
     {
-        var file = File.ReadAllText($"{CrossPlatform.GuLogPath}/debug.log");
-        var lines = file.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        var debugPath = $"{CrossPlatform.GuLogPath}/debug.log";
+        if (!File.Exists(debugPath))
+            return;
 
+        var (result, file) = CopyAndReadAllText(debugPath);
+        if (!result)
+            return;
+
+        var lines = file.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         foreach (var line in lines)
         {
             if (!_onStartFired && line.Contains("gameID:") && line.Contains("player 0 name:") && line.Contains("player 1 name:"))
@@ -85,7 +86,7 @@ public class GuDebugLog
                 _onBeginFired = true;
             }
 
-            if (!_onStopFired & line.Contains("GameNetworkManager.StopClient:"))
+            if (!_onStopFired & line.Contains("GameNetworkManager.StopClient"))
             {
                 OnStop?.Invoke(new GameStopModel()
                 {
@@ -98,11 +99,31 @@ public class GuDebugLog
 
             if (!_onEndFired && line.Contains("OnLeftGameLoading.Start"))
             {
+                OnEnd?.Invoke();
+
                 _onEndFired = true;
                 _onStartFired = false;
                 _onBeginFired = false;
                 _onStopFired = false;
+
+                if (File.Exists($"{debugPath}.guvrs"))
+                    File.Delete($"{debugPath}.guvrs");
             }
+        }
+    }
+
+    private (bool, string) CopyAndReadAllText(string path)
+    {
+        try
+        {
+            var copyPath = $"{path}.guvrs";
+            File.Copy(path, copyPath, true);
+            var file = File.ReadAllText(copyPath, Encoding.UTF8);
+            return (true, file);
+        }
+        catch (IOException)
+        {
+            return (false, string.Empty);
         }
     }
 

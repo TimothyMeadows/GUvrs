@@ -16,6 +16,7 @@ public partial class MainPage : ContentPage
         _log = new GuDebugLog();
         _log.OnBegin += OnBegin;
         _log.OnStart += OnStart;
+        _log.OnEnd += OnEnd;
 
         CopyGameID.GestureRecognizers.Add(new ClickGestureRecognizer()
         {
@@ -82,6 +83,16 @@ public partial class MainPage : ContentPage
         {
             Command = new Command(() => OnGithubClick())
         });
+    }
+
+    private void OnEnd()
+    {
+        GameID.Render(() => GameID.Text = string.Empty);
+        CopyGameID.Render(() => CopyGameID.IsVisible = false);
+
+        OpponentID.Render(() => OpponentID.Text = string.Empty);
+        OpponentName.Render(() => OpponentName.Text = string.Empty);
+        CopyOpponentID.Render(() => CopyOpponentID.IsVisible = false);
     }
 
     private void OnStart(GameStartModel model)
