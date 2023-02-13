@@ -13,7 +13,22 @@
                 Padding="30,0">
 
                 <Label
-                    Padding="45"/>
+                    Padding="15"/>
+
+                <Label
+                    MaximumWidthRequest="300"
+                    HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="This is a simple application for checking the Gods Unchained debug log for you, and your opponents profile ids during a game."
+                                  TextColor="Black"
+                                  FontSize="14"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label
+                    Padding="10"/>
 
                 <StackLayout Orientation="Horizontal" 
                              Spacing="5">
@@ -169,7 +184,41 @@
                         </ImageButton.GestureRecognizers>
                     </ImageButton>
                 </StackLayout>
+
+                <Label
+                    Padding="10" />
+
+            <StackLayout Orientation="Horizontal">
+                <Label
+                    HorizontalOptions="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Please report issues to "
+                                  TextColor="Black"
+                                  FontSize="14"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Label
+                        x:Name="Github"
+                        Text="github"
+                        FontSize="15"
+                        TextColor="Blue"
+                        TextDecorations="Underline"
+                        HorizontalOptions="Center">
+                     <Label.GestureRecognizers>
+                            <PointerGestureRecognizer PointerEntered="OnShowHandPointer"
+                                                      PointerExited="OnHideHandPointer" />
+                     </Label.GestureRecognizers>
+                </Label>
             </StackLayout>
+
+             <Label
+                    Padding="5" />
+        </StackLayout>
+
+            
         </VerticalStackLayout>
     </ScrollView>
 
