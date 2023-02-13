@@ -71,6 +71,17 @@ public partial class MainPage : ContentPage
         {
             Command = new Command(() => OnCopyIDClick(_opponent?.ID))
         });
+
+        Github.GestureRecognizers.Add(new ClickGestureRecognizer()
+        {
+            Command = new Command(() => OnGithubClick()),
+            NumberOfClicksRequired = 1
+        });
+
+        Github.GestureRecognizers.Add(new TapGestureRecognizer()
+        {
+            Command = new Command(() => OnGithubClick())
+        });
     }
 
     private void OnStart(GameStartModel model)
@@ -92,6 +103,11 @@ public partial class MainPage : ContentPage
         OpponentID.Render(() => OpponentID.Text = _opponent.ID);
         OpponentName.Render(() => OpponentName.Text = _opponent.Name);
         CopyOpponentID.Render(() => CopyOpponentID.IsVisible = true);
+    }
+
+    private void OnGithubClick()
+    {
+        Browser.OpenAsync("https://github.com/TimothyMeadows/GUvrs/issues/new");
     }
 
     private void OnIDClick(string id)
