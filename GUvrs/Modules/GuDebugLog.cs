@@ -53,7 +53,7 @@ public class GuDebugLog
         if (!File.Exists(debugPath))
             return;
 
-        var (result, file) = CopyAndReadAllText(debugPath);
+        var (result, file) = ReadAllText(debugPath);
         if (!result)
             return;
 
@@ -124,7 +124,7 @@ public class GuDebugLog
         }
     }
 
-    private (bool, string) CopyAndReadAllText(string path)
+    private (bool, string) ReadAllText(string path)
     {
         try
         {
