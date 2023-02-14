@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using AppKit;
+﻿using AppKit;
 
 public static partial class Cursor
 {

@@ -1,4 +1,5 @@
 ﻿namespace GUvrs;
+
 using Models;
 using Modules;
 
@@ -175,4 +176,3 @@ public partial class MainPage : ContentPage
         return base.MeasureOverride(100, 100);
     }
 }
-

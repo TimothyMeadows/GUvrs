@@ -1,8 +1,5 @@
-﻿using System;
-using System.Text;
-using System.Threading;
+﻿using System.Text;
 using GUvrs.Models;
-using Microsoft.Maui.Controls.Shapes;
 
 namespace GUvrs.Modules;
 
@@ -26,7 +23,6 @@ public class GuDebugLog
 
     public delegate void GameEndHandler();
     public event GameEndHandler OnEnd;
-    private bool _onEndFired = false;
 
     public GuDebugLog()
     {
@@ -74,7 +70,6 @@ public class GuDebugLog
                 });
 
                 _onStartFired = true;
-                _onEndFired = false;
                 continue;
             }
 
@@ -122,7 +117,6 @@ public class GuDebugLog
 
                 OnEnd?.Invoke();
 
-                _onEndFired = true;
                 _onStartFired = false;
                 _onBeginFired = false;
                 _onStopFired = false;
@@ -161,4 +155,3 @@ public class GuDebugLog
         return playerInfo;
     }
 }
-

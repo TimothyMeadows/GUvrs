@@ -2,10 +2,10 @@
 
 public partial class AppShell : Shell
 {
-	public AppShell()
-	{
-		InitializeComponent();
-	}
+    public AppShell()
+    {
+        InitializeComponent();
+    }
 
     protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
     {
