@@ -1,10 +1,4 @@
-﻿using System;
-using System.Reflection;
-using Windows.UI.Core;
-using GUvrs.WinUI;
-using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 public static partial class Cursor
 {

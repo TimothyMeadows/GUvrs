@@ -1,11 +1,4 @@
-﻿using Microsoft.Maui.ApplicationModel.Communication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GUvrs.Modules;
+﻿namespace GUvrs.Modules;
 
 public static class StringExtractor
 {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Threading;
+﻿using System.Text;
 using GUvrs.Models;
 
 namespace GUvrs.Modules;
@@ -8,6 +6,8 @@ namespace GUvrs.Modules;
 public class GuDebugLog
 {
     private readonly FileSystemWatcher _watcher;
+    private Timer _timer;
+    private bool _onTick = false;
 
     public delegate void GameStartHandler(GameStartModel model);
     public event GameStartHandler OnStart;
@@ -23,10 +23,11 @@ public class GuDebugLog
 
     public delegate void GameEndHandler();
     public event GameEndHandler OnEnd;
-    private bool _onEndFired = false;
 
     public GuDebugLog()
     {
+        _timer = new Timer(Tick, null, 0, 3000);
+
         _watcher = new FileSystemWatcher();
         _watcher.Path = CrossPlatform.GuLogPath;
         _watcher.Filter = "*.log";
@@ -38,6 +39,16 @@ public class GuDebugLog
 
     private void Changed(object sender, FileSystemEventArgs e)
     {
+        if (e.Name?.ToLower() == "debug.log")
+            _onTick = true;
+    }
+
+    private void Tick(object sender)
+    {
+        if (!_onTick)
+            return;
+
+        _onTick = false;
         var debugPath = $"{CrossPlatform.GuLogPath}/debug.log";
         if (!File.Exists(debugPath))
             return;
@@ -59,7 +70,7 @@ public class GuDebugLog
                 });
 
                 _onStartFired = true;
-                _onEndFired = false;
+                continue;
             }
 
             if (!_onBeginFired && line.Contains("p:PlayerInfo") && line.Contains("o:PlayerInfo"))
@@ -84,9 +95,10 @@ public class GuDebugLog
                 });
 
                 _onBeginFired = true;
+                continue;
             }
 
-            if (!_onStopFired & line.Contains("GameNetworkManager.StopClient"))
+            if (!_onStopFired && line.Contains("GameNetworkManager.StopClient"))
             {
                 OnStop?.Invoke(new GameStopModel()
                 {
@@ -95,19 +107,22 @@ public class GuDebugLog
                 });
 
                 _onStopFired = true;
+                continue;
             }
 
-            if (!_onEndFired && line.Contains("OnLeftGameLoading.Start"))
+            if (file.Contains("Ending the game"))
             {
+                if (File.Exists($"{debugPath}.guvrs"))
+                    File.Delete($"{debugPath}.guvrs");
+
                 OnEnd?.Invoke();
 
-                _onEndFired = true;
                 _onStartFired = false;
                 _onBeginFired = false;
                 _onStopFired = false;
 
-                if (File.Exists($"{debugPath}.guvrs"))
-                    File.Delete($"{debugPath}.guvrs");
+                _onTick = false;
+                return;
             }
         }
     }
@@ -140,4 +155,3 @@ public class GuDebugLog
         return playerInfo;
     }
 }
-
