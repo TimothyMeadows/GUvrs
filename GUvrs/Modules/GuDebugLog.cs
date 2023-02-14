@@ -104,17 +104,14 @@ public class GuDebugLog
                 {
                     Concede = line.Contains("ClientAPI.CloseClient"),
                     Won = line.Contains("LocalPlayer won")
-                });
+                }); 
 
                 _onStopFired = true;
                 continue;
             }
 
-            if (file.Contains("Ending the game"))
+            if (line.Contains("Ending the game"))
             {
-                if (File.Exists($"{debugPath}.guvrs"))
-                    File.Delete($"{debugPath}.guvrs");
-
                 OnEnd?.Invoke();
 
                 _onStartFired = false;
@@ -131,9 +128,7 @@ public class GuDebugLog
     {
         try
         {
-            var copyPath = $"{path}.guvrs";
-            File.Copy(path, copyPath, true);
-            var file = File.ReadAllText(copyPath, Encoding.UTF8);
+            var file = File.ReadAllText(path, Encoding.UTF8);
             return (true, file);
         }
         catch (IOException)
