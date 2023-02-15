@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using GUvrs.Models;
 
 namespace GUvrs.Modules;
@@ -26,7 +27,7 @@ public class GuDebugLog
 
     public GuDebugLog()
     {
-        _timer = new Timer(Tick, null, 0, 3000);
+        _timer = new Timer(Tick, null, 0, 1000);
 
         _watcher = new FileSystemWatcher();
         _watcher.Path = CrossPlatform.GuLogPath;
@@ -128,8 +129,15 @@ public class GuDebugLog
     {
         try
         {
-            var file = File.ReadAllText(path, Encoding.UTF8);
-            return (true, file);
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var buffer = new byte[stream.Length];
+            _ = stream.Read(buffer, 0, (int)stream.Length);
+
+            var text = string.Empty;
+            if (buffer.Length > 0)
+                text = Encoding.UTF8.GetString(buffer);
+
+            return (true, text);
         }
         catch (IOException)
         {
