@@ -139,7 +139,7 @@ public class GuDebugLog
 
             return (true, text);
         }
-        catch (IOException)
+        catch (Exception)
         {
             return (false, string.Empty);
         }
