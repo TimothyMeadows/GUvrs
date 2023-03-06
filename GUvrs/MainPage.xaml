@@ -36,15 +36,17 @@
                         Text="Game ID: "
                         FontSize="18"
                         TextColor="Black"
-                        HorizontalOptions="Center" />
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
 
                     <Label
                         x:Name="GameID"
                         Text=""
-                        FontSize="18"
+                        FontSize="12"
                         TextColor="Black"
                         MaximumWidthRequest="350"
-                        HorizontalOptions="Center" />
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
 
                     <ImageButton
                          x:Name="CopyGameID"
