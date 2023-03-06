@@ -111,7 +111,7 @@ public class GuDebugLog
                 continue;
             }
 
-            if (line.Contains("Ending the game"))
+            if (line.Contains("Ending the game") || line.Contains("Send Terminate Message"))
             {
                 OnEnd?.Invoke();
 
