@@ -1,5 +1,5 @@
 # GU versus 
-This is a simple application for checking the Gods Unchained debug log for you, and your opponents profile ids during a game. You can click on the profile ids to load up the respective GUdecks profile.
+This is a simple application for checking the Gods Unchained debug log for you, and your opponents profile ids during a game. You can click on the profile ids to load up the respective GU decks profile.
 
 # Screenshot
 
