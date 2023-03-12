@@ -19,4 +19,12 @@ public static class Startup
         if (!Directory.Exists(CrossPlatform.GuLogPath))
             Directory.CreateDirectory(CrossPlatform.GuLogPath);
     }
+
+    public static void Android()
+    {
+        CrossPlatform.GuLogPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "data",
+            "com.immutable.godsunchained", "files");
+        if (!Directory.Exists(CrossPlatform.GuLogPath))
+            Directory.CreateDirectory(CrossPlatform.GuLogPath);
+    }
 }
