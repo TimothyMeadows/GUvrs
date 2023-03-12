@@ -119,13 +119,16 @@ public partial class MainPage : ContentPage
         _player = model?.Player;
         _opponent = model?.Opponnent;
 
-        PlayerID.Render(() => PlayerID.Text = _player.ID);
-        PlayerName.Render(() => PlayerName.Text = _player.Name);
+        PlayerID.Render(() => PlayerID.Text = _player?.ID);
+        PlayerName.Render(() => PlayerName.Text = _player?.Name);
         CopyPlayerID.Render(() => CopyPlayerID.IsVisible = true);
 
-        OpponentID.Render(() => OpponentID.Text = _opponent.ID);
-        OpponentName.Render(() => OpponentName.Text = _opponent.Name);
+        OpponentID.Render(() => OpponentID.Text = _opponent?.ID);
+        OpponentName.Render(() => OpponentName.Text = _opponent?.Name);
         CopyOpponentID.Render(() => CopyOpponentID.IsVisible = true);
+
+        if (AutoOpen.IsToggled)
+            OnIDClick(_opponent?.ID);
     }
 
     private void OnGithubClick()
