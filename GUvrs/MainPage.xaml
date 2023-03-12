@@ -13,7 +13,7 @@
                 Padding="30,0">
 
                 <Label
-                    Padding="15"/>
+                    Padding="2"/>
 
                 <Label
                     MaximumWidthRequest="300"
@@ -187,8 +187,21 @@
                     </ImageButton>
                 </StackLayout>
 
+                <StackLayout Orientation="Horizontal" Spacing="5">
+                    <Label
+                        Text="Auto-Open"
+                        FontSize="14"
+                        TextColor="Black"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Start" />
+                    <Switch 
+                        x:Name="AutoOpen"
+                        IsToggled="false"
+                        OnColor="Green" />
+                </StackLayout>
+
                 <Label
-                    Padding="10" />
+                    Padding="5"/>
 
                 <StackLayout Orientation="Horizontal"  
                              Spacing="3">
@@ -202,8 +215,8 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-
-                <Label
+                    
+                    <Label
                         x:Name="Github"
                         Text="github"
                         FontSize="14"
