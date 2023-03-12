@@ -148,12 +148,16 @@ public class GuDebugLog
     private Dictionary<string, string> GetPlayerInfo(string value)
     {
         var playerInfo = new Dictionary<string, string>();
-        var properties = value.Split(',', StringSplitOptions.TrimEntries);
-        foreach (var property in properties)
-        {
-            var keyValue = property.Split(':', StringSplitOptions.TrimEntries);
-            playerInfo.Add(keyValue[0], keyValue[1]);
-        }
+
+        var propertyValue = value.Extract("nickName:", "isOnServer:")?.Trim();
+        if (!string.IsNullOrEmpty(propertyValue))
+            propertyValue = propertyValue.Substring(0, propertyValue.Length - 1);
+        playerInfo.Add("nickName", propertyValue);
+
+        propertyValue = value.Extract("apolloId:", "netId:")?.Trim();
+        if (!string.IsNullOrEmpty(propertyValue))
+            propertyValue = propertyValue.Substring(0, propertyValue.Length - 1);
+        playerInfo.Add("apolloId", propertyValue);
 
         return playerInfo;
     }
