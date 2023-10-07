@@ -1,4 +1,4 @@
-﻿namespace GUvrs.Modules;
+﻿namespace GUvrs.Components;
 
 public static class ControlRenderer
 {
@@ -11,7 +11,7 @@ public static class ControlRenderer
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                ControlRenderer.Render(label, action);
+                label.Render(action);
             });
 
             return;
@@ -26,7 +26,7 @@ public static class ControlRenderer
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                ControlRenderer.Render(button, action);
+                button.Render(action);
             });
 
             return;

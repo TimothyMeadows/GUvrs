@@ -1,4 +1,4 @@
-﻿using GUvrs.Modules;
+﻿using GUvrs.Components;
 
 namespace GUvrs;
 

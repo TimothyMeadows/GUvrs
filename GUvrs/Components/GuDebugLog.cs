@@ -2,7 +2,7 @@
 using System.Text;
 using GUvrs.Models;
 
-namespace GUvrs.Modules;
+namespace GUvrs.Components;
 
 public class GuDebugLog
 {
@@ -105,7 +105,7 @@ public class GuDebugLog
                 {
                     Concede = line.Contains("ClientAPI.CloseClient"),
                     Won = line.Contains("LocalPlayer won")
-                }); 
+                });
 
                 _onStopFired = true;
                 continue;

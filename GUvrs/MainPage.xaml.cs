@@ -1,7 +1,7 @@
 ﻿namespace GUvrs;
 
+using GUvrs.Components;
 using Models;
-using Modules;
 
 public partial class MainPage : ContentPage
 {

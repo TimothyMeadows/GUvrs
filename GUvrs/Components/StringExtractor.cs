@@ -1,4 +1,4 @@
-﻿namespace GUvrs.Modules;
+﻿namespace GUvrs.Components;
 
 public static class StringExtractor
 {
