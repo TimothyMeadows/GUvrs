@@ -1,8 +1,10 @@
 ﻿namespace GUvrs;
 
 using GUvrs.Components;
+using GUvrs.Models.Views;
 using GUvrs.Views;
 using Models;
+using System.Xml.Linq;
 
 public partial class MainPage : ContentPage
 {
@@ -10,10 +12,17 @@ public partial class MainPage : ContentPage
     private string _gameId = string.Empty;
     private PlayerModel _player;
     private PlayerModel _opponent;
+    private readonly DefaultMainPageViewModel _defaults;
 
     public MainPage()
     {
         InitializeComponent();
+
+        _defaults = new DefaultMainPageViewModel();
+        WebView.Source = new HtmlWebViewSource()
+        {
+            Html = ViewEngine.Render("MainPage.index", _defaults)
+        };
 
         _log = new GuDebugLog();
         _log.OnBegin += OnBegin;
@@ -24,25 +33,85 @@ public partial class MainPage : ContentPage
 
     private void OnEnd()
     {
+        _SetValues(new Dictionary<string, string>
+        {
+            { "GUVRS_GAME_ID", _defaults.GUVRS_GAME_ID },
+            { "GUVRS_OPPONENT_DECKCODE", _defaults.GUVRS_OPPONENT_DECKCODE },
+            { "GUVRS_OPPONENT_GUID", _defaults.GUVRS_OPPONENT_GUID },
+            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME },
+            { "GUVRS_OPPONENT_RANK", _defaults.GUVRS_OPPONENT_RANK },
+            { "GUVRS_OPPONENT_RANK_PROGRESS", _defaults.GUVRS_OPPONENT_RANK_PROGRESS },
+            { "GUVRS_PLAYER_DECKCODE", _defaults.GUVRS_PLAYER_DECKCODE }
+        });
     }
 
     private void OnStop(GameStopModel model)
     {
+        _SetValues(new Dictionary<string, string>
+        {
+            { "GUVRS_GAME_ID", _defaults.GUVRS_GAME_ID },
+            { "GUVRS_OPPONENT_DECKCODE", _defaults.GUVRS_OPPONENT_DECKCODE },
+            { "GUVRS_OPPONENT_GUID", _defaults.GUVRS_OPPONENT_GUID },
+            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME },
+            { "GUVRS_OPPONENT_RANK", _defaults.GUVRS_OPPONENT_RANK },
+            { "GUVRS_OPPONENT_RANK_PROGRESS", _defaults.GUVRS_OPPONENT_RANK_PROGRESS },
+            { "GUVRS_PLAYER_DECKCODE", _defaults.GUVRS_PLAYER_DECKCODE }
+        });
+
+        // TODO: Update player profile to get latest rank / rank progress, this way the cached values reflect current
     }
 
     private void OnStart(GameStartModel model)
     {
         _gameId = model?.GameId;
+
+        _SetValue("GUVRS_GAME_ID", _gameId);
+
+        // TODO: Update player, and opponent profile to get latest rank / rank progress
     }
 
     private void OnBegin(GameBeginModel model)
     {
         _player = model?.Player;
         _opponent = model?.Opponnent;
+
+        _SetValues(new Dictionary<string, string>
+        {
+            { "GUVRS_PLAYER_NAME", _player?.Name },
+            { "GUVRS_PLAYER_GUID", _player?.ID },
+            { "GUVRS_OPPONENT_NAME", _opponent?.Name },
+            { "GUVRS_OPPONENT_GUID", _opponent?.ID }
+        });
+    }
+
+    private void _SetValues(Dictionary<string, string> values)
+    {
+        foreach (var current in values)
+        {
+            ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_value('{current.Key}', '{current.Value}');"));
+        }
+    }
+
+    private void _SetValue(string name, string value)
+    {
+        ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_value('{name}', '{value}');"));
+    }
+
+    private void _SetProgress(string name, string value)
+    {
+        ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_progress('{name}', '{value}');"));
+    }
+
+    private void _SetProgresses(Dictionary<string, string> progresses)
+    {
+        foreach (var current in progresses)
+        {
+            ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_progress('{current.Key}', '{current.Value}');"));
+        }
     }
 
     protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
     {
-        return base.MeasureOverride(100, 100);
+        return base.MeasureOverride(300, 300);
     }
 }

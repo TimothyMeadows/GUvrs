@@ -1,24 +1,24 @@
 ﻿<div class="container">
     <div class="header">
-        Game: {{ GUVRS_GAME_ID }}
+        GUvrs - v3.0.0
         <button class="settings-btn"><i title="Click to open settings window" class="fas fa-cog"></i></button>
     </div>
 
     <div class="content">
         <div class="pane" id="player1">
-            <h1>{{ GUVRS_PLAYER_NAME }}</h1>
+            <h1 id="GUVRS_PLAYER_NAME">{{ GUVRS_PLAYER_NAME }}</h1>
             <div class="data-row">
                 <span class="data-label">Guid:</span>
-                <span class="data-value"><a title="Click to open deck in gudecks.com" class="guid" href="#">{{ GUVRS_PLAYER_GUID }}</a> <i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i></span>
+                <span class="data-value"><a id="GUVRS_PLAYER_GUID" title="Click to open deck in gudecks.com" class="guid" href="#">{{ GUVRS_PLAYER_GUID }}</a> <i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i></span>
             </div>
 
             <div class="data-row">
                 <span class="data-label">Rank:</span>
-                <span class="data-value">{{ GUVRS_PLAYER_RANK }}</span>
+                <span id="GUVRS_PLAYER_RANK" class="data-value">{{ GUVRS_PLAYER_RANK }}</span>
             </div>
 
             <div class="xp-bar">
-                <div class="xp-progress" style="width: {{ GUVRS_PLAYER_RANK_PROGRESS }}%"></div>
+                <div id="GUVRS_PLAYER_RANK_PROGRESS" class="xp-progress" style="width: {{ GUVRS_PLAYER_RANK_PROGRESS }}%"></div>
                 <div class="divider"></div>
                 <div class="divider"></div>
                 <div class="divider"></div>
@@ -26,25 +26,25 @@
                 <div class="divider"></div>
             </div>
 
-            <div class="deck">
+            <div id="GUVRS_PLAYER_DECKCODE" class="deck">
                 {{ GUVRS_PLAYER_DECKCODE }}
             </div>
         </div>
 
         <div class="pane" id="player2">
-            <h1>{{ GUVRS_OPPONENT_NAME }}</h1>
+            <h1 id="GUVRS_OPPONENT_NAME">{{ GUVRS_OPPONENT_NAME }}</h1>
             <div class="data-row">
                 <span class="data-label">Guid:</span>
-                <span class="data-value"><a title="Click to open deck in gudecks.com" class="guid" href="#">{{ GUVRS_OPPONENT_GUID }}</a> <i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i></span>
+                <span class="data-value"><a id="GUVRS_OPPONENT_GUID" title="Click to open deck in gudecks.com" class="guid" href="#">{{ GUVRS_OPPONENT_GUID }}</a> <i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i></span>
             </div>
 
             <div class="data-row">
                 <span class="data-label">Rank:</span>
-                <span class="data-value">{{ GUVRS_OPPONENT_RANK }}</span>
+                <span id="GUVRS_OPPONENT_RANK" class="data-value">{{ GUVRS_OPPONENT_RANK }}</span>
             </div>
 
             <div class="xp-bar">
-                <div class="xp-progress" style="width: {{ GUVRS_OPPONENT_RANK_PROGRESS }}%"></div>
+                <div id="GUVRS_OPPONENT_RANK_PROGRESS" class="xp-progress" style="width: {{ GUVRS_OPPONENT_RANK_PROGRESS }}%"></div>
                 <div class="divider"></div>
                 <div class="divider"></div>
                 <div class="divider"></div>
@@ -52,7 +52,7 @@
                 <div class="divider"></div>
             </div>
 
-            <div class="deck">
+            <div id="GUVRS_OPPONENT_DECKCODE" class="deck">
                 {{ GUVRS_OPPONENT_DECKCODE }}
             </div>
         </div>
