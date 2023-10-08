@@ -1,0 +1,91 @@
+﻿<div class="container">
+    <div class="header">
+        Game: {{ GUVRS_GAME_ID }}
+        <button class="settings-btn"><i title="Click to open settings window" class="fas fa-cog"></i></button>
+    </div>
+
+    <div class="content">
+        <div class="pane" id="player1">
+            <h1>{{ GUVRS_PLAYER_NAME }}</h1>
+            <div class="data-row">
+                <span class="data-label">Guid:</span>
+                <span class="data-value"><a title="Click to open deck in gudecks.com" class="guid" href="#">{{ GUVRS_PLAYER_GUID }}</a> <i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i></span>
+            </div>
+
+            <div class="data-row">
+                <span class="data-label">Rank:</span>
+                <span class="data-value">{{ GUVRS_PLAYER_RANK }}</span>
+            </div>
+
+            <div class="xp-bar">
+                <div class="xp-progress" style="width: {{ GUVRS_PLAYER_RANK_PROGRESS }}%"></div>
+                <div class="divider"></div>
+                <div class="divider"></div>
+                <div class="divider"></div>
+                <div class="divider"></div>
+                <div class="divider"></div>
+            </div>
+
+            <div class="deck">
+                {{ GUVRS_PLAYER_DECKCODE }}
+            </div>
+        </div>
+
+        <div class="pane" id="player2">
+            <h1>{{ GUVRS_OPPONENT_NAME }}</h1>
+            <div class="data-row">
+                <span class="data-label">Guid:</span>
+                <span class="data-value"><a title="Click to open deck in gudecks.com" class="guid" href="#">{{ GUVRS_OPPONENT_GUID }}</a> <i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i></span>
+            </div>
+
+            <div class="data-row">
+                <span class="data-label">Rank:</span>
+                <span class="data-value">{{ GUVRS_OPPONENT_RANK }}</span>
+            </div>
+
+            <div class="xp-bar">
+                <div class="xp-progress" style="width: {{ GUVRS_OPPONENT_RANK_PROGRESS }}%"></div>
+                <div class="divider"></div>
+                <div class="divider"></div>
+                <div class="divider"></div>
+                <div class="divider"></div>
+                <div class="divider"></div>
+            </div>
+
+            <div class="deck">
+                {{ GUVRS_OPPONENT_DECKCODE }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    Report any issues to <a title="Click to report any errors to github.com" href="#">github</a>
+</div>
+
+<div class="overlay" id="settings-overlay">
+    <div class="settings-modal">
+        <h2>Settings</h2>
+        <div class="setting-row">
+            <label for="dropdown-setting">Theme:</label>
+            <select id="dropdown-setting">
+                <option value="option1">black-orange</option>
+            </select>
+        </div>
+        <div class="setting-row">
+            <div class="toggle-container">
+                <input type="checkbox" id="auto-open-toggle" class="toggle-input">
+                <label for="auto-open-toggle" class="toggle-label">
+                    Auto-Open:
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-row">
+            <button id="save-settings">Save</button>
+            <button id="cancel-settings">Cancel</button>
+        </div>
+    </div>
+</div>

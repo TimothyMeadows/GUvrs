@@ -1,6 +1,7 @@
 ﻿namespace GUvrs;
 
 using GUvrs.Components;
+using GUvrs.Views;
 using Models;
 
 public partial class MainPage : ContentPage

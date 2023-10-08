@@ -60,6 +60,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Handlebars.Net" Version="2.1.4" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 
@@ -67,6 +68,15 @@
 	  <None Remove="Modules\" />
 	  <None Remove="Resources\Images\" />
 	  <None Remove="Models\" />
+	  <None Remove="Views\MainPage\index.mustache" />
+	  <None Remove="Views\Shared\footer.mustache" />
+	  <None Remove="Views\Shared\header.mustache" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Views\MainPage\index.mustache" />
+	  <EmbeddedResource Include="Views\Shared\footer.mustache" />
+	  <EmbeddedResource Include="Views\Shared\header.mustache" />
 	</ItemGroup>
 
 	<ItemGroup>
