@@ -36,12 +36,8 @@ public partial class MainPage : ContentPage
         _SetValues(new Dictionary<string, string>
         {
             { "GUVRS_GAME_ID", _defaults.GUVRS_GAME_ID },
-            { "GUVRS_OPPONENT_DECKCODE", _defaults.GUVRS_OPPONENT_DECKCODE },
             { "GUVRS_OPPONENT_GUID", _defaults.GUVRS_OPPONENT_GUID },
-            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME },
-            { "GUVRS_OPPONENT_RANK", _defaults.GUVRS_OPPONENT_RANK },
-            { "GUVRS_OPPONENT_RANK_PROGRESS", _defaults.GUVRS_OPPONENT_RANK_PROGRESS },
-            { "GUVRS_PLAYER_DECKCODE", _defaults.GUVRS_PLAYER_DECKCODE }
+            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME }
         });
     }
 
@@ -50,15 +46,9 @@ public partial class MainPage : ContentPage
         _SetValues(new Dictionary<string, string>
         {
             { "GUVRS_GAME_ID", _defaults.GUVRS_GAME_ID },
-            { "GUVRS_OPPONENT_DECKCODE", _defaults.GUVRS_OPPONENT_DECKCODE },
             { "GUVRS_OPPONENT_GUID", _defaults.GUVRS_OPPONENT_GUID },
-            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME },
-            { "GUVRS_OPPONENT_RANK", _defaults.GUVRS_OPPONENT_RANK },
-            { "GUVRS_OPPONENT_RANK_PROGRESS", _defaults.GUVRS_OPPONENT_RANK_PROGRESS },
-            { "GUVRS_PLAYER_DECKCODE", _defaults.GUVRS_PLAYER_DECKCODE }
+            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME }
         });
-
-        // TODO: Update player profile to get latest rank / rank progress, this way the cached values reflect current
     }
 
     private void OnStart(GameStartModel model)
@@ -66,8 +56,6 @@ public partial class MainPage : ContentPage
         _gameId = model?.GameId;
 
         _SetValue("GUVRS_GAME_ID", _gameId);
-
-        // TODO: Update player, and opponent profile to get latest rank / rank progress
     }
 
     private void OnBegin(GameBeginModel model)
