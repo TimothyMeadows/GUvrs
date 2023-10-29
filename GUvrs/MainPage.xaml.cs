@@ -1,10 +1,10 @@
 ﻿namespace GUvrs;
 
+using System.Web;
 using GUvrs.Components;
 using GUvrs.Models.Views;
 using GUvrs.Views;
 using Models;
-using System.Xml.Linq;
 
 public partial class MainPage : ContentPage
 {
@@ -76,25 +76,31 @@ public partial class MainPage : ContentPage
     {
         foreach (var current in values)
         {
-            ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_value('{current.Key}', '{current.Value}');"));
+            _SetValue(current.Key, current.Value);
         }
     }
 
     private void _SetValue(string name, string value)
     {
-        ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_value('{name}', '{value}');"));
+        var _name = HttpUtility.HtmlEncode(name);
+        var _value = HttpUtility.HtmlEncode(value);
+
+        ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_value('{_name}', '{_value}');"));
     }
 
     private void _SetProgress(string name, string value)
     {
-        ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_progress('{name}', '{value}');"));
+        var _name = HttpUtility.HtmlEncode(name);
+        var _value = HttpUtility.HtmlEncode(value);
+
+        ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_progress('{_name}', '{_value}');"));
     }
 
     private void _SetProgresses(Dictionary<string, string> progresses)
     {
         foreach (var current in progresses)
         {
-            ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_progress('{current.Key}', '{current.Value}');"));
+            _SetProgress(current.Key, current.Value);
         }
     }
 
