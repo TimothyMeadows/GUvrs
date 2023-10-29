@@ -33,7 +33,7 @@ public partial class MainPage : ContentPage
 
     private void OnEnd()
     {
-        _SetValues(new Dictionary<string, string>
+        _SetValues(new()
         {
             { "GUVRS_GAME_ID", _defaults.GUVRS_GAME_ID },
             { "GUVRS_OPPONENT_GUID", _defaults.GUVRS_OPPONENT_GUID },
@@ -43,7 +43,7 @@ public partial class MainPage : ContentPage
 
     private void OnStop(GameStopModel model)
     {
-        _SetValues(new Dictionary<string, string>
+        _SetValues(new()
         {
             { "GUVRS_GAME_ID", _defaults.GUVRS_GAME_ID },
             { "GUVRS_OPPONENT_GUID", _defaults.GUVRS_OPPONENT_GUID },
@@ -63,7 +63,7 @@ public partial class MainPage : ContentPage
         _player = model?.Player;
         _opponent = model?.Opponnent;
 
-        _SetValues(new Dictionary<string, string>
+        _SetValues(new()
         {
             { "GUVRS_PLAYER_NAME", _player?.Name },
             { "GUVRS_PLAYER_GUID", _player?.ID },
