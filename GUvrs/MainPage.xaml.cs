@@ -78,9 +78,7 @@ public partial class MainPage : ContentPage
     private void _SetValues(Dictionary<string, string> values)
     {
         foreach (var current in values)
-        {
             _SetValue(current.Key, current.Value);
-        }
     }
 
     private void _SetValue(string name, string value)
@@ -89,22 +87,6 @@ public partial class MainPage : ContentPage
         var _value = HttpUtility.HtmlEncode(value);
 
         ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_value('{_name}', '{_value}');"));
-    }
-
-    private void _SetProgress(string name, string value)
-    {
-        var _name = HttpUtility.HtmlEncode(name);
-        var _value = HttpUtility.HtmlEncode(value);
-
-        ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_progress('{_name}', '{_value}');"));
-    }
-
-    private void _SetProgresses(Dictionary<string, string> progresses)
-    {
-        foreach (var current in progresses)
-        {
-            _SetProgress(current.Key, current.Value);
-        }
     }
 
     protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
