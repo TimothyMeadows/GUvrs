@@ -1,5 +1,5 @@
 ﻿    <div class="footer">
-        Report any issues to <a title="Click to report any errors to github.com" href="#">github</a>
+        Report any issues to <a title="Click to report any errors to github.com" href="guvrs://report-issue">github</a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
@@ -21,6 +21,11 @@
 
         function update(key, value) {
             document.getElementById(key).innerText = value;
+        }
+
+        function updateWithHref(key, value) {
+            document.getElementById(key).innerText = value;
+            document.getElementById(key).href = `guvrs://gudecks?guid=${value}`;
         }
 
         document.querySelector('.settings-btn').addEventListener('click', function () {
@@ -55,10 +60,10 @@
         watch("GUVRS_GAME_ID", (key, value) => update(key, value));
 
         watch("GUVRS_PLAYER_NAME", (key, value) => update(key, value));
-        watch("GUVRS_PLAYER_GUID", (key, value) => update(key, value));
+        watch("GUVRS_PLAYER_GUID", (key, value) => updateWithHref(key, value));
 
         watch("GUVRS_OPPONENT_NAME", (key, value) => update(key, value))
-        watch("GUVRS_OPPONENT_GUID", (key, value) => update(key, value));
+        watch("GUVRS_OPPONENT_GUID", (key, value) => updateWithHref(key, value));
     </script>
   </body>
 

@@ -8,6 +8,7 @@ using GUvrs.Views;
 using MemoryCache.NetCore;
 using Models;
 using System.Text.Json;
+using System;
 
 public partial class MainPage : ContentPage
 {
@@ -40,6 +41,8 @@ public partial class MainPage : ContentPage
 
         ConcurrentEventListener.Register("load-settings", OnLoadSettings);
         ConcurrentEventListener.Register("save-settings", OnSaveSettings);
+        ConcurrentEventListener.Register("gudecks", OnGudecks);
+        ConcurrentEventListener.Register("report-issue", OnReportIssue);
     }
 
     private void OnEnd()
@@ -77,6 +80,9 @@ public partial class MainPage : ContentPage
         //var playerRank = Task.Run(() => new GuApi().GetRank(_player.ID)).Result;
         //var opponnentRank = Task.Run(() => new GuApi().GetRank(_opponent.ID)).Result;
 
+        if (IsAutoOpen() && _opponent.ID != "-1")
+            Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={_opponent.ID}");
+
         _SetValues(new()
         {
             { "GUVRS_PLAYER_NAME", _player?.Name },
@@ -86,6 +92,21 @@ public partial class MainPage : ContentPage
         });
     }
 
+    private bool IsAutoOpen()
+    {
+        bool autoOpen;
+        try
+        {
+            autoOpen = Convert.ToBoolean(((JsonElement)_settings["auto-open"]).GetString());
+        }
+        catch (Exception)
+        {
+            autoOpen = false;
+        }
+
+        return autoOpen;
+    }
+
     private void _SetSettings()
     {
         string theme;
@@ -93,7 +114,7 @@ public partial class MainPage : ContentPage
         {
             theme = ((JsonElement)_settings["theme"]).GetString();
         } 
-        catch (Exception ex)
+        catch (Exception)
         {
             theme = string.Empty;
         }
@@ -103,7 +124,7 @@ public partial class MainPage : ContentPage
         {
             autoOpen = ((JsonElement)_settings["auto-open"]).GetString();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             autoOpen = string.Empty;
         }
@@ -143,11 +164,6 @@ public partial class MainPage : ContentPage
         _settings.Load<string>(json);
     }
 
-    protected override Size MeasureOverride(double widthConstraint, double heightConstraint)
-    {
-        return base.MeasureOverride(300, 300);
-    }
-
     private void WebView_Navigating(object sender, WebNavigatingEventArgs e)
     {
         var url = e.Url;
@@ -182,5 +198,22 @@ public partial class MainPage : ContentPage
             _settings.Write(setting.Key, setting.Value);
 
         SaveSettings();
+    }
+
+    private void OnGudecks(Dictionary<string, string> data)
+    {
+        if (!data.ContainsKey("guid"))
+            return;
+
+        var guid = data["guid"];
+        if (guid == "-1")
+            return;
+
+        Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={guid}");
+    }
+
+    private void OnReportIssue(Dictionary<string, string> data)
+    {
+        Browser.OpenAsync($"https://github.com/TimothyMeadows/GUvrs/issues/new");
     }
 }

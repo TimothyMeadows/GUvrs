@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Windows.Graphics;
 using Microsoft.UI.Windowing;
 using WinRT.Interop;
+using Microsoft.Maui.Platform;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -21,18 +22,10 @@ public partial class App : MauiWinUIApplication
     public App()
     {
         this.InitializeComponent();
-    }
-
-    protected override void OnLaunched(LaunchActivatedEventArgs args)
-    {
-        base.OnLaunched(args);
-
-        var currentWindow = Application.Windows[0].Handler?.PlatformView;
-        var _windowHandle = WindowNative.GetWindowHandle(currentWindow);
-        var windowId = Win32Interop.GetWindowIdFromWindow(_windowHandle);
-
-        var appWindow = AppWindow.GetFromWindowId(windowId);
-        appWindow.Resize(new SizeInt32(500, 500));
+        Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>
+        {
+            handler.PlatformView.GetAppWindow().Resize(new SizeInt32(800, 600));
+        });
     }
 
     protected override MauiApp CreateMauiApp()
