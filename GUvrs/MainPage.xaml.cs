@@ -63,8 +63,8 @@ public partial class MainPage : ContentPage
         _player = model?.Player;
         _opponent = model?.Opponnent;
 
-        var playerRank = Task.Run(() => new GuApi().GetRank(_player.ID)).Result;
-        var opponnentRank = Task.Run(() => new GuApi().GetRank(_opponent.ID)).Result;
+        //var playerRank = Task.Run(() => new GuApi().GetRank(_player.ID)).Result;
+        //var opponnentRank = Task.Run(() => new GuApi().GetRank(_opponent.ID)).Result;
 
         _SetValues(new()
         {

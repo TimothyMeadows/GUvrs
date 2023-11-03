@@ -23,6 +23,9 @@ public class GuApi
 
     public async Task<PlayerRankModel> GetRank(string guid, int gameMode = 13)
     {
+        if (string.IsNullOrEmpty(guid) || guid == "-1")
+            return null;
+
         var request = GetRequest(GU_API_PROD_CNAME, HttpMethod.Get, $"/user/{guid}/rank");
         var response = await _http.SendAsync(request);
 

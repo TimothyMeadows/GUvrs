@@ -1,6 +1,27 @@
 ﻿    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
     <script type="text/javascript">
+        const values = {};
+        const events = {};
+
+        function watch(key, callback) {
+            if (!events[key]) {
+                events[key] = [];
+            }
+
+            events[key].push(callback);
+        }
+
+        function trigger(key) {
+            if (events[key]) {
+                events[key].forEach(callback => callback(key, values[key]));
+            }
+        }
+
+        function update(key, value) {
+            document.getElementById(key).innerText = value;
+        }
+
         document.querySelector('.settings-btn').addEventListener('click', function () {
             document.getElementById('settings-overlay').style.display = 'block';
         });
@@ -17,9 +38,29 @@
             return false;
         };
 
-        function guvrs_set_value(name, value) {
-            document.getElementById(name).innerText = value;
+        function guvrs_set_value(key, value) {
+            values[key] = value;
+            trigger(key);
         }
+
+        function guvrs_del_value(key) {
+            if (values.hasOwnProperty(key)) {
+                delete values[key];
+                trigger(key);
+            }
+        }
+
+        function guvrs_get_value(key) {
+            return values[key];
+        }
+
+        watch("GUVRS_GAME_ID", (key, value) => update(key, value));
+
+        watch("GUVRS_PLAYER_NAME", (key, value) => update(key, value));
+        watch("GUVRS_PLAYER_GUID", (key, value) => update(key, value));
+
+        watch("GUVRS_OPPONENT_NAME", (key, value) => update(key, value));
+        watch("GUVRS_OPPONENT_GUID", (key, value) => update(key, value));
     </script>
   </body>
 
