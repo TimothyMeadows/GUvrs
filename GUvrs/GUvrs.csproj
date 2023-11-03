@@ -61,6 +61,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Handlebars.Net" Version="2.1.4" />
+		<PackageReference Include="MemoryCache.NetCore" Version="1.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 

@@ -8,17 +8,15 @@
         const events = {};
 
         function watch(key, callback) {
-            if (!events[key]) {
+            if (!events[key])
                 events[key] = [];
-            }
 
             events[key].push(callback);
         }
 
         function trigger(key) {
-            if (events[key]) {
+            if (events[key])
                 events[key].forEach(callback => callback(key, values[key]));
-            }
         }
 
         function update(key, value) {
@@ -35,35 +33,31 @@
 
         document.getElementById('save-settings').addEventListener('click', function () {
             document.getElementById('settings-overlay').style.display = 'none';
-            location.href = "guvrs://save-settings?key1=value1&key2=value2";
+            location.href = `guvrs://save-settings?theme=${document.getElementById('dropdown-setting').value}&auto-open=${document.getElementById('auto-open-toggle').checked}`;
         });
 
         document.oncontextmenu = function () {
             return false;
         };
 
+        function guvrs_set_settings(theme, autoOpen) {
+            document.getElementById('dropdown-setting').value = theme;
+            document.getElementById('auto-open-toggle').checked = autoOpen;
+            document.getElementById('auto-open-toggle').dispatchEvent(new Event('change'));
+        }
+
         function guvrs_set_value(key, value) {
             values[key] = value;
             trigger(key);
         }
 
-        function guvrs_del_value(key) {
-            if (values.hasOwnProperty(key)) {
-                delete values[key];
-                trigger(key);
-            }
-        }
-
-        function guvrs_get_value(key) {
-            return values[key];
-        }
-
+        location.href = "guvrs://load-settings";
         watch("GUVRS_GAME_ID", (key, value) => update(key, value));
 
         watch("GUVRS_PLAYER_NAME", (key, value) => update(key, value));
         watch("GUVRS_PLAYER_GUID", (key, value) => update(key, value));
 
-        watch("GUVRS_OPPONENT_NAME", (key, value) => update(key, value));
+        watch("GUVRS_OPPONENT_NAME", (key, value) => update(key, value))
         watch("GUVRS_OPPONENT_GUID", (key, value) => update(key, value));
     </script>
   </body>
