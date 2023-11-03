@@ -63,6 +63,10 @@ public class GuDebugLog
         {
             if (!_onStartFired && line.Contains("gameID:") && line.Contains("player 0 name:") && line.Contains("player 1 name:"))
             {
+                var gameId = line.Extract("gameID: '", "' ");
+                if (gameId == "TODO")
+                    gameId = "SOLO";
+
                 OnStart?.Invoke(new GameStartModel()
                 {
                     GameId = line.Extract("gameID: '", "' "),
