@@ -40,7 +40,7 @@ public partial class MainPage : ContentPage
             e.Cancel = true;
 
             var uri = new Uri(url);
-            var method = uri.Host;
+            var name = uri.Host;
             var values = new Dictionary<string, string>();
             var valuePairs = uri.Query?.TrimStart('?').Split('&');
 
@@ -50,6 +50,8 @@ public partial class MainPage : ContentPage
                 if (parts.Length == 2)
                     values.Add(Uri.UnescapeDataString(parts[0]), Uri.UnescapeDataString(parts[1]));
             }
+
+            ConcurrentEventListener.Trigger(name, values);
         }
     }
 
