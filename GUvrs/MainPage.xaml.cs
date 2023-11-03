@@ -19,6 +19,7 @@ public partial class MainPage : ContentPage
         InitializeComponent();
 
         _defaults = new DefaultMainPageViewModel();
+        WebView.Navigating += WebView_Navigating;
         WebView.Source = new HtmlWebViewSource()
         {
             Html = ViewEngine.Render("MainPage.index", _defaults)
@@ -29,6 +30,27 @@ public partial class MainPage : ContentPage
         _log.OnStart += OnStart;
         _log.OnStop += OnStop;
         _log.OnEnd += OnEnd;
+    }
+
+    private void WebView_Navigating(object sender, WebNavigatingEventArgs e)
+    {
+        var url = e.Url;
+        if (url.StartsWith("guvrs://"))
+        {
+            e.Cancel = true;
+
+            var uri = new Uri(url);
+            var method = uri.Host;
+            var values = new Dictionary<string, string>();
+            var valuePairs = uri.Query?.TrimStart('?').Split('&');
+
+            foreach (var valuePart in valuePairs)
+            {
+                var parts = valuePart.Split('=');
+                if (parts.Length == 2)
+                    values.Add(Uri.UnescapeDataString(parts[0]), Uri.UnescapeDataString(parts[1]));
+            }
+        }
     }
 
     private void OnEnd()

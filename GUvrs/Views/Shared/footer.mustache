@@ -35,6 +35,7 @@
 
         document.getElementById('save-settings').addEventListener('click', function () {
             document.getElementById('settings-overlay').style.display = 'none';
+            location.href = "guvrs://save-settings?key1=value1&key2=value2";
         });
 
         document.oncontextmenu = function () {
