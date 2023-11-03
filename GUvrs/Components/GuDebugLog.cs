@@ -65,7 +65,7 @@ public class GuDebugLog
             {
                 var gameId = line.Extract("gameID: '", "' ");
                 if (gameId == "TODO")
-                    gameId = "SOLO";
+                    gameId = $"solo-{Guid.NewGuid}";
 
                 OnStart?.Invoke(new GameStartModel()
                 {
