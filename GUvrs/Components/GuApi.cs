@@ -12,7 +12,8 @@ namespace GUvrs.Components;
 
 public class GuApi
 {
-    private static string GU_API_PROD_CNAME = "game-legacy.prod.prod.godsunchained.com";
+    private static string GU_API_LEGACY_CNAME = "game-legacy.prod.prod.godsunchained.com";
+    private static string GU_API_CNAME = "api.godsunchained.com";
 
     private static HttpClient? _http;
 
@@ -21,12 +22,34 @@ public class GuApi
         _http ??= new HttpClient();
     }
 
+    public async Task<Dictionary<int, string>> GetModes()
+    {
+        var request = GetRequest(GU_API_CNAME, HttpMethod.Get, $"/v0/mode");
+        var response = await _http.SendAsync(request);
+
+        var responseOrError = await GetResponse<List<dynamic>>(response);
+        if (responseOrError.Success)
+        {
+            var modes = new Dictionary<int, string>();
+            foreach (var element in responseOrError.Response)
+            {
+                var mode = (JsonElement)element;
+                if (mode.GetProperty("active").GetBoolean())
+                    modes.Add(mode.GetProperty("id").GetInt32(), mode.GetProperty("name").GetString());
+            }
+
+            return modes;
+        }
+
+        return default;
+    }
+
     public async Task<PlayerRankModel> GetRank(string guid, int gameMode = 13)
     {
         if (string.IsNullOrEmpty(guid) || guid == "-1")
             return null;
 
-        var request = GetRequest(GU_API_PROD_CNAME, HttpMethod.Get, $"/user/{guid}/rank");
+        var request = GetRequest(GU_API_LEGACY_CNAME, HttpMethod.Get, $"/user/{guid}/rank");
         var response = await _http.SendAsync(request);
 
         var responseOrError = await GetResponse<List<PlayerRankModel>>(response);

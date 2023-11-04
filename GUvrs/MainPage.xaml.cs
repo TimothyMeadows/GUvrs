@@ -12,6 +12,8 @@ using System;
 
 public partial class MainPage : ContentPage
 {
+    private static Dictionary<int, string> MODES;
+
     private readonly MemoryCache _settings;
     private readonly GuDebugLog _log;
     private string _gameId = string.Empty;
@@ -43,6 +45,8 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("save-settings", OnSaveSettings);
         ConcurrentEventListener.Register("gudecks", OnGudecks);
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
+
+        MODES ??= Task.Run(() => new GuApi().GetModes()).Result;
     }
 
     private void OnEnd()
