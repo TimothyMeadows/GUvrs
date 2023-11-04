@@ -132,7 +132,7 @@ public partial class MainPage : ContentPage
         if (string.IsNullOrEmpty(theme))
             return;
 
-        ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_settings('{theme}', '{autoOpen.ToLower()}');"));
+        EvaluateJavaScriptAsync($"guvrs_set_settings('{theme}', '{autoOpen.ToLower()}');");
     }
 
     private void _SetValues(Dictionary<string, string> values)
@@ -146,7 +146,7 @@ public partial class MainPage : ContentPage
         var _name = HttpUtility.HtmlEncode(name);
         var _value = HttpUtility.HtmlEncode(value);
 
-        ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync($"guvrs_set_value('{_name}', '{_value}');"));
+        EvaluateJavaScriptAsync($"guvrs_set_value('{_name}', '{_value}');");
     }
 
     private void SaveSettings()
@@ -162,6 +162,17 @@ public partial class MainPage : ContentPage
 
         var json = File.ReadAllText($"{FileSystem.AppDataDirectory}\\settings.json");
         _settings.Load<string>(json);
+    }
+
+    private void EvaluateJavaScriptAsync(string javascript)
+    {
+        try
+        {
+            ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync(javascript));
+        } catch(Exception)
+        {
+            return; // supress errors in runtime
+        }
     }
 
     private void WebView_Navigating(object sender, WebNavigatingEventArgs e)

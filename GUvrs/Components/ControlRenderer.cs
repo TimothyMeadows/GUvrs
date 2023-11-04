@@ -11,7 +11,8 @@ public static class ControlRenderer
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                view.Render(action);
+                if (view.IsLoaded)
+                    view.Render(action);
             });
 
             return;

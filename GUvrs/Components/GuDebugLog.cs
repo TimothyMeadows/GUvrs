@@ -65,11 +65,11 @@ public class GuDebugLog
             {
                 var gameId = line.Extract("gameID: '", "' ");
                 if (gameId == "TODO")
-                    gameId = $"solo-{Guid.NewGuid}";
+                    gameId = "SOLO";
 
                 OnStart?.Invoke(new GameStartModel()
                 {
-                    GameId = line.Extract("gameID: '", "' "),
+                    GameId = gameId,
                     Player0 = line.Extract("player 0 name: '", "',"),
                     Player1 = line.Extract("player 1 name: '", "')")
                 });
