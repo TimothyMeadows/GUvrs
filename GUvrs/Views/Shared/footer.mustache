@@ -57,9 +57,11 @@
 
         watch("GUVRS_PLAYER_NAME", (key, value) => update(key, value));
         watch("GUVRS_PLAYER_GUID", (key, value) => updateWithHref(key, value));
+        watch("GUVRS_PLAYER_RATING", (key, value) => update(key, value));
 
         watch("GUVRS_OPPONENT_NAME", (key, value) => update(key, value))
         watch("GUVRS_OPPONENT_GUID", (key, value) => updateWithHref(key, value));
+        watch("GUVRS_OPPONENT_RATING", (key, value) => update(key, value))
     </script>
   </body>
 

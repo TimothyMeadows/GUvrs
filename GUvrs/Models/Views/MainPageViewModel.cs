@@ -11,8 +11,10 @@ namespace GUvrs.Models.Views
         public string GUVRS_GAME_ID { get; set; }
         public string GUVRS_PLAYER_NAME { get; set; }
         public string GUVRS_PLAYER_GUID { get; set; }
+        public string GUVRS_PLAYER_RATING { get; set; }
 
         public string GUVRS_OPPONENT_NAME { get; set; }
         public string GUVRS_OPPONENT_GUID { get; set; }
+        public string GUVRS_OPPONENT_RATING { get; set; }
     }
 }

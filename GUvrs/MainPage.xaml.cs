@@ -83,8 +83,10 @@ public partial class MainPage : ContentPage
         _player = model?.Player;
         _opponent = model?.Opponnent;
 
-        //var playerRank = Task.Run(() => new GuApi().GetRank(_player.ID)).Result;
-        //var opponnentRank = Task.Run(() => new GuApi().GetRank(_opponent.ID)).Result;
+        var playerRank = Task.Run(() => new GuApi().GetRank(_player.ID)).Result;
+        PlayerRankModel opponnentRank = null;
+        if (_opponent.ID != "-1")
+            opponnentRank = Task.Run(() => new GuApi().GetRank(_opponent.ID)).Result;
 
         if (IsAutoOpen() && _opponent.ID != "-1")
             OpenBrowserWithGameMode(_opponent.ID);
@@ -93,8 +95,10 @@ public partial class MainPage : ContentPage
         {
             { "GUVRS_PLAYER_NAME", _player?.Name },
             { "GUVRS_PLAYER_GUID", _player?.ID },
+            { "GUVRS_PLAYER_RATING", playerRank.Rating.ToString() },
             { "GUVRS_OPPONENT_NAME", _opponent?.Name },
-            { "GUVRS_OPPONENT_GUID", _opponent?.ID }
+            { "GUVRS_OPPONENT_GUID", _opponent?.ID },
+            { "GUVRS_OPPONENT_RATING", opponnentRank == null ? "-1" : opponnentRank?.Rating.ToString() },
         });
     }
 

@@ -19,15 +19,15 @@ namespace GUvrs.Models
         public double? Rating { get; set; }
 
         [JsonPropertyName("rank_level")]
-        public int? Rank { get; set; }
+        public double? Rank { get; set; }
 
         [JsonPropertyName("win_points")]
         public double? WinPoints { get; set; }
 
         [JsonPropertyName("loss_points")]
-        public int? LossPoints { get; set; }
+        public double? LossPoints { get; set; }
 
         [JsonPropertyName("safety_line")]
-        public int? SafetyLine { get; set; }
+        public double? SafetyLine { get; set; }
     }
 }
