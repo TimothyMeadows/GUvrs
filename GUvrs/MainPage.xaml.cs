@@ -48,7 +48,7 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("gudecks", OnGudecks);
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
 
-        MODES ??= Task.Run(() => new GuApi().GetModes()).Result;
+        // MODES ??= Task.Run(() => new GuApi().GetModes()).Result;
     }
 
     private void OnEnd()
