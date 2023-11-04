@@ -20,13 +20,13 @@ public partial class MainPage : ContentPage
     private int _gameMode = -1;
     private PlayerModel _player;
     private PlayerModel _opponent;
-    private readonly DefaultMainPageViewModel _defaults;
+    private readonly MainPageViewModel _defaults;
 
     public MainPage()
     {
         InitializeComponent();
+        _defaults = new MainPageViewModel();
 
-        _defaults = new DefaultMainPageViewModel();
         WebView.Navigating += WebView_Navigating;
         WebView.Source = new HtmlWebViewSource()
         {
@@ -96,9 +96,15 @@ public partial class MainPage : ContentPage
             { "GUVRS_PLAYER_NAME", _player?.Name },
             { "GUVRS_PLAYER_GUID", _player?.ID },
             { "GUVRS_PLAYER_RATING", playerRank.Rating.ToString() },
+            { "GUVRS_PLAYER_WINPOINTS", playerRank.WinPoints.ToString() },
+            { "GUVRS_PLAYER_LOSSPOINTS", playerRank.LossPoints.ToString() },
+            { "GUVRS_PLAYER_SAFELINE", playerRank.SafetyLine.ToString() },
             { "GUVRS_OPPONENT_NAME", _opponent?.Name },
             { "GUVRS_OPPONENT_GUID", _opponent?.ID },
-            { "GUVRS_OPPONENT_RATING", opponnentRank == null ? "-1" : opponnentRank?.Rating.ToString() },
+            { "GUVRS_OPPONENT_RATING", opponnentRank == null ? _defaults.GUVRS_OPPONENT_RATING : opponnentRank?.Rating.ToString() },
+            { "GUVRS_OPPONENT_WINPOINTS", opponnentRank == null ? _defaults.GUVRS_OPPONENT_WINPOINTS : opponnentRank?.WinPoints.ToString() },
+            { "GUVRS_OPPONENT_LOSSPOINTS", opponnentRank == null ? _defaults.GUVRS_OPPONENT_LOSSPOINTS : opponnentRank?.LossPoints.ToString() },
+            { "GUVRS_OPPONENT_SAFELINE", opponnentRank == null ? _defaults.GUVRS_OPPONENT_SAFELINE : opponnentRank?.SafetyLine.ToString() },
         });
     }
 
