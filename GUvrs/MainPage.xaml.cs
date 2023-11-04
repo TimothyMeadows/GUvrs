@@ -17,6 +17,7 @@ public partial class MainPage : ContentPage
     private readonly MemoryCache _settings;
     private readonly GuDebugLog _log;
     private string _gameId = string.Empty;
+    private int _gameMode = -1;
     private PlayerModel _player;
     private PlayerModel _opponent;
     private readonly DefaultMainPageViewModel _defaults;
@@ -34,6 +35,7 @@ public partial class MainPage : ContentPage
 
         _log = new GuDebugLog();
         _log.OnBegin += OnBegin;
+        _log.OnGameMode += OnGameMode;
         _log.OnStart += OnStart;
         _log.OnStop += OnStop;
         _log.OnEnd += OnEnd;
@@ -85,7 +87,7 @@ public partial class MainPage : ContentPage
         //var opponnentRank = Task.Run(() => new GuApi().GetRank(_opponent.ID)).Result;
 
         if (IsAutoOpen() && _opponent.ID != "-1")
-            Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={_opponent.ID}");
+            OpenBrowserWithGameMode(_opponent.ID);
 
         _SetValues(new()
         {
@@ -94,6 +96,11 @@ public partial class MainPage : ContentPage
             { "GUVRS_OPPONENT_NAME", _opponent?.Name },
             { "GUVRS_OPPONENT_GUID", _opponent?.ID }
         });
+    }
+
+    private void OnGameMode(int gameMode)
+    {
+        _gameMode = gameMode;
     }
 
     private bool IsAutoOpen()
@@ -179,6 +186,15 @@ public partial class MainPage : ContentPage
         }
     }
 
+    private void OpenBrowserWithGameMode(string guid)
+    {
+        var url = $"https://gudecks.com/meta/player-stats?userId={guid}";
+        if (_gameMode != -1 || _gameMode != 0 || _gameMode != 101)
+            url += $"&gameMode={_gameMode}";
+
+        Browser.OpenAsync(url);
+    }
+
     private void WebView_Navigating(object sender, WebNavigatingEventArgs e)
     {
         var url = e.Url;
@@ -224,7 +240,7 @@ public partial class MainPage : ContentPage
         if (guid == "-1")
             return;
 
-        Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={guid}");
+        OpenBrowserWithGameMode(guid);
     }
 
     private void OnReportIssue(Dictionary<string, string> data)

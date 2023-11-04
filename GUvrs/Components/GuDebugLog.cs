@@ -14,6 +14,10 @@ public class GuDebugLog
     public event GameStartHandler OnStart;
     private bool _onStartFired = false;
 
+    public delegate void GameModeHandler(int gameMode);
+    public event GameModeHandler OnGameMode;
+    private bool _onGameModeFired = false;
+
     public delegate void GameStopHandler(GameStopModel model);
     public event GameStopHandler OnStop;
     private bool _onStopFired = false;
@@ -75,6 +79,16 @@ public class GuDebugLog
                 });
 
                 _onStartFired = true;
+                continue;
+            }
+
+            if (!_onGameModeFired && line.Contains("Game mode is "))
+            {
+                var gameMode = line.Extract("Game mode is '", "'");
+
+                OnGameMode?.Invoke(Convert.ToInt32(gameMode));
+
+                _onGameModeFired = true;
                 continue;
             }
 
