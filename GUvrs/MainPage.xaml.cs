@@ -55,11 +55,17 @@ public partial class MainPage : ContentPage
 
     private void OnEnd()
     {
+        _gameId = _defaults.GUVRS_GAME_ID;
+        _opponent = null;
+
         ClearDisplay();
     }
 
     private void OnStop(GameStopModel model)
     {
+        _gameId = _defaults.GUVRS_GAME_ID;
+        _opponent = null;
+
         ClearDisplay();
     }
 
