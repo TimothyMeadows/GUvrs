@@ -22,6 +22,7 @@
         function updateWithHref(key, value) {
             document.getElementById(key).innerText = value;
             document.getElementById(key).href = `guvrs://gudecks?guid=${value}`;
+            document.getElementById(`${key}_COPY`).href = `guvrs://copy?guid=${value}`;
         }
 
         document.querySelector('.settings-btn').addEventListener('click', function () {

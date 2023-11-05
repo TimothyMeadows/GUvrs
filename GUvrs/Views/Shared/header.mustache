@@ -93,6 +93,10 @@
             color: orange;
         }
 
+        .copy {
+            color: black;
+        }
+
         .settings-btn {
             position: absolute;
             top: 10px;
@@ -168,13 +172,13 @@
             }
 
         .overlay {
-            display: none; /* Initially hidden */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Black with 70% opacity */
+            background-color: rgba(0, 0, 0, 0.7);
             z-index: 1000;
         }
 
@@ -263,12 +267,12 @@
         }
 
         .deck {
-            width: 100%; /* Take up the full width of its parent */
-            padding: 10px; /* Add some padding for spacing */
-            box-sizing: border-box; /* Ensure padding doesn't increase div size */
-            word-wrap: break-word; /* Break the words as necessary to fit the container */
-            text-align: justify; /* Justify the text for a cleaner look (optional) */
-            margin-top: 10px; /* Add some space between the progress bar and the text */
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            text-align: justify;
+            margin-top: 10px;
             cursor: pointer;
         }
     </style>
