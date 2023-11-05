@@ -21,11 +21,13 @@ public partial class MainPage : ContentPage
     private PlayerModel _player;
     private PlayerModel _opponent;
     private readonly MainPageViewModel _defaults;
+    private readonly Dictionary<string, bool> _state;
 
     public MainPage()
     {
         InitializeComponent();
         _defaults = new MainPageViewModel();
+        _state = new();
 
         WebView.Navigating += WebView_Navigating;
         WebView.Source = new HtmlWebViewSource()
@@ -53,19 +55,15 @@ public partial class MainPage : ContentPage
 
     private void OnEnd()
     {
-        _SetValues(new()
-        {
-            { "GUVRS_GAME_ID", _defaults.GUVRS_GAME_ID },
-            { "GUVRS_OPPONENT_GUID", _defaults.GUVRS_OPPONENT_GUID },
-            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME },
-            { "GUVRS_OPPONENT_RATING", _defaults.GUVRS_OPPONENT_RATING },
-            { "GUVRS_OPPONENT_WINPOINTS", _defaults.GUVRS_OPPONENT_WINPOINTS },
-            { "GUVRS_OPPONENT_LOSSPOINTS", _defaults.GUVRS_OPPONENT_LOSSPOINTS },
-            { "GUVRS_OPPONENT_SAFELINE", _defaults.GUVRS_OPPONENT_SAFELINE }
-        });
+        ClearDisplay();
     }
 
     private void OnStop(GameStopModel model)
+    {
+        ClearDisplay();
+    }
+
+    public void ClearDisplay()
     {
         _SetValues(new()
         {
@@ -76,6 +74,15 @@ public partial class MainPage : ContentPage
             { "GUVRS_OPPONENT_WINPOINTS", _defaults.GUVRS_OPPONENT_WINPOINTS },
             { "GUVRS_OPPONENT_LOSSPOINTS", _defaults.GUVRS_OPPONENT_LOSSPOINTS },
             { "GUVRS_OPPONENT_SAFELINE", _defaults.GUVRS_OPPONENT_SAFELINE }
+        });
+
+        var playerRank = Task.Run(() => new GuApi().GetRank(_player.ID)).Result;
+        _SetValues(new()
+        {
+            { "GUVRS_PLAYER_RATING", playerRank.Rating.ToString() },
+            { "GUVRS_PLAYER_WINPOINTS", playerRank.WinPoints.ToString() },
+            { "GUVRS_PLAYER_LOSSPOINTS", playerRank.LossPoints.ToString() },
+            { "GUVRS_PLAYER_SAFELINE", playerRank.SafetyLine.ToString() },
         });
     }
 
@@ -97,7 +104,7 @@ public partial class MainPage : ContentPage
             opponnentRank = Task.Run(() => new GuApi().GetRank(_opponent.ID)).Result;
 
         if (IsAutoOpen() && _opponent.ID != "-1")
-            OpenBrowserWithGameMode(_opponent.ID);
+            OpenBrowserWithGameMode(_gameId, _opponent.ID);
 
         _SetValues(new()
         {
@@ -208,12 +215,16 @@ public partial class MainPage : ContentPage
         });
     }
 
-    private void OpenBrowserWithGameMode(string guid)
+    private void OpenBrowserWithGameMode(string gameId, string guid)
     {
+        if (string.IsNullOrEmpty(gameId) || (_state.ContainsKey(gameId) && _state[gameId] == true))
+            return;
+
         var url = $"https://gudecks.com/meta/player-stats?userId={guid}";
         if (_gameMode != -1 || _gameMode != 0 || _gameMode != 101 || _gameMode != 6)
             url += $"&gameMode={_gameMode}";
 
+        _state.Add(gameId, true);
         Browser.OpenAsync(url);
     }
 
@@ -262,7 +273,7 @@ public partial class MainPage : ContentPage
         if (guid == "-1")
             return;
 
-        OpenBrowserWithGameMode(guid);
+        OpenBrowserWithGameMode(_gameId, guid);
     }
 
     private void OnReportIssue(Dictionary<string, string> data)
