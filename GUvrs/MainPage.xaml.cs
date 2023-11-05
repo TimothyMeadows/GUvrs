@@ -48,6 +48,7 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("load-settings", OnLoadSettings);
         ConcurrentEventListener.Register("save-settings", OnSaveSettings);
         ConcurrentEventListener.Register("gudecks", OnGudecks);
+        ConcurrentEventListener.Register("copy", OnCopy);
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
 
         // MODES ??= Task.Run(() => new GuApi().GetModes()).Result;
@@ -280,6 +281,18 @@ public partial class MainPage : ContentPage
             return;
 
         OpenBrowserWithGameMode(_gameId, guid);
+    }
+
+    private void OnCopy(Dictionary<string, string> data)
+    {
+        if (!data.ContainsKey("guid"))
+            return;
+
+        var guid = data["guid"];
+        if (guid == "-1")
+            return;
+
+        Clipboard.SetTextAsync(guid);
     }
 
     private void OnReportIssue(Dictionary<string, string> data)
