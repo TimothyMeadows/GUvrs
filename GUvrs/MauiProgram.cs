@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GUvrs.Components;
+using Microsoft.Extensions.Logging;
 
 namespace GUvrs;
 

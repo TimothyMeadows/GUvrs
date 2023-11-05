@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUvrs - v3.0.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style type="text/css">
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: orange;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+        }
+
+        .pane {
+            width: 50%;
+            box-sizing: border-box;
+            padding: 20px;
+            border-left: none;
+        }
+
+        #player1 {
+            background-color: #f4f4f4;
+            border-right: 10px solid white;
+        }
+
+        #player2 {
+            background-color: #ddd;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: flex-start;
+            padding: 5px 0;
+        }
+
+        .data-label {
+            font-weight: bold;
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .data-value {
+            text-align: right;
+        }
+
+        .guid {
+            color: orange;
+        }
+
+        .settings-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+            .settings-btn:focus {
+                outline: none;
+            }
+
+        .copy-icon {
+            margin-left: 3px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+
+            .copy-icon:hover {
+                opacity: 0.7;
+            }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .toggle-input {
+            display: none;
+        }
+
+        .toggle-slider {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+            background-color: #ccc;
+            border-radius: 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+            .toggle-slider::before {
+                content: '';
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                width: 16px;
+                height: 16px;
+                background-color: white;
+                border-radius: 50%;
+                transition: transform 0.2s;
+            }
+
+        .toggle-input:checked + .toggle-label .toggle-slider {
+            background-color: #2196F3;
+        }
+
+            .toggle-input:checked + .toggle-label .toggle-slider::before {
+                transform: translateX(20px);
+            }
+
+        .overlay {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Black with 70% opacity */
+            z-index: 1000;
+        }
+
+        .settings-modal {
+            width: 300px;
+            background-color: #fff;
+            padding: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .setting-row {
+            margin-bottom: 15px;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+            .button-row button {
+                margin-left: 10px;
+            }
+
+        .xp-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+            position: relative;
+        }
+
+            .xp-bar::before, .xp-bar::after,
+            .xp-bar .divider:nth-child(2),
+            .xp-bar .divider:nth-child(3),
+            .xp-bar .divider:nth-child(4),
+            .xp-bar .divider:nth-child(5),
+            .xp-bar .divider:nth-child(6) {
+                content: "";
+                position: absolute;
+                top: 0;
+                height: 100%;
+                width: 1px;
+                background-color: black;
+            }
+
+            .xp-bar::before {
+                left: calc(100% / 7 * 1);
+            }
+
+            .xp-bar::after {
+                left: calc(100% / 7 * 2);
+            }
+
+            .xp-bar .divider:nth-child(2) {
+                left: calc(100% / 7 * 3);
+            }
+
+            .xp-bar .divider:nth-child(3) {
+                left: calc(100% / 7 * 4);
+            }
+
+            .xp-bar .divider:nth-child(4) {
+                left: calc(100% / 7 * 5);
+            }
+
+            .xp-bar .divider:nth-child(5) {
+                left: calc(100% / 7 * 6);
+            }
+
+            .xp-bar .divider:nth-child(6) {
+                left: calc(100% / 7 * 7);
+            }
+
+        .xp-progress {
+            height: 100%;
+            width: 1%;
+            background: linear-gradient(90deg, rgba(255,215,0,0.8), rgba(255,165,0,0.8));
+            position: relative;
+            z-index: 1;
+        }
+
+        .deck {
+            width: 100%; /* Take up the full width of its parent */
+            padding: 10px; /* Add some padding for spacing */
+            box-sizing: border-box; /* Ensure padding doesn't increase div size */
+            word-wrap: break-word; /* Break the words as necessary to fit the container */
+            text-align: justify; /* Justify the text for a cleaner look (optional) */
+            margin-top: 10px; /* Add some space between the progress bar and the text */
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>

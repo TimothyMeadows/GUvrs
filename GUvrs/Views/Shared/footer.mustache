@@ -1,0 +1,72 @@
+﻿    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+    <script type="text/javascript">
+        const values = {};
+        const events = {};
+
+        function watch(key, callback) {
+            if (!events[key])
+                events[key] = [];
+
+            events[key].push(callback);
+        }
+
+        function trigger(key) {
+            if (events[key])
+                events[key].forEach(callback => callback(key, values[key]));
+        }
+
+        function update(key, value) {
+            document.getElementById(key).innerText = value;
+        }
+
+        function updateWithHref(key, value) {
+            document.getElementById(key).innerText = value;
+            document.getElementById(key).href = `guvrs://gudecks?guid=${value}`;
+        }
+
+        document.querySelector('.settings-btn').addEventListener('click', function () {
+            document.getElementById('settings-overlay').style.display = 'block';
+        });
+
+        document.getElementById('cancel-settings').addEventListener('click', function () {
+            document.getElementById('settings-overlay').style.display = 'none';
+        });
+
+        document.getElementById('save-settings').addEventListener('click', function () {
+            document.getElementById('settings-overlay').style.display = 'none';
+            location.href = `guvrs://save-settings?theme=${document.getElementById('dropdown-setting').value}&auto-open=${document.getElementById('auto-open-toggle').checked}`;
+        });
+
+        document.oncontextmenu = function () {
+            return false;
+        };
+
+        function guvrs_set_settings(theme, autoOpen) {
+            document.getElementById('dropdown-setting').value = theme;
+            document.getElementById('auto-open-toggle').checked = autoOpen;
+            document.getElementById('auto-open-toggle').dispatchEvent(new Event('change'));
+        }
+
+        function guvrs_set_value(key, value) {
+            values[key] = value;
+            trigger(key);
+        }
+
+        location.href = "guvrs://load-settings";
+        watch("GUVRS_GAME_ID", (key, value) => update(key, value));
+
+        watch("GUVRS_PLAYER_NAME", (key, value) => update(key, value));
+        watch("GUVRS_PLAYER_GUID", (key, value) => updateWithHref(key, value));
+        watch("GUVRS_PLAYER_RATING", (key, value) => update(key, value));
+        watch("GUVRS_PLAYER_WINPOINTS", (key, value) => update(key, value));
+        watch("GUVRS_PLAYER_LOSSPOINTS", (key, value) => update(key, value));
+
+        watch("GUVRS_OPPONENT_NAME", (key, value) => update(key, value))
+        watch("GUVRS_OPPONENT_GUID", (key, value) => updateWithHref(key, value));
+        watch("GUVRS_OPPONENT_RATING", (key, value) => update(key, value));
+        watch("GUVRS_OPPONENT_WINPOINTS", (key, value) => update(key, value));
+        watch("GUVRS_OPPONENT_LOSSPOINTS", (key, value) => update(key, value));
+    </script>
+  </body>
+
+</html>

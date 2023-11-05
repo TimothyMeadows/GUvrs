@@ -2,7 +2,7 @@
 using System.Text;
 using GUvrs.Models;
 
-namespace GUvrs.Modules;
+namespace GUvrs.Components;
 
 public class GuDebugLog
 {
@@ -13,6 +13,10 @@ public class GuDebugLog
     public delegate void GameStartHandler(GameStartModel model);
     public event GameStartHandler OnStart;
     private bool _onStartFired = false;
+
+    public delegate void GameModeHandler(int gameMode);
+    public event GameModeHandler OnGameMode;
+    private bool _onGameModeFired = false;
 
     public delegate void GameStopHandler(GameStopModel model);
     public event GameStopHandler OnStop;
@@ -63,14 +67,28 @@ public class GuDebugLog
         {
             if (!_onStartFired && line.Contains("gameID:") && line.Contains("player 0 name:") && line.Contains("player 1 name:"))
             {
+                var gameId = line.Extract("gameID: '", "' ");
+                if (gameId == "TODO")
+                    gameId = "SOLO";
+
                 OnStart?.Invoke(new GameStartModel()
                 {
-                    GameId = line.Extract("gameID: '", "' "),
+                    GameId = gameId,
                     Player0 = line.Extract("player 0 name: '", "',"),
                     Player1 = line.Extract("player 1 name: '", "')")
                 });
 
                 _onStartFired = true;
+                continue;
+            }
+
+            if (!_onGameModeFired && line.Contains("Game mode is "))
+            {
+                var gameMode = line.Extract("Game mode is '", "'");
+
+                OnGameMode?.Invoke(Convert.ToInt32(gameMode));
+
+                _onGameModeFired = true;
                 continue;
             }
 
@@ -105,7 +123,7 @@ public class GuDebugLog
                 {
                     Concede = line.Contains("ClientAPI.CloseClient"),
                     Won = line.Contains("LocalPlayer won")
-                }); 
+                });
 
                 _onStopFired = true;
                 continue;
@@ -118,6 +136,7 @@ public class GuDebugLog
                 _onStartFired = false;
                 _onBeginFired = false;
                 _onStopFired = false;
+                _onGameModeFired = false;
 
                 _onTick = false;
                 return;

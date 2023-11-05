@@ -1,32 +1,18 @@
-﻿namespace GUvrs.Modules;
+﻿namespace GUvrs.Components;
 
 public static class ControlRenderer
 {
     // When MAUI matures could be a useful base class to assign this to rather than to each direct control.
     // currently, however, the base control class in MAUI can "change" based on the OS where the direct control
     // class does not.
-    public static void Render(this Label label, Action action)
+    public static void Render(this WebView view, Action action)
     {
         if (!MainThread.IsMainThread)
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                ControlRenderer.Render(label, action);
-            });
-
-            return;
-        }
-
-        action?.Invoke();
-    }
-
-    public static void Render(this ImageButton button, Action action)
-    {
-        if (!MainThread.IsMainThread)
-        {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ControlRenderer.Render(button, action);
+                if (view.IsLoaded)
+                    view.Render(action);
             });
 
             return;
