@@ -136,6 +136,7 @@ public class GuDebugLog
                 _onStartFired = false;
                 _onBeginFired = false;
                 _onStopFired = false;
+                _onGameModeFired = false;
 
                 _onTick = false;
                 return;

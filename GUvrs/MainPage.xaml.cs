@@ -199,7 +199,7 @@ public partial class MainPage : ContentPage
     private void OpenBrowserWithGameMode(string guid)
     {
         var url = $"https://gudecks.com/meta/player-stats?userId={guid}";
-        if (_gameMode != -1 || _gameMode != 0 || _gameMode != 101)
+        if (_gameMode != -1 || _gameMode != 0 || _gameMode != 101 || _gameMode != 6)
             url += $"&gameMode={_gameMode}";
 
         Browser.OpenAsync(url);
