@@ -187,13 +187,17 @@ public partial class MainPage : ContentPage
 
     private void EvaluateJavaScriptAsync(string javascript)
     {
-        try
+        ControlRenderer.Render(WebView, async () =>
         {
-            ControlRenderer.Render(WebView, async () => await WebView.EvaluateJavaScriptAsync(javascript));
-        } catch(Exception)
-        {
-            return; // supress errors in runtime
-        }
+            try
+            {
+                await WebView.EvaluateJavaScriptAsync(javascript);
+            }
+            catch (Exception)
+            {
+                return; // supress errors in runtime
+            }
+        });
     }
 
     private void OpenBrowserWithGameMode(string guid)
