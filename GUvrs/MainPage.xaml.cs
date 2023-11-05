@@ -57,7 +57,11 @@ public partial class MainPage : ContentPage
         {
             { "GUVRS_GAME_ID", _defaults.GUVRS_GAME_ID },
             { "GUVRS_OPPONENT_GUID", _defaults.GUVRS_OPPONENT_GUID },
-            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME }
+            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME },
+            { "GUVRS_OPPONENT_RATING", _defaults.GUVRS_OPPONENT_RATING },
+            { "GUVRS_OPPONENT_WINPOINTS", _defaults.GUVRS_OPPONENT_WINPOINTS },
+            { "GUVRS_OPPONENT_LOSSPOINTS", _defaults.GUVRS_OPPONENT_LOSSPOINTS },
+            { "GUVRS_OPPONENT_SAFELINE", _defaults.GUVRS_OPPONENT_SAFELINE }
         });
     }
 
@@ -67,7 +71,11 @@ public partial class MainPage : ContentPage
         {
             { "GUVRS_GAME_ID", _defaults.GUVRS_GAME_ID },
             { "GUVRS_OPPONENT_GUID", _defaults.GUVRS_OPPONENT_GUID },
-            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME }
+            { "GUVRS_OPPONENT_NAME", _defaults.GUVRS_OPPONENT_NAME },
+            { "GUVRS_OPPONENT_RATING", _defaults.GUVRS_OPPONENT_RATING },
+            { "GUVRS_OPPONENT_WINPOINTS", _defaults.GUVRS_OPPONENT_WINPOINTS },
+            { "GUVRS_OPPONENT_LOSSPOINTS", _defaults.GUVRS_OPPONENT_LOSSPOINTS },
+            { "GUVRS_OPPONENT_SAFELINE", _defaults.GUVRS_OPPONENT_SAFELINE }
         });
     }
 
