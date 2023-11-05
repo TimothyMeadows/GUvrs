@@ -11,7 +11,7 @@ This is a tool for checking the Gods Unchained debug log for you, and your oppon
 
 # Install
 
-You can download the latest release for Windows, or Mac from [here](https://github.com/TimothyMeadows/GUvrs/releases/tag/2.0.2).
+You can download the latest release for Windows, or Mac from [here](https://github.com/TimothyMeadows/GUvrs/releases/tag/3.0.0).
 
 ## Windows
 
