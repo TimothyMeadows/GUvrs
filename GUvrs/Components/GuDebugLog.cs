@@ -65,7 +65,7 @@ public class GuDebugLog
         var lines = file.Split('\n', StringSplitOptions.RemoveEmptyEntries);
         foreach (var line in lines)
         {
-            if (!_onStartFired && line.Contains("gameID:") && line.Contains("player 0 name:") && line.Contains("player 1 name:"))
+            if (!_onStartFired && line.Contains("gameID:"))
             {
                 var gameId = line.Extract("gameID: '", "' ");
                 if (gameId == "TODO")
@@ -73,9 +73,7 @@ public class GuDebugLog
 
                 OnStart?.Invoke(new GameStartModel()
                 {
-                    GameId = gameId,
-                    Player0 = line.Extract("player 0 name: '", "',"),
-                    Player1 = line.Extract("player 1 name: '", "')")
+                    GameId = gameId
                 });
 
                 _onStartFired = true;
@@ -170,12 +168,12 @@ public class GuDebugLog
 
         var propertyValue = value.Extract("nickName:", "isOnServer:")?.Trim();
         if (!string.IsNullOrEmpty(propertyValue))
-            propertyValue = propertyValue.Substring(0, propertyValue.Length - 1);
+            propertyValue = propertyValue[..^1];
         playerInfo.Add("nickName", propertyValue);
 
         propertyValue = value.Extract("apolloId:", "netId:")?.Trim();
         if (!string.IsNullOrEmpty(propertyValue))
-            propertyValue = propertyValue.Substring(0, propertyValue.Length - 1);
+            propertyValue = propertyValue[..^1];
         playerInfo.Add("apolloId", propertyValue);
 
         return playerInfo;

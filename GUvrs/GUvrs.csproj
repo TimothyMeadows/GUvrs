@@ -83,6 +83,10 @@
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\copyicon.png" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Raw\" />
+	</ItemGroup>
 	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
 		<DefineConstants>WINDOWS</DefineConstants>
 	</PropertyGroup>
