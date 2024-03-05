@@ -9,10 +9,11 @@ using MemoryCache.NetCore;
 using Models;
 using System.Text.Json;
 using System;
+using Windows.Storage.Pickers;
 
 public partial class MainPage : ContentPage
 {
-    private static Dictionary<int, string> MODES;
+    //private static Dictionary<int, string> MODES;
 
     private readonly MemoryCache _settings;
     private readonly GuDebugLog _log;
@@ -47,6 +48,7 @@ public partial class MainPage : ContentPage
 
         ConcurrentEventListener.Register("load-settings", OnLoadSettings);
         ConcurrentEventListener.Register("save-settings", OnSaveSettings);
+        ConcurrentEventListener.Register("open-settings-folder", OnOpenSettingsFolder);
         ConcurrentEventListener.Register("gudecks", OnGudecks);
         ConcurrentEventListener.Register("copy", OnCopy);
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
@@ -83,7 +85,7 @@ public partial class MainPage : ContentPage
             { "GUVRS_OPPONENT_SAFELINE", _defaults.GUVRS_OPPONENT_SAFELINE }
         });
 
-        var playerRank = Task.Run(() => new GuApi().GetRank(_player.ID)).Result;
+        var playerRank = Task.Run(async () => await new GuApi().GetRank(_player.ID)).Result;
         _SetValues(new()
         {
             { "GUVRS_PLAYER_RATING", playerRank.Rating.ToString() },
@@ -105,10 +107,10 @@ public partial class MainPage : ContentPage
         _player = model?.Player;
         _opponent = model?.Opponnent;
 
-        var playerRank = Task.Run(() => new GuApi().GetRank(_player.ID)).Result;
+        var playerRank = Task.Run(async () => await new GuApi().GetRank(_player.ID)).Result;
         PlayerRankModel opponnentRank = null;
         if (_opponent.ID != "-1")
-            opponnentRank = Task.Run(() => new GuApi().GetRank(_opponent.ID)).Result;
+            opponnentRank = Task.Run(async () => await new GuApi().GetRank(_opponent.ID)).Result;
 
         if (IsAutoOpen() && _opponent.ID != "-1")
             OpenBrowserWithGameMode(_gameId, _opponent.ID);
@@ -256,6 +258,11 @@ public partial class MainPage : ContentPage
     private void OnLoadSettings(Dictionary<string, string> data)
     {
         _SetSettings();
+    }
+
+    private void OnOpenSettingsFolder(Dictionary<string, string> data)
+    {
+        Launcher.Default?.OpenAsync($"file://{FileSystem.AppDataDirectory}");
     }
 
     private void OnSaveSettings(Dictionary<string, string> data)
