@@ -224,15 +224,10 @@ public partial class MainPage : ContentPage
 
     private void OpenBrowserWithGameMode(string gameId, string guid)
     {
-        if (string.IsNullOrEmpty(gameId) || (_state.ContainsKey(gameId) && _state[gameId] == true))
+        if (string.IsNullOrEmpty(gameId))
             return;
 
-        var url = $"https://gudecks.com/meta/player-stats?userId={guid}";
-        if (_gameMode != -1 || _gameMode != 0 || _gameMode != 101 || _gameMode != 6)
-            url += $"&gameMode={_gameMode}";
-
-        _state.Add(gameId, true);
-        Browser.OpenAsync(url);
+        Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={guid}&gameMode={_gameMode}").Wait(TimeSpan.FromSeconds(3));
     }
 
     private void WebView_Navigating(object sender, WebNavigatingEventArgs e)
@@ -292,7 +287,7 @@ public partial class MainPage : ContentPage
         if (guid == "-1")
             return;
 
-        Clipboard.SetTextAsync(guid);
+        Clipboard.SetTextAsync(guid).Wait(TimeSpan.FromSeconds(3));
     }
 
     private void OnReportIssue(Dictionary<string, string> data)
