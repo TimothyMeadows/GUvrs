@@ -9,7 +9,6 @@ using MemoryCache.NetCore;
 using Models;
 using System.Text.Json;
 using System;
-using Windows.Storage.Pickers;
 
 public partial class MainPage : ContentPage
 {
@@ -54,6 +53,9 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
 
         // MODES ??= Task.Run(() => new GuApi().GetModes()).Result;
+
+        if (!Directory.Exists(FileSystem.AppDataDirectory))
+            Directory.CreateDirectory(FileSystem.AppDataDirectory);
     }
 
     private void OnEnd()
@@ -196,6 +198,7 @@ public partial class MainPage : ContentPage
 
     private void SaveSettings()
     {
+        DisplayAlert("Alert", FileSystem.AppDataDirectory, "Cancel");
         var json = _settings.Save<string>();
         File.WriteAllText($"{FileSystem.AppDataDirectory}\\settings.json", json);
     }
@@ -262,7 +265,7 @@ public partial class MainPage : ContentPage
 
     private void OnOpenSettingsFolder(Dictionary<string, string> data)
     {
-        Launcher.Default?.OpenAsync($"file://{FileSystem.AppDataDirectory}");
+        Launcher.Default?.OpenAsync($"{FileSystem.AppDataDirectory}");
     }
 
     private void OnSaveSettings(Dictionary<string, string> data)
