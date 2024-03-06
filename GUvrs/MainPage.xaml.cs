@@ -10,6 +10,7 @@ using Models;
 using System.Text.Json;
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime;
 
 public partial class MainPage : ContentPage
 {
@@ -45,7 +46,7 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("load-settings", OnLoadSettings);
         ConcurrentEventListener.Register("save-settings", OnSaveSettings);
         ConcurrentEventListener.Register("open-settings-folder", OnOpenSettingsFolder);
-        ConcurrentEventListener.Register("gudecks", OnGudecks);
+        ConcurrentEventListener.Register("open", OnOpen);
         ConcurrentEventListener.Register("copy", OnCopy);
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
     }
@@ -146,6 +147,21 @@ public partial class MainPage : ContentPage
         return autoOpen;
     }
 
+    private string GetSite()
+    {
+        string site;
+        try
+        {
+            site = ((JsonElement)_settings["site"]).GetString();
+        }
+        catch (Exception)
+        {
+            site = string.Empty;
+        }
+
+        return site;
+    }
+
     private void _SetSettings()
     {
         string theme;
@@ -168,10 +184,20 @@ public partial class MainPage : ContentPage
             autoOpen = string.Empty;
         }
 
+        string site;
+        try
+        {
+            site = ((JsonElement)_settings["site"]).GetString();
+        }
+        catch (Exception)
+        {
+            site = string.Empty;
+        }
+
         if (string.IsNullOrEmpty(theme))
             return;
 
-        EvaluateJavaScriptAsync($"guvrs_set_settings('{theme}', '{autoOpen.ToLower()}');");
+        EvaluateJavaScriptAsync($"guvrs_set_settings('{theme}', '{autoOpen.ToLower()}', '{site}');");
     }
 
     private void _SetValues(Dictionary<string, string> values)
@@ -223,7 +249,28 @@ public partial class MainPage : ContentPage
         if (string.IsNullOrEmpty(gameId))
             return;
 
-        Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={guid}&gameMode={_gameMode}").Wait(TimeSpan.FromSeconds(3));
+        var site = GetSite()?.ToLower();
+        switch (site)
+        {
+            default:
+            case "gudecks":
+                switch (_gameMode)
+                {
+                    case 200: // chaos
+                    case 13: // ranked
+                    case 110: // casual
+                    case 7: // sealed
+                        Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={guid}&gameMode={_gameMode}").Wait(TimeSpan.FromSeconds(3));
+                        break;
+                    default:
+                        Browser.OpenAsync($"https://gudecks.com/meta/player-stats?userId={guid}").Wait(TimeSpan.FromSeconds(3));
+                        break;
+                }
+                break;
+            case "gumeta":
+                Browser.OpenAsync($"https://gumeta.web.app/profile?userId={guid}").Wait(TimeSpan.FromSeconds(3));
+                break;
+        }
     }
 
     private void WebView_Navigating(object sender, WebNavigatingEventArgs e)
@@ -265,9 +312,10 @@ public partial class MainPage : ContentPage
             _settings.Write(setting.Key, setting.Value);
 
         SaveSettings();
+        LoadSettings();
     }
 
-    private void OnGudecks(Dictionary<string, string> data)
+    private void OnOpen(Dictionary<string, string> data)
     {
         if (!data.ContainsKey("guid"))
             return;

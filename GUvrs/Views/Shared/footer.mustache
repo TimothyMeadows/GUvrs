@@ -21,7 +21,7 @@
 
         function updateWithHref(key, value) {
             document.getElementById(key).innerText = value;
-            document.getElementById(key).href = `guvrs://gudecks?guid=${value}`;
+            document.getElementById(key).href = `guvrs://open?guid=${value}`;
             document.getElementById(`${key}_COPY`).href = `guvrs://copy?guid=${value}`;
         }
 
@@ -39,15 +39,16 @@
 
         document.getElementById('save-settings').addEventListener('click', function () {
             document.getElementById('settings-overlay').style.display = 'none';
-            location.href = `guvrs://save-settings?theme=${document.getElementById('dropdown-setting').value}&auto-open=${document.getElementById('auto-open-toggle').checked}`;
+            location.href = `guvrs://save-settings?theme=${document.getElementById('dropdown-setting').value}&site=${document.getElementById('dropdown-setting-site').value}&auto-open=${document.getElementById('auto-open-toggle').checked}`;
         });
 
         document.oncontextmenu = function () {
             return false;
         };
 
-        function guvrs_set_settings(theme, autoOpen) {
+        function guvrs_set_settings(theme, autoOpen, site) {
             document.getElementById('dropdown-setting').value = theme;
+            document.getElementById('dropdown-setting-site').value = site;
             document.getElementById('auto-open-toggle').checked = autoOpen;
             document.getElementById('auto-open-toggle').dispatchEvent(new Event('change'));
         }
