@@ -13,8 +13,6 @@ using System.Runtime.InteropServices;
 
 public partial class MainPage : ContentPage
 {
-    //private static Dictionary<int, string> MODES;
-
     private readonly MemoryCache _settings;
     private readonly GuDebugLog _log;
     private string _gameId = string.Empty;
@@ -22,13 +20,11 @@ public partial class MainPage : ContentPage
     private PlayerModel _player;
     private PlayerModel _opponent;
     private readonly MainPageViewModel _defaults;
-    private readonly Dictionary<string, bool> _state;
 
     public MainPage()
     {
         InitializeComponent();
         _defaults = new MainPageViewModel();
-        _state = new();
 
         WebView.Navigating += WebView_Navigating;
         WebView.Source = new HtmlWebViewSource()
@@ -52,8 +48,6 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("gudecks", OnGudecks);
         ConcurrentEventListener.Register("copy", OnCopy);
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
-
-        // MODES ??= Task.Run(() => new GuApi().GetModes()).Result;
     }
 
     private void OnEnd()
@@ -262,7 +256,7 @@ public partial class MainPage : ContentPage
 
     private void OnOpenSettingsFolder(Dictionary<string, string> data)
     {
-        Launcher.Default?.OpenAsync($"{FileSystem.AppDataDirectory}");
+        Launcher.Default?.OpenAsync($"{CrossPlatform.FileSystem.AppDataDirectory}");
     }
 
     private void OnSaveSettings(Dictionary<string, string> data)
