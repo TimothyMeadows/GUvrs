@@ -265,7 +265,7 @@ public partial class MainPage : ContentPage
                 }
                 break;
             case "gumeta":
-                if (_gameMode == 7)
+                if (_gameMode == 7) // sealed
                     Browser.OpenAsync($"https://gumeta.web.app/profile?userId={guid}").Wait(TimeSpan.FromSeconds(3));
                 break;
         }
