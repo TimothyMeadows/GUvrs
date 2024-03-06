@@ -1,7 +1,6 @@
 ﻿namespace GUvrs;
 
 using System.Web;
-using Microsoft.Maui.Storage;
 using GUvrs.Components;
 using GUvrs.Models.Views;
 using GUvrs.Views;
@@ -9,8 +8,6 @@ using MemoryCache.NetCore;
 using Models;
 using System.Text.Json;
 using System;
-using System.Runtime.InteropServices;
-using System.Runtime;
 
 public partial class MainPage : ContentPage
 {
@@ -268,7 +265,8 @@ public partial class MainPage : ContentPage
                 }
                 break;
             case "gumeta":
-                Browser.OpenAsync($"https://gumeta.web.app/profile?userId={guid}").Wait(TimeSpan.FromSeconds(3));
+                if (_gameMode == 7)
+                    Browser.OpenAsync($"https://gumeta.web.app/profile?userId={guid}").Wait(TimeSpan.FromSeconds(3));
                 break;
         }
     }
