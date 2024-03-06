@@ -9,6 +9,7 @@ using MemoryCache.NetCore;
 using Models;
 using System.Text.Json;
 using System;
+using System.Runtime.InteropServices;
 
 public partial class MainPage : ContentPage
 {
@@ -53,9 +54,6 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
 
         // MODES ??= Task.Run(() => new GuApi().GetModes()).Result;
-
-        if (!Directory.Exists(FileSystem.AppDataDirectory))
-            Directory.CreateDirectory(FileSystem.AppDataDirectory);
     }
 
     private void OnEnd()
@@ -198,17 +196,16 @@ public partial class MainPage : ContentPage
 
     private void SaveSettings()
     {
-        DisplayAlert("Alert", FileSystem.AppDataDirectory, "Cancel");
         var json = _settings.Save<string>();
-        File.WriteAllText($"{FileSystem.AppDataDirectory}\\settings.json", json);
+        CrossPlatform.FileSystem.WriteText("settings.json", json);
     }
 
     private void LoadSettings()
     {
-        if (!File.Exists($"{FileSystem.AppDataDirectory}\\settings.json"))
+        if (!CrossPlatform.FileSystem.Exists("settings.json"))
             return;
 
-        var json = File.ReadAllText($"{FileSystem.AppDataDirectory}\\settings.json");
+        var json = CrossPlatform.FileSystem.ReadText("settings.json");
         _settings.Load<string>(json);
     }
 
@@ -222,7 +219,7 @@ public partial class MainPage : ContentPage
             }
             catch (Exception)
             {
-                return; // supress errors in runtime
+                return; // suppress errors in runtime
             }
         });
     }

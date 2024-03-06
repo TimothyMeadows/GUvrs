@@ -34,7 +34,7 @@ public class GuDebugLog
         _timer = new Timer(Tick, null, 0, 1000);
 
         _watcher = new FileSystemWatcher();
-        _watcher.Path = CrossPlatform.GuLogPath;
+        _watcher.Path = CrossPlatform.FileSystem.GuLogPath;
         _watcher.Filter = "*.log";
         _watcher.NotifyFilter = NotifyFilters.Security | NotifyFilters.Size | NotifyFilters.LastWrite | NotifyFilters.LastAccess;
         _watcher.EnableRaisingEvents = true;
@@ -54,7 +54,7 @@ public class GuDebugLog
             return;
 
         _onTick = false;
-        var debugPath = $"{CrossPlatform.GuLogPath}/debug.log";
+        var debugPath = $"{CrossPlatform.FileSystem.GuLogPath}/debug.log";
         if (!File.Exists(debugPath))
             return;
 
