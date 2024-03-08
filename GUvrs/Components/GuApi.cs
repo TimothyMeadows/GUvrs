@@ -15,7 +15,7 @@ public class GuApi
     private static string GU_API_LEGACY_CNAME = "game-legacy.prod.prod.godsunchained.com";
     private static string GU_API_CNAME = "api.godsunchained.com";
 
-    private static HttpClient? _http;
+    private static HttpClient _http;
 
     public GuApi()
     {
