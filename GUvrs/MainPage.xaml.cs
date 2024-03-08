@@ -301,7 +301,7 @@ public partial class MainPage : ContentPage
 
     private void OnOpenSettingsFolder(Dictionary<string, string> data)
     {
-        Launcher.Default?.OpenAsync($"{CrossPlatform.FileSystem.AppDataDirectory}");
+        CrossPlatform.Open($"{CrossPlatform.FileSystem.AppDataDirectory}");
     }
 
     private void OnSaveSettings(Dictionary<string, string> data)

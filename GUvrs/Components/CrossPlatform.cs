@@ -1,7 +1,27 @@
-﻿namespace GUvrs.Components;
+﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
+
+namespace GUvrs.Components;
 
 public static class CrossPlatform
 {
+    public static void Open(string path)
+    {
+        var fileManager = "explorer";
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            fileManager = "open";
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = fileManager,
+            Arguments = path,
+            UseShellExecute = false
+        };
+
+        using var process = new Process { StartInfo = startInfo };
+        process.Start();
+    }
+
     public static class FileSystem
     {
         public static string AppDataDirectory => Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
