@@ -19,6 +19,39 @@
             document.getElementById(key).innerText = value;
         }
 
+        function safeHtmlEntities(str) {
+            return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+        }
+
+        function updateWithUnityColor(key, value) {
+            const regex = /(<#([0-9A-Fa-f]{3}){1,2}>)/;
+            const segments = safeHtmlEntities(value).split(regex);
+            const result = [];
+
+            if (segments.length === 1) {
+                result.push(value);
+            } else {
+                let currentColor = null;
+                for (let i = 0; i < segments.length; i++) {
+                    const segment = segments[i];
+
+                    if (segment.startsWith('<#')) {
+                        currentColor = segment.slice(2, -1);
+                    } else {
+                        if (currentColor) {
+                            result.push(`<font color="#${currentColor}">`);
+                            currentColor = null;
+                        } else {
+                            result.push(segment);
+                        }
+                    }
+                }
+            }
+
+            const html = result.join('');
+            document.getElementById(key).innerHTML = html;
+        }
+
         function updateWithHref(key, value) {
             document.getElementById(key).innerText = value;
             document.getElementById(key).href = `guvrs://open?guid=${value}`;
@@ -61,13 +94,13 @@
         location.href = "guvrs://load-settings";
         watch("GUVRS_GAME_ID", (key, value) => update(key, value));
 
-        watch("GUVRS_PLAYER_NAME", (key, value) => update(key, value));
+        watch("GUVRS_PLAYER_NAME", (key, value) => updateWithUnityColor(key, value));
         watch("GUVRS_PLAYER_GUID", (key, value) => updateWithHref(key, value));
         watch("GUVRS_PLAYER_RATING", (key, value) => update(key, value));
         watch("GUVRS_PLAYER_WINPOINTS", (key, value) => update(key, value));
         watch("GUVRS_PLAYER_LOSSPOINTS", (key, value) => update(key, value));
 
-        watch("GUVRS_OPPONENT_NAME", (key, value) => update(key, value))
+        watch("GUVRS_OPPONENT_NAME", (key, value) => updateWithUnityColor(key, value))
         watch("GUVRS_OPPONENT_GUID", (key, value) => updateWithHref(key, value));
         watch("GUVRS_OPPONENT_RATING", (key, value) => update(key, value));
         watch("GUVRS_OPPONENT_WINPOINTS", (key, value) => update(key, value));
