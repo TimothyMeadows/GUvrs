@@ -265,8 +265,16 @@ public partial class MainPage : ContentPage
                 }
                 break;
             case "gumeta":
-                if (_gameMode == 7) // sealed
-                    Browser.OpenAsync($"https://gumeta.web.app/profile?userId={guid}").Wait(TimeSpan.FromSeconds(3));
+                switch (_gameMode)
+                {
+                    case 7: // sealed
+                        Browser.OpenAsync($"https://gumeta.web.app/sealed?userId={guid}").Wait(TimeSpan.FromSeconds(3));
+                        break;
+                    case 13: // ranked
+                    default:
+                        Browser.OpenAsync($"https://gumeta.web.app/ranked?userId={guid}").Wait(TimeSpan.FromSeconds(3));
+                        break;
+                }
                 break;
         }
     }
