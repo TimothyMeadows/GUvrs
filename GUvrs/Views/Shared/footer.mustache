@@ -66,9 +66,18 @@
             document.getElementById('friends-overlay').style.display = 'none';
         });
 
-        document.getElementById('save-friends').addEventListener('click', function () {
+        document.getElementById('cancel-friends-add').addEventListener('click', function () {
+            document.getElementById('add-friend-overlay').style.display = 'none';
+        });
+
+        document.getElementById('add-friend').addEventListener('click', function () {
             document.getElementById('friends-overlay').style.display = 'none';
-            location.href = `guvrs://save-friends`;
+            document.getElementById('add-friend-overlay').style.display = 'block';
+        });
+
+        document.getElementById('save-friend').addEventListener('click', function () {
+            document.getElementById('add-friend-overlay').style.display = 'none';
+            location.href = `guvrs://save-friend?guid=${document.getElementById('friend-guid').value}&name=${document.getElementById('friend-name').value}`;
         });
 
         document.querySelector('.settings-btn').addEventListener('click', function () {
@@ -102,6 +111,11 @@
         function guvrs_set_value(key, value) {
             values[key] = value;
             trigger(key);
+        }
+
+        function guvrs_set_html(key, html) {
+            document.getElementById(key).innerHTML = html;
+        
         }
 
         location.href = "guvrs://load-settings";

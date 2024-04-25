@@ -8,9 +8,11 @@ using MemoryCache.NetCore;
 using Models;
 using System.Text.Json;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 public partial class MainPage : ContentPage
 {
+    private static List<FriendModel> Friends;
     private readonly MemoryCache _settings;
     private readonly GuDebugLog _log;
     private string _gameId = string.Empty;
@@ -37,11 +39,15 @@ public partial class MainPage : ContentPage
         _log.OnStop += OnStop;
         _log.OnEnd += OnEnd;
 
+        Friends ??= new List<FriendModel>();
+        LoadFriends();
+
         _settings = new();
         LoadSettings();
 
         ConcurrentEventListener.Register("load-settings", OnLoadSettings);
         ConcurrentEventListener.Register("save-settings", OnSaveSettings);
+        ConcurrentEventListener.Register("save-friend", OnSaveFriend);
         ConcurrentEventListener.Register("open-settings-folder", OnOpenSettingsFolder);
         ConcurrentEventListener.Register("open", OnOpen);
         ConcurrentEventListener.Register("copy", OnCopy);
@@ -211,6 +217,35 @@ public partial class MainPage : ContentPage
         EvaluateJavaScriptAsync($"guvrs_set_value('{_name}', '{_value}');");
     }
 
+    private void _SetHtml(string name, string html)
+    {
+       
+        EvaluateJavaScriptAsync($"guvrs_set_html('{name}', '{html}');");
+    }
+
+    private void SaveFriends()
+    {
+        var jsonObject = new FriendsModel()
+        {
+            Friends = Friends
+        };
+
+        var json = JsonSerializer.Serialize(jsonObject);
+        CrossPlatform.FileSystem.WriteText("friends.json", json);
+
+    }
+
+    private void LoadFriends()
+    {
+        if (!CrossPlatform.FileSystem.Exists("friends.json"))
+            return;
+
+        var json = CrossPlatform.FileSystem.ReadText("friends.json");
+        var jsonObject = JsonSerializer.Deserialize<FriendsModel>(json);
+
+        Friends = jsonObject.Friends;
+    }
+
     private void SaveSettings()
     {
         var json = _settings.Save<string>();
@@ -319,6 +354,43 @@ public partial class MainPage : ContentPage
 
         SaveSettings();
         LoadSettings();
+    }
+
+    private void OnSaveFriend(Dictionary<string, string> data)
+    {
+        int guid = 0;
+        try
+        {
+            if (data.ContainsKey("guid"))
+                guid = Convert.ToInt32(data["guid"]);
+        }
+        catch (FormatException)
+        {
+            _SetHtml("friend-errors", "Guid must be a number.");
+            return;
+        }
+
+        string name = string.Empty;
+        if (data.ContainsKey("name"))
+            name = data["name"];
+
+        var model = new FriendModel()
+        {
+            Guid = guid,
+            Name = name
+        };
+     
+        var exists = !(Friends.FirstOrDefault(x => x.Guid == guid) == default(FriendModel));
+        if (!exists)
+
+        {
+            Friends.Add(model);
+            SaveFriends();
+        }
+        else
+        {
+            _SetHtml("friend-errors", "Friend already exists.");
+        }
     }
 
     private void OnOpen(Dictionary<string, string> data)

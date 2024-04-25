@@ -54,17 +54,42 @@
 
 <div class="overlay" id="friends-overlay">
     <div class="friends-modal">
-        <h2>Friends</h2>
+        <h2 class="centered-h2">Friends</h2>
         <div class="button-row">
-            <button id="save-friends">Save</button>
+            <button id="add-friend">Add Friend</button>
             <button id="cancel-friends">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="add-friend-overlay">
+    <div class="friends-modal">
+        <h2 class="centered-h2">Add Friends</h2>
+        <div id="friend-errors" class="friend-row"></div>        
+        <div class="friend-row">
+            This is the Users GUid.
+        </div>
+        <div class="friend-row">
+            <label for="friend-guid">Guid:</label>
+            <input type="text" id="friend-guid">
+        </div>
+        <div class="friend-row">
+            This is the name you want to show.
+        </div>
+        <div class="friend-row">
+            <label for="friend-name">Friend:</label>
+            <input type="text" id="friend-name">
+        </div>
+        <div class="button-row">
+            <button id="save-friend">Save Friend</button>
+            <button id="cancel-friends-add">Cancel</button>
         </div>
     </div>
 </div>
 
 <div class="overlay" id="settings-overlay">
     <div class="settings-modal">
-        <h2>Settings</h2>
+        <h2 class="centered-h2">Settings</h2>
         <div class="setting-row">
             <label for="dropdown-setting">Theme:</label>
             <select id="dropdown-setting">
