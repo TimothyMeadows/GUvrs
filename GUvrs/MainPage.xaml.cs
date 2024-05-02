@@ -32,6 +32,8 @@ public partial class MainPage : ContentPage
             Html = ViewEngine.Render("MainPage.index", _defaults)
         };
 
+        WebView.Loaded += WebView_Loaded;
+
         _log = new GuDebugLog();
         _log.OnBegin += OnBegin;
         _log.OnGameMode += OnGameMode;
@@ -44,6 +46,7 @@ public partial class MainPage : ContentPage
 
         _settings = new();
         LoadSettings();
+        
 
         ConcurrentEventListener.Register("load-settings", OnLoadSettings);
         ConcurrentEventListener.Register("save-settings", OnSaveSettings);
@@ -52,6 +55,12 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("open", OnOpen);
         ConcurrentEventListener.Register("copy", OnCopy);
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
+    }
+
+    private void WebView_Loaded(object sender, EventArgs e)
+    {
+        if (Friends.Any())
+            _ShowFriends();
     }
 
     private void OnEnd()
@@ -223,6 +232,11 @@ public partial class MainPage : ContentPage
         EvaluateJavaScriptAsync($"guvrs_set_html('{name}', '{html}');");
     }
 
+    private void _ShowFriends()
+    {
+
+        EvaluateJavaScriptAsync($"guvrs_show_friends();");
+    }
     private void SaveFriends()
     {
         var jsonObject = new FriendsModel()

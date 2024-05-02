@@ -55,9 +55,27 @@
 <div class="overlay" id="friends-overlay">
     <div class="friends-modal">
         <h2 class="centered-h2">Friends</h2>
-        <div class="friend-row">
+        <div id="no-friends" class="friend-row">
             You have no friends :c
         </div>
+        <div id="has-friends" class="friend-row">
+            <table>
+                <tr>
+                    <th>Action</th>
+                    <th>Name</th>
+                    <th>User Id</th>
+                </tr>
+                <tr>
+                    <td>
+                        <i class="fa-solid fa-xmark"></i>
+                    </td>
+                    <td>Bird</td>
+                    <td>1234</td>
+                </tr>
+
+            </table>
+        </div>
+
         <div class="button-row">
             <button id="add-friend">Add Friend</button>
             <button id="cancel-friends">Cancel</button>

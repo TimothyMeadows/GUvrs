@@ -118,6 +118,10 @@
         
         }
 
+        function guvrs_show_friends() {
+            document.getElementById('has-friends').style.display = 'block';
+        }
+
         location.href = "guvrs://load-settings";
         watch("GUVRS_GAME_ID", (key, value) => update(key, value));
 
