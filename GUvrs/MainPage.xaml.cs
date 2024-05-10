@@ -32,7 +32,6 @@ public partial class MainPage : ContentPage
             Html = ViewEngine.Render("MainPage.index", _defaults)
         };
 
-        WebView.Loaded += WebView_Loaded;
 
         _log = new GuDebugLog();
         _log.OnBegin += OnBegin;
@@ -55,12 +54,6 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("open", OnOpen);
         ConcurrentEventListener.Register("copy", OnCopy);
         ConcurrentEventListener.Register("report-issue", OnReportIssue);
-    }
-
-    private void WebView_Loaded(object sender, EventArgs e)
-    {
-        if (Friends.Any())
-            _ShowFriends();
     }
 
     private void OnEnd()
@@ -232,6 +225,12 @@ public partial class MainPage : ContentPage
         EvaluateJavaScriptAsync($"guvrs_set_html('{name}', '{html}');");
     }
 
+    private void _LoadFriends()
+    {
+
+        var json = JsonSerializer.Serialize(Friends);
+        EvaluateJavaScriptAsync($"guvrs_load_friends({json});");
+    }
     private void _ShowFriends()
     {
 
@@ -354,6 +353,7 @@ public partial class MainPage : ContentPage
     private void OnLoadSettings(Dictionary<string, string> data)
     {
         _SetSettings();
+        _LoadFriends();
     }
 
     private void OnOpenSettingsFolder(Dictionary<string, string> data)

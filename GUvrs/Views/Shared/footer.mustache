@@ -122,6 +122,15 @@
             document.getElementById('has-friends').style.display = 'block';
         }
 
+        function guvrs_load_friends(friends) {
+            // has-friends
+            for (var index in friends) {
+                document.getElementById('no-friends').innerHTML += friends[index].Name + '<br/>\n';
+
+            }
+         //   document.getElementById('no-friends').innerHTML = friends.join('<br/>\n');
+        }
+
         location.href = "guvrs://load-settings";
         watch("GUVRS_GAME_ID", (key, value) => update(key, value));
 
