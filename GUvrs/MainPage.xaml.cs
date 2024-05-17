@@ -227,13 +227,14 @@ public partial class MainPage : ContentPage
 
     private void _LoadFriends()
     {
-
         var json = JsonSerializer.Serialize(Friends);
         EvaluateJavaScriptAsync($"guvrs_load_friends({json});");
+
+        if (Friends.Count > 0)
+            _ShowFriends();
     }
     private void _ShowFriends()
     {
-
         EvaluateJavaScriptAsync($"guvrs_show_friends();");
     }
     private void SaveFriends()
@@ -396,10 +397,10 @@ public partial class MainPage : ContentPage
      
         var exists = !(Friends.FirstOrDefault(x => x.Guid == guid) == default(FriendModel));
         if (!exists)
-
         {
             Friends.Add(model);
             SaveFriends();
+            _LoadFriends();
         }
         else
         {

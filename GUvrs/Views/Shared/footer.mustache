@@ -119,16 +119,24 @@
         }
 
         function guvrs_show_friends() {
+            document.getElementById('no-friends').style.display = 'none';
             document.getElementById('has-friends').style.display = 'block';
         }
 
         function guvrs_load_friends(friends) {
-            // has-friends
+            var table = document.getElementById("friends");
+   
             for (var index in friends) {
-                document.getElementById('no-friends').innerHTML += friends[index].Name + '<br/>\n';
+                var row = table.insertRow();
 
+                var actions = row.insertCell(0);
+                var name = row.insertCell(1);
+                var guid = row.insertCell(2);
+
+                actions.innerHTML = "<i class=\"fa-solid fa-xmark\"></i>";
+                name.innerHTML = friends[index].Name;
+                guid.innerHTML = friends[index].Guid;
             }
-         //   document.getElementById('no-friends').innerHTML = friends.join('<br/>\n');
         }
 
         location.href = "guvrs://load-settings";
