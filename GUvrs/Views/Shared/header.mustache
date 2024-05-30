@@ -210,10 +210,12 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 1000;
+            overflow: auto;
         }
 
         .friends-modal {
             width: 300px;
+            max-width: 300px;
             background-color: #fff;
             padding: 20px;
             position: absolute;
@@ -267,7 +269,12 @@
 
         #has-friends {
             display: none;
-            overflow: scroll;
+        }
+
+        #friends {
+            width: 300px;
+            max-width: 300px;
+            word-wrap: break-word;
         }
 
         table {
@@ -287,6 +294,12 @@
         th {
             background-color: orange;
             color: white;
+            white-space: nowrap;
+        }
+
+        td {
+            white-space: normal;
+            word-break: break-all;
         }
 
         .fa-xmark {

@@ -114,8 +114,7 @@
         }
 
         function guvrs_set_html(key, html) {
-            document.getElementById(key).innerHTML = html;
-        
+            document.getElementById(key).innerHTML = html;     
         }
 
         function guvrs_show_friends() {
@@ -136,7 +135,7 @@
                 var name = row.insertCell(1);
                 var guid = row.insertCell(2);
 
-                actions.innerHTML = `<a href=\"guvrs://remove-friend?guid=${friends[index].Guid}\"><i class=\"fa-solid fa-xmark\"></i></a>`;
+                actions.innerHTML = `<a href=\"guvrs://remove-friend?guid=${friends[index].Guid}\"><i alt=\"Remove friend\" class=\"fa-solid fa-xmark\"></i></a>`;
                 name.innerHTML = friends[index].Name;
                 guid.innerHTML = friends[index].Guid;
             }
