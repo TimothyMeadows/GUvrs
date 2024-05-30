@@ -9,6 +9,7 @@ using Models;
 using System.Text.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 public partial class MainPage : ContentPage
 {
@@ -50,6 +51,7 @@ public partial class MainPage : ContentPage
         ConcurrentEventListener.Register("load-settings", OnLoadSettings);
         ConcurrentEventListener.Register("save-settings", OnSaveSettings);
         ConcurrentEventListener.Register("save-friend", OnSaveFriend);
+        ConcurrentEventListener.Register("remove-friend", OnRemoveFriend);
         ConcurrentEventListener.Register("open-settings-folder", OnOpenSettingsFolder);
         ConcurrentEventListener.Register("open", OnOpen);
         ConcurrentEventListener.Register("copy", OnCopy);
@@ -369,6 +371,29 @@ public partial class MainPage : ContentPage
 
         SaveSettings();
         LoadSettings();
+    }
+
+    private void OnRemoveFriend(Dictionary<string, string> data)
+    {
+        int guid = 0;
+        try
+        {
+            if (data.ContainsKey("guid"))
+                guid = Convert.ToInt32(data["guid"]);
+        }
+        catch (FormatException)
+        {
+            _SetHtml("friend-errors", "Guid must be a number.");
+            return;
+        }
+
+        var friend = Friends.FirstOrDefault(x => x.Guid == guid);
+        if (friend != null)
+        {
+            Friends.Remove(friend);
+            SaveFriends();
+            _LoadFriends();
+        }
     }
 
     private void OnSaveFriend(Dictionary<string, string> data)

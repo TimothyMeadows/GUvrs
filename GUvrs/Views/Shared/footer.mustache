@@ -125,7 +125,10 @@
 
         function guvrs_load_friends(friends) {
             var table = document.getElementById("friends");
-   
+            table.querySelectorAll("td").forEach(function (data) {
+                data.parentNode.remove();
+            });
+
             for (var index in friends) {
                 var row = table.insertRow();
 
@@ -133,7 +136,7 @@
                 var name = row.insertCell(1);
                 var guid = row.insertCell(2);
 
-                actions.innerHTML = "<a href=\"#\"><i class=\"fa-solid fa-xmark\"></i></a>";
+                actions.innerHTML = `<a href=\"guvrs://remove-friend?guid=${friends[index].Guid}\"><i class=\"fa-solid fa-xmark\"></i></a>`;
                 name.innerHTML = friends[index].Name;
                 guid.innerHTML = friends[index].Guid;
             }
