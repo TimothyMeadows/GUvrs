@@ -10,6 +10,7 @@ using System.Text.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public partial class MainPage : ContentPage
 {
@@ -116,6 +117,21 @@ public partial class MainPage : ContentPage
 
         if (IsAutoOpen() && _opponent.ID != "-1")
             OpenBrowserWithGameMode(_gameId, _opponent.ID);
+
+        int guid = 0;
+        try
+        {
+            guid = Convert.ToInt32(_opponent.ID);
+        }
+        catch (FormatException)
+        {
+            _SetHtml("friend-errors", "Guid must be a number.");
+            return;
+        }
+
+        var friend = Friends.FirstOrDefault(t => t.Guid == guid);
+        if (friend != null)
+            _opponent.Name = friend.Name;
 
         _SetValues(new()
         {
