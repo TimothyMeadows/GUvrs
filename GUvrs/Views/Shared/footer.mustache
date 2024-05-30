@@ -58,6 +58,28 @@
             document.getElementById(`${key}_COPY`).href = `guvrs://copy?guid=${value}`;
         }
 
+        document.querySelector('.friends-btn').addEventListener('click', function () {
+            document.getElementById('friends-overlay').style.display = 'block';
+        });
+
+        document.getElementById('cancel-friends').addEventListener('click', function () {
+            document.getElementById('friends-overlay').style.display = 'none';
+        });
+
+        document.getElementById('cancel-friends-add').addEventListener('click', function () {
+            document.getElementById('add-friend-overlay').style.display = 'none';
+        });
+
+        document.getElementById('add-friend').addEventListener('click', function () {
+            document.getElementById('friends-overlay').style.display = 'none';
+            document.getElementById('add-friend-overlay').style.display = 'block';
+        });
+
+        document.getElementById('save-friend').addEventListener('click', function () {
+            document.getElementById('add-friend-overlay').style.display = 'none';
+            location.href = `guvrs://save-friend?guid=${document.getElementById('friend-guid').value}&name=${document.getElementById('friend-name').value}`;
+        });
+
         document.querySelector('.settings-btn').addEventListener('click', function () {
             document.getElementById('settings-overlay').style.display = 'block';
         });
@@ -89,6 +111,34 @@
         function guvrs_set_value(key, value) {
             values[key] = value;
             trigger(key);
+        }
+
+        function guvrs_set_html(key, html) {
+            document.getElementById(key).innerHTML = html;     
+        }
+
+        function guvrs_show_friends() {
+            document.getElementById('no-friends').style.display = 'none'; 
+            document.getElementById('has-friends').style.display = 'block';
+        }
+
+        function guvrs_load_friends(friends) {
+            var table = document.getElementById("friends");
+            table.querySelectorAll("td").forEach(function (data) {
+                data.parentNode.remove();
+            });
+
+            for (var index in friends) {
+                var row = table.insertRow();
+
+                var actions = row.insertCell(0);
+                var name = row.insertCell(1);
+                var guid = row.insertCell(2);
+
+                actions.innerHTML = `<a href=\"guvrs://remove-friend?guid=${friends[index].Guid}\"><i alt=\"Remove friend\" class=\"fa-solid fa-xmark\"></i></a>`;
+                name.innerHTML = friends[index].Name;
+                guid.innerHTML = friends[index].Guid;
+            }
         }
 
         location.href = "guvrs://load-settings";

@@ -28,6 +28,14 @@
             flex-direction: column;
         }
 
+        .centered-h2 {
+            position: relative;
+            top: -15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .header {
             background-color: #333;
             color: #fff;
@@ -99,6 +107,25 @@
         .copy {
             color: black;
         }
+
+        .friends-btn {
+            position: relative;
+            margin-top: -10px;
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            float: left;
+        }
+
+        .friends-btn:focus {
+             outline: none;
+            }
+
+        .game-id {
+             width: 95%;
+            }
 
         .settings-btn {
             position: absolute;
@@ -183,6 +210,27 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 1000;
+            overflow: auto;
+        }
+
+        .friends-modal {
+            width: 300px;
+            max-width: 300px;
+            background-color: #fff;
+            padding: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .friend-row {
+            margin-bottom: 20px;
+        }
+
+        #friend-errors{
+            color: red;
         }
 
         .settings-modal {
@@ -217,6 +265,45 @@
             text-align: justify;
             margin-top: 10px;
             cursor: pointer;
+        }
+
+        #has-friends {
+            display: none;
+        }
+
+        #friends {
+            width: 300px;
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        th {
+            background-color: orange;
+            color: white;
+            white-space: nowrap;
+        }
+
+        td {
+            white-space: normal;
+            word-break: break-all;
+        }
+
+        .fa-xmark {
+            color: red;
         }
     </style>
 </head>
