@@ -1,7 +1,11 @@
-﻿<div class="container">
+﻿
+<div class="container">
     <div class="header">
         <button class="friends-btn"><i title="Click to open friends window" class="fa-solid fa-user"></i></button>
-        <div class="game-id">Game Id: <span id="GUVRS_GAME_ID">{{ GUVRS_GAME_ID }}</span></div>
+        <div class="game-id">
+            Game Id:
+            <span id="GUVRS_GAME_ID">{{ GUVRS_GAME_ID }}</span>
+        </div>
         <button class="settings-btn"><i title="Click to open settings window" class="fas fa-cog"></i></button>
     </div>
 
@@ -10,7 +14,14 @@
             <h1 id="GUVRS_PLAYER_NAME">{{ GUVRS_PLAYER_NAME }}</h1>
             <div class="data-row">
                 <span class="data-label">Guid:</span>
-                <span class="data-value"><a id="GUVRS_PLAYER_GUID" title="Click to open deck in gudecks.com" class="guid" href="javascript:void(0)">{{ GUVRS_PLAYER_GUID }}</a> <a id="GUVRS_PLAYER_GUID_COPY" class="copy" href="javascript:void(0)"><i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i></a></span>
+                <span class="data-value">
+                    <a id="GUVRS_PLAYER_GUID" title="Click to open deck in gudecks.com" class="guid" href="javascript:void(0)">
+                        {{ GUVRS_PLAYER_GUID }}
+                    </a>
+                    <a id="GUVRS_PLAYER_GUID_COPY" class="copy" href="javascript:void(0)">
+                        <i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i>
+                    </a>
+                </span>
             </div>
             <div class="data-row">
                 <span class="data-label">Rating:</span>
@@ -30,7 +41,17 @@
             <h1 id="GUVRS_OPPONENT_NAME">{{ GUVRS_OPPONENT_NAME }}</h1>
             <div class="data-row">
                 <span class="data-label">Guid:</span>
-                <span class="data-value"><a id="GUVRS_OPPONENT_GUID" title="Click to open deck in gudecks.com" class="guid" href="javascript:void(0)">{{ GUVRS_OPPONENT_GUID }}</a> <a id="GUVRS_OPPONENT_GUID_COPY" class="copy" href="javascript:void(0)"><i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i></a></span>
+                <span class="data-value">
+                    <a id="GUVRS_OPPONENT_GUID" title="Click to open deck in gudecks.com" class="guid" href="javascript:void(0)">
+                        {{ GUVRS_OPPONENT_GUID }}
+                    </a>
+                    <a id="GUVRS_OPPONENT_GUID_COPY" class="copy" href="javascript:void(0)">
+                        <i title="Click to copy guid to clipboard" class="fas fa-copy copy-icon"></i>
+                    </a>
+                    <a id="GUVRS_OPPONENT_GUID_ADD" class="plus-friend" href="javascript:void(0)">
+                        <i title="Click to add guid to friends" class="fa-solid fa-user-plus"></i>
+                    </a>
+                </span>
             </div>
             <div class="data-row">
                 <span class="data-label">Rating:</span>
@@ -48,7 +69,8 @@
     </div>
 
     <div class="footer">
-        Report any issues to <a title="Click to report any errors to github.com" href="guvrs://report-issue">github</a>
+        Report any issues to
+        <a title="Click to report any errors to github.com" href="guvrs://report-issue">github</a>
     </div>
 </div>
 
@@ -56,7 +78,8 @@
     <div class="friends-modal">
         <h2 class="centered-h2">Friends</h2>
         <div id="no-friends" class="friend-row">
-            You have no friends :c <br/>
+            You have no friends :c
+            <br />
         </div>
         <div id="has-friends" class="friend-row">
             <table id="friends">
@@ -78,7 +101,7 @@
 <div class="overlay" id="add-friend-overlay">
     <div class="friends-modal">
         <h2 class="centered-h2">Add Friends</h2>
-        <div id="friend-errors" class="friend-row"></div>        
+        <div id="friend-errors" class="friend-row"></div>
         <div class="friend-row">
             This is the Users GUid.
         </div>

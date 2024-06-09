@@ -58,6 +58,12 @@
             document.getElementById(`${key}_COPY`).href = `guvrs://copy?guid=${value}`;
         }
 
+        document.getElementById("GUVRS_OPPONENT_GUID_ADD").addEventListener('click', function () {
+            document.getElementById('friend-guid').value = document.getElementById('GUVRS_OPPONENT_GUID').innerText;
+            document.getElementById('friends-overlay').style.display = 'none';
+            document.getElementById('add-friend-overlay').style.display = 'block';
+        });
+
         document.querySelector('.friends-btn').addEventListener('click', function () {
             document.getElementById('friends-overlay').style.display = 'block';
         });
