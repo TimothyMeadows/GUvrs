@@ -24,7 +24,7 @@ public partial class App : MauiWinUIApplication
         this.InitializeComponent();
         Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping(nameof(IWindow), (handler, view) =>
         {
-            handler.PlatformView.GetAppWindow().Resize(new SizeInt32(800, 600));
+            handler.PlatformView.GetAppWindow().Resize(new SizeInt32(1024, 768));
         });
     }
 
